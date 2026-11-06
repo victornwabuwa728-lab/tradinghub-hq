@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#081426">
+<title>TradingHub HQ | Digital Asset Platform</title>
+
+<style>
+:root{--bg:#07111f;--panel:#0e1c30;--line:#203650;--text:#edf4ff;--muted:#91a4bd;--blue:#3987ff;--green:#20c997;--red:#ff6b78}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 80% -10%,#18345a 0,transparent 36%),var(--bg);color:var(--text);font:15px Inter,system-ui,Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-weight:700}
+.primary{background:var(--blue);color:white}
+.ghost{background:#182b43;color:#dceaff;border:1px solid var(--line)}
+.wrap{max-width:1180px;margin:auto;padding:0 22px}
+.top{min-height:76px;border-bottom:1px solid #1a2b40;background:#081426dd;display:flex;align-items:center;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.nav{display:flex;align-items:center;justify-content:space-between;width:100%;gap:18px}
+.brand{font-size:21px;font-weight:850;letter-spacing:-.6px;white-space:nowrap}
+.brand span{color:#58a0ff}
+.navlinks{display:flex;align-items:center;gap:22px;color:var(--muted)}
+.navlinks a{color:inherit;text-decoration:none;white-space:nowrap}
+.navlinks a:hover{color:#70adff}
+.actions{display:flex;gap:9px;white-space:nowrap}
+.hero{padding:72px 0 42px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+.eyebrow{color:#70adff;font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:11px}
+.hero h1{font-size:clamp(38px,6vw,66px);line-height:1.04;letter-spacing:-2px;margin:16px 0}
+.hero h1 span{color:#63a5ff}
+.hero p{color:var(--muted);font-size:17px;line-height:1.7;max-width:610px}
+.hero-card,.card{background:linear-gradient(145deg,#11243c,#0c192b);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 18px 55px #0003}
+.hero-card .big{font-size:34px;font-weight:800;margin:10px 0}
+.muted{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #735c2d;color:#ffd783;background:#3b3018;padding:6px 10px;border-radius:30px;font-size:11px;font-weight:800}
+.dot{width:7px;height:7px;background:#ffc857;border-radius:50%}
+.section{padding:28px 0 48px}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:18px}
+.section h2{font-size:27px;margin:0 0 7px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.coin{background:var(--panel);border:1px solid var(--line);padding:17px;border-radius:14px}
+.coin-top{display:flex;justify-content:space-between;align-items:center}
+.symbol{font-weight:850}
+.coin-name{color:var(--muted);font-size:12px}
+.price{font-size:21px;font-weight:800;margin:16px 0 6px}
+.positive{color:var(--green)}
+.negative{color:var(--red)}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.feature{padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:15px}
+.feature h3{margin:0 0 8px}
+.feature p{color:var(--muted);line-height:1.6;margin:0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+.notice{font-size:12px;color:#b6c6d9;line-height:1.6;border-left:3px solid #e5ad48;padding:10px 13px;background:#241f16;border-radius:7px;margin-top:18px}
+.footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:12px}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.modal-box{width:min(430px,100%);background:#0e1c30;border:1px solid var(--line);padding:25px;border-radius:17px}
+.modal-box h2{margin-top:0}
+.modal-box input{width:100%;padding:13px;margin:7px 0 13px;border-radius:9px;border:1px solid var(--line);background:#081426;color:white}
+.modal-box button{width:100%;margin-top:8px}
+.close{float:right;background:transparent;color:white;font-size:20px;padding:0}
+.loading{color:var(--muted);font-size:13px}
+
+@media(max-width:850px){
+.hero{grid-template-columns:1fr;padding-top:48px}
+.grid{grid-template-columns:repeat(2,1fr)}
+.nav{flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+.navlinks{display:flex;order:3;width:100%;overflow-x:auto;gap:22px;padding:8px 0;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.layout{grid-template-columns:1fr}
+}
+
+@media(max-width:460px){
+.wrap{padding:0 15px}
+.brand{font-size:18px}
+.actions button{padding:9px 11px;font-size:12px}
+.grid{gap:9px}
+.coin{padding:13px}
+.price{font-size:18px}
+.hero h1{font-size:42px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+<div class="wrap nav">
+
+<div class="brand">TRADINGHUB<span> HQ</span></div>
+
+<nav class="navlinks">
+<a href="#markets">Markets</a>
+<a href="#features">Platform</a>
+<a href="#about">About</a>
+<a href="#" onclick="openTawkChat();return false;">Live Chat</a>
+</nav>
+
+<div class="actions">
+<button class="ghost" onclick="openModal('login')">Log in</button>
+<button class="primary" onclick="openModal('register')">Create account</button>
+</div>
+
+</div>
+</header>
+
+<main class="wrap">
+
+<section class="hero">
+<div>
+
+<div class="eyebrow">Digital asset market hub</div>
+
+<h1>Make your next move with <span>clarity.</span></h1>
+
+<p>Explore cryptocurrency markets, follow live prices and keep your digital-asset activity organised in one place.</p>
+
+<div class="cta">
+<button class="primary" onclick="openModal('register')">Get started</button>
+<button class="ghost" onclick="document.querySelector('#markets').scrollIntoView({behavior:'smooth'})">Explore markets</button>
+</div>
+
+<div class="notice">
+<b>TEST VERSION:</b> Account creation, deposits and balances are not connected yet. Do not send cryptocurrency or enter real financial or password information on this prototype.
+</div>
+
+</div>
+
+<div class="hero-card">
+
+<span class="badge"><i class="dot"></i> MARKET WATCH</span>
+
+<div class="muted" style="margin-top:20px">Tracked digital assets</div>
+
+<div class="big">08 <span style="color:#68a8ff">Assets</span></div>
+
+<div class="muted">BTC · ETH · USDT · SOL · BNB · TRX · USDC · LTC</div>
+
+<hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+
+<div style="display:flex;justify-content:space-between">
+<span class="muted">Market data</span>
+<b id="market-status">Connecting…</b>
+</div>
+
+<div class="muted" style="font-size:12px;margin-top:8px">
+Prices shown in USD. Data supplied by CoinGecko public API.
+</div>
+
+</div>
+</section>
+
+<section class="section" id="markets">
+
+<div class="section-head">
+<div>
+<div class="eyebrow">Market overview</div>
+<h2>Cryptocurrency prices</h2>
+<div class="muted">Current prices and 24-hour movement</div>
+</div>
+
+<button class="ghost" onclick="loadPrices()">Refresh prices</button>
+</div>
+
+<div class="grid" id="coins">
+<div class="loading">Loading market prices…</div>
+</div>
+
+<p class="muted" style="font-size:11px;margin-top:12px">
+Market data may be delayed or unavailable. This is informational data, not investment advice.
+</p>
+
+</section>
+
+<section class="section" id="features">
+
+<div class="eyebrow">Platform overview</div>
+<h2>Everything in one dashboard</h2>
+
+<div class="layout">
+
+<div class="feature">
+<h3>Personal portfolio</h3>
+<p>A private portfolio area is planned for each registered customer. New test accounts are intended to begin with a $0.00 balance.</p>
+</div>
+
+<div class="feature">
+<h3>Deposit centre</h3>
+<p>Crypto deposit options for BTC, ETH, USDT, SOL, BNB, TRX, USDC and LTC will be demonstrated with simulated transactions only.</p>
+</div>
+
+<div class="feature">
+<h3>Account access</h3>
+<p>Registration and login screens are design previews. Secure authentication will be connected through a backend before real users can register.</p>
+</div>
+
+<div class="feature">
+<h3>Customer support</h3>
+<p>Contact the TradingHub HQ support team through our integrated live chat.</p>
+<button class="ghost" style="margin-top:15px" onclick="openTawkChat()">Start a live chat</button>
+</div>
+
+</div>
+</section>
+
+<section class="section" id="about">
+
+<div class="eyebrow">About TradingHub HQ</div>
+<h2>A clearer view of digital assets</h2>
+
+<p class="muted" style="max-width:760px;line-height:1.8">
+TradingHub HQ is a prototype concept for a cryptocurrency investment platform. The current website is a front-end demonstration and does not hold funds, execute trades, provide custody or accept deposits.
+</p>
+
+</section>
+
+</main>
+
+<footer class="footer">
+<div class="wrap" style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap">
+<span>© 2026 TradingHub HQ</span>
+<span>Prototype · Test mode only</span>
+</div>
+</footer>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+<div class="modal-box">
+
+<button class="close" onclick="closeModal()">×</button>
+
+<h2 id="modal-title">Create account</h2>
+
+<p class="muted" id="modal-copy">Preview only — secure account services are not connected.</p>
+
+<label>Email address</label>
+<input type="email" placeholder="you@example.com" autocomplete="off">
+
+<label>Password</label>
+<input type="password" placeholder="Do not use a real password here" autocomplete="off">
+
+<button class="primary" onclick="alert('This is a design preview. Secure registration will be connected before launch.')">
+Continue (preview)
+</button>
+
+</div>
+</div>
+
+<script>
+const assets=[
+{id:'bitcoin',symbol:'BTC',name:'Bitcoin'},
+{id:'ethereum',symbol:'ETH',name:'Ethereum'},
+{id:'tether',symbol:'USDT',name:'Tether'},
+{id:'solana',symbol:'SOL',name:'Solana'},
+{id:'binancecoin',symbol:'BNB',name:'BNB'},
+{id:'tron',symbol:'TRX',name:'TRON'},
+{id:'usd-coin',symbol:'USDC',name:'USD Coin'},
+{id:'litecoin',symbol:'LTC',name:'Litecoin'}
+];
+
+function money(n){
+return new Intl.NumberFormat('en-US',{
+style:'currency',
+currency:'USD',
+maximumFractionDigits:n<1?5:2
+}).format(n);
+}
+
+async function loadPrices(){
+
+const box=document.getElementById('coins');
+const status=document.getElementById('market-status');
+
+status.textContent='Updating…';
+
+try{
+
+const ids=assets.map(a=>a.id).join(',');
+
+const r=await fetch(
+'https://api.coingecko.com/api/v3/simple/price?ids='+ids+'&vs_currencies=usd&include_24hr_change=true'
+);
+
+if(!r.ok)throw new Error('Market feed unavailable');
+
+const data=await r.json();
+
+box.innerHTML=assets.map(a=>{
+
+const d=data[a.id];
+
+if(!d)return '';
+
+const change=Number(d.usd_24h_change||0);
+const cls=change>=0?'positive':'negative';
+
+return `<article class="coin">
+<div class="coin-top">
+<div>
+<div class="symbol">${a.symbol}</div>
+<div class="coin-name">${a.name}</div>
+</div>
+<span class="${cls}">${change>=0?'+':''}${change.toFixed(2)}%</span>
+</div>
+<div class="price">${money(d.usd)}</div>
+<div class="coin-name">24h change</div>
+</article>`;
+
+}).join('')||'<div class="loading">No market data returned.</div>';
+
+status.textContent='Live feed connected';
+
+}catch(e){
+
+status.textContent='Feed unavailable';
+
+box.innerHTML='<div class="loading">Market prices could not load right now. Please refresh in a moment. The site layout is still working.</div>';
+
+}
+}
+
+function openModal(type){
+
+document.getElementById('modal-title').textContent=
+type==='login'?'Log in':'Create account';
+
+document.getElementById('modal-copy').textContent=
+'Preview only. Secure account services are not connected yet.';
+
+document.getElementById('modal').classList.add('show');
+
+}
+
+function closeModal(){
+document.getElementById('modal').classList.remove('show');
+}
+
+function openTawkChat(){
+
+if(window.Tawk_API && typeof window.Tawk_API.maximize==='function'){
+window.Tawk_API.maximize();
+}else{
+alert('Live chat is loading. Please try again in a moment.');
+}
+
+}
+
+loadPrices();
+setInterval(loadPrices,60000);
+</script>
+
+<!-- TradingHub HQ Live Chat - Tawk.to -->
+<script type="text/javascript">
+var Tawk_API = Tawk_API || {};
+var Tawk_LoadStart = new Date();
+
+(function () {
+    var s1 = document.createElement("script");
+    var s0 = document.getElementsByTagName("script")[0];
+
+    s1.async = true;
+    s1.src = "https://embed.tawk.to/6aed9940ada14c3c2f0476d1/default";
+    s1.charset = "UTF-8";
+    s1.setAttribute("crossorigin", "*");
+
+    s0.parentNode.insertBefore(s1, s0);
+})();
+</script>
+<!-- End TradingHub HQ Live Chat -->
+
+</body>
+</html>
