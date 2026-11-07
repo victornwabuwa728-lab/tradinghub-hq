@@ -346,26 +346,6 @@ h1{
 .nav-bottom .nav-icon{font-size:17px}
 .nav-bottom .active{color:#60a5fa}
 
-/* CHAT BUTTON */
-
-.chat-button{
- position:fixed;
- right:15px;
- bottom:65px;
- width:43px;height:43px;
- border:0;
- border-radius:50%;
- background:#075ce5;
- color:white;
- font-size:20px;
- z-index:1000;
- box-shadow:0 4px 14px #0005;
-}
-
-.chat-button:hover{
- background:#1d4ed8;
-}
-
 /* SIDE MENU */
 
 .menu-overlay{
@@ -461,7 +441,6 @@ h1{
  .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
  .market-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
  .nav-bottom{display:none}
- .chat-button{bottom:22px}
  .menu{width:285px}
 }
 
@@ -732,7 +711,7 @@ h1{
 
 </nav>
 
-<button class="chat-button" onclick="openChat()" aria-label="Open live chat">●</button>
+<!-- EXTRA FLOATING BLUE CHAT BUTTON REMOVED -->
 
 <div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
