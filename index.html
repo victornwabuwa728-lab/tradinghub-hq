@@ -380,6 +380,137 @@ button{font:inherit;cursor:pointer}
  flex-wrap:wrap;
 }
 
+/* SUPABASE AUTHENTICATION */
+.auth-overlay{
+ position:fixed;
+ inset:0;
+ z-index:1000;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+ background:rgba(2,9,20,.84);
+ backdrop-filter:blur(9px);
+ overflow-y:auto;
+}
+.auth-overlay.open{display:flex}
+
+.auth-modal{
+ width:100%;
+ max-width:420px;
+ position:relative;
+ background:linear-gradient(145deg,#11243c,#0b182a);
+ border:1px solid #294563;
+ border-radius:17px;
+ padding:28px;
+ box-shadow:0 20px 70px #0009;
+ margin:auto;
+}
+.auth-close{
+ position:absolute;
+ top:13px;
+ right:15px;
+ background:transparent;
+ border:0;
+ color:#91a4bd;
+ font-size:25px;
+}
+.auth-brand{
+ font-size:21px;
+ font-weight:900;
+ margin-bottom:24px;
+}
+.auth-brand span{color:#58a0ff}
+.auth-heading{
+ font-size:24px;
+ margin:0 0 8px;
+}
+.auth-description{
+ color:var(--muted);
+ font-size:12px;
+ line-height:1.6;
+ margin:0 0 22px;
+}
+.auth-field{margin-bottom:15px}
+.auth-field label{
+ display:block;
+ font-size:11px;
+ color:#b9c9dc;
+ margin-bottom:7px;
+ font-weight:700;
+}
+.auth-input{
+ width:100%;
+ padding:13px;
+ border-radius:8px;
+ border:1px solid #294563;
+ background:#081426;
+ color:white;
+ outline:none;
+ font-size:13px;
+}
+.auth-input:focus{border-color:var(--blue)}
+.auth-input::placeholder{color:#647991}
+.auth-submit{
+ width:100%;
+ padding:13px;
+ border:0;
+ border-radius:8px;
+ background:var(--blue);
+ color:white;
+ font-size:13px;
+ font-weight:800;
+ margin-top:7px;
+}
+.auth-submit:disabled{opacity:.6;cursor:wait}
+.auth-message{
+ display:none;
+ padding:11px;
+ border-radius:7px;
+ margin:0 0 15px;
+ font-size:11px;
+ line-height:1.6;
+}
+.auth-message.show{display:block}
+.auth-message.error{
+ color:#ffb5bd;
+ background:#38212a;
+ border:1px solid #713444;
+}
+.auth-message.success{
+ color:#a8f0d5;
+ background:#10352f;
+ border:1px solid #1d6554;
+}
+.auth-links{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-top:17px;
+}
+.auth-link{
+ background:none;
+ border:0;
+ padding:0;
+ color:#70adff;
+ font-size:11px;
+}
+.auth-link:hover{text-decoration:underline}
+.auth-security{
+ color:#91a4bd;
+ font-size:10px;
+ text-align:center;
+ line-height:1.6;
+ margin-top:20px;
+}
+.auth-loading{
+ text-align:center;
+ color:#91a4bd;
+ font-size:12px;
+ margin-top:10px;
+}
+
 @media(max-width:850px){
  .hero{grid-template-columns:1fr;padding-top:38px}
  .feature-grid{grid-template-columns:repeat(2,1fr)}
@@ -400,6 +531,7 @@ button{font:inherit;cursor:pointer}
  .instrument{padding:9px;gap:7px}
  .instrument-logo{min-width:27px;height:27px}
  .market-toast{left:12px;bottom:14px;width:calc(100% - 24px)}
+ .auth-modal{padding:23px 19px}
 }
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
@@ -421,8 +553,8 @@ button{font:inherit;cursor:pointer}
   </nav>
 
   <div class="actions">
-   <button class="btn ghost" onclick="showUnavailableMessage()">Log in</button>
-   <button class="btn primary" onclick="showUnavailableMessage()">Get started</button>
+   <button class="btn ghost" onclick="openAuth('login')">Log in</button>
+   <button class="btn primary" onclick="openAuth('signup')">Get started</button>
   </div>
  </div>
 </header>
@@ -442,7 +574,7 @@ button{font:inherit;cursor:pointer}
   </p>
 
   <div class="cta">
-   <button class="btn primary" onclick="showUnavailableMessage()">Get started</button>
+   <button class="btn primary" onclick="openAuth('signup')">Get started</button>
    <button class="btn ghost"
     onclick="document.getElementById('live-markets').scrollIntoView({behavior:'smooth'})">
     Explore markets
@@ -670,6 +802,91 @@ button{font:inherit;cursor:pointer}
 
 </main>
 
+<!-- AUTHENTICATION MODAL -->
+<div class="auth-overlay" id="authOverlay"
+ role="dialog" aria-modal="true" aria-labelledby="authTitle">
+
+ <div class="auth-modal">
+
+  <button class="auth-close" onclick="closeAuth()" aria-label="Close">×</button>
+
+  <div class="auth-brand">TRADINGHUB<span> HQ</span></div>
+
+  <h2 class="auth-heading" id="authTitle">Welcome back</h2>
+
+  <p class="auth-description" id="authDescription">
+   Sign in to your TradingHub account.
+  </p>
+
+  <div class="auth-message" id="authMessage" role="status"></div>
+
+  <form id="authForm">
+
+   <div class="auth-field" id="nameField" style="display:none">
+    <label for="authName">Full name</label>
+    <input class="auth-input" id="authName"
+     type="text" autocomplete="name"
+     placeholder="Enter your full name">
+   </div>
+
+   <div class="auth-field">
+    <label for="authEmail">Email address</label>
+    <input class="auth-input" id="authEmail"
+     type="email" autocomplete="email"
+     placeholder="Enter your email address" required>
+   </div>
+
+   <div class="auth-field" id="passwordField">
+    <label for="authPassword">Password</label>
+    <input class="auth-input" id="authPassword"
+     type="password" autocomplete="current-password"
+     placeholder="Enter your password" minlength="6">
+   </div>
+
+   <div class="auth-field" id="confirmPasswordField" style="display:none">
+    <label for="authConfirmPassword">Confirm password</label>
+    <input class="auth-input" id="authConfirmPassword"
+     type="password" autocomplete="new-password"
+     placeholder="Confirm your password" minlength="6">
+   </div>
+
+   <button class="auth-submit" id="authSubmit" type="submit">
+    Log in
+   </button>
+
+  </form>
+
+  <div class="auth-links" id="loginLinks">
+   <button class="auth-link" type="button"
+    onclick="setAuthMode('recovery')">Forgot password?</button>
+
+   <button class="auth-link" type="button"
+    onclick="setAuthMode('signup')">Create an account</button>
+  </div>
+
+  <div class="auth-links" id="signupLinks" style="display:none">
+   <button class="auth-link" type="button"
+    onclick="setAuthMode('login')">Already have an account? Log in</button>
+  </div>
+
+  <div class="auth-links" id="recoveryLinks" style="display:none">
+   <button class="auth-link" type="button"
+    onclick="setAuthMode('login')">Back to login</button>
+  </div>
+
+  <div class="auth-links" id="updateLinks" style="display:none">
+   <button class="auth-link" type="button"
+    onclick="closeAuth()">Close</button>
+  </div>
+
+  <div class="auth-security">
+   Your account authentication is securely handled by Supabase.
+   TradingHub financial services remain unavailable.
+  </div>
+
+ </div>
+</div>
+
 <footer class="footer">
  <div class="wrap footer-inner">
   <span>© 2026 TradingHub HQ</span>
@@ -677,7 +894,363 @@ button{font:inherit;cursor:pointer}
  </div>
 </footer>
 
+<!-- SUPABASE JAVASCRIPT LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+/* SUPABASE CONFIGURATION */
+
+const SUPABASE_URL =
+ 'https://jbkjldyzjdlcwktbsbqt.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+ 'sb_publishable_4iHI8rdv2L_4IovDJaQQKQ_kDd8COEk';
+
+const supabaseClient =
+ window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+ );
+
+const DASHBOARD_URL =
+ window.location.origin +
+ window.location.pathname.replace(/[^/]*$/, '') +
+ 'dashboard.html';
+
+let authMode='login';
+
+const authOverlay=document.getElementById('authOverlay');
+const authForm=document.getElementById('authForm');
+const authMessage=document.getElementById('authMessage');
+const authSubmit=document.getElementById('authSubmit');
+
+function showAuthMessage(message,type='error'){
+ authMessage.textContent=message;
+ authMessage.className='auth-message show '+type;
+}
+
+function clearAuthMessage(){
+ authMessage.textContent='';
+ authMessage.className='auth-message';
+}
+
+function openAuth(mode='login'){
+ setAuthMode(mode);
+ authOverlay.classList.add('open');
+ document.body.style.overflow='hidden';
+}
+
+function closeAuth(){
+ authOverlay.classList.remove('open');
+ document.body.style.overflow='';
+ clearAuthMessage();
+}
+
+function setAuthMode(mode){
+ authMode=mode;
+
+ clearAuthMessage();
+
+ const nameField=document.getElementById('nameField');
+ const passwordField=document.getElementById('passwordField');
+ const confirmField=document.getElementById('confirmPasswordField');
+
+ const loginLinks=document.getElementById('loginLinks');
+ const signupLinks=document.getElementById('signupLinks');
+ const recoveryLinks=document.getElementById('recoveryLinks');
+ const updateLinks=document.getElementById('updateLinks');
+
+ nameField.style.display='none';
+ passwordField.style.display='block';
+ confirmField.style.display='none';
+
+ loginLinks.style.display='none';
+ signupLinks.style.display='none';
+ recoveryLinks.style.display='none';
+ updateLinks.style.display='none';
+
+ document.getElementById('authPassword').required=true;
+ document.getElementById('authConfirmPassword').required=false;
+ document.getElementById('authName').required=false;
+
+ if(mode==='login'){
+
+  document.getElementById('authTitle').textContent='Welcome back';
+  document.getElementById('authDescription').textContent=
+   'Sign in to your TradingHub account.';
+
+  document.getElementById('authPassword').autocomplete='current-password';
+
+  authSubmit.textContent='Log in';
+  loginLinks.style.display='flex';
+
+ }else if(mode==='signup'){
+
+  nameField.style.display='block';
+  document.getElementById('authName').required=true;
+
+  confirmField.style.display='block';
+  document.getElementById('authConfirmPassword').required=true;
+
+  document.getElementById('authPassword').autocomplete='new-password';
+
+  document.getElementById('authTitle').textContent='Create your account';
+  document.getElementById('authDescription').textContent=
+   'Register with your name, email address and password.';
+
+  authSubmit.textContent='Create account';
+  signupLinks.style.display='flex';
+
+ }else if(mode==='recovery'){
+
+  passwordField.style.display='none';
+  document.getElementById('authPassword').required=false;
+
+  document.getElementById('authTitle').textContent='Reset your password';
+  document.getElementById('authDescription').textContent=
+   'Enter your email address and we will send you a password recovery link.';
+
+  authSubmit.textContent='Send recovery email';
+  recoveryLinks.style.display='flex';
+
+ }else if(mode==='update'){
+
+  confirmField.style.display='block';
+
+  document.getElementById('authPassword').required=true;
+  document.getElementById('authConfirmPassword').required=true;
+
+  document.getElementById('authPassword').autocomplete='new-password';
+
+  document.getElementById('authTitle').textContent='Choose a new password';
+  document.getElementById('authDescription').textContent=
+   'Enter and confirm your new account password.';
+
+  authSubmit.textContent='Update password';
+  updateLinks.style.display='flex';
+ }
+}
+
+function setAuthLoading(loading){
+ authSubmit.disabled=loading;
+
+ if(loading){
+  authSubmit.textContent='Please wait…';
+ }else{
+  const labels={
+   login:'Log in',
+   signup:'Create account',
+   recovery:'Send recovery email',
+   update:'Update password'
+  };
+  authSubmit.textContent=labels[authMode];
+ }
+}
+
+authForm.addEventListener('submit',async function(event){
+
+ event.preventDefault();
+
+ clearAuthMessage();
+
+ const email=document.getElementById('authEmail').value.trim();
+ const password=document.getElementById('authPassword').value;
+ const name=document.getElementById('authName').value.trim();
+ const confirmPassword=
+  document.getElementById('authConfirmPassword').value;
+
+ setAuthLoading(true);
+
+ try{
+
+  if(authMode==='login'){
+
+   const {data,error}=await supabaseClient.auth.signInWithPassword({
+    email:email,
+    password:password
+   });
+
+   if(error)throw error;
+
+   if(!data.session){
+    throw new Error('Login could not be completed. Please try again.');
+   }
+
+   showAuthMessage('Login successful. Opening your dashboard…','success');
+
+   window.location.replace(DASHBOARD_URL);
+
+  }else if(authMode==='signup'){
+
+   if(!name){
+    throw new Error('Please enter your full name.');
+   }
+
+   if(password.length<6){
+    throw new Error('Your password must contain at least 6 characters.');
+   }
+
+   if(password!==confirmPassword){
+    throw new Error('Your passwords do not match.');
+   }
+
+   const {data,error}=await supabaseClient.auth.signUp({
+
+    email:email,
+
+    password:password,
+
+    options:{
+     data:{
+      full_name:name
+     },
+
+     emailRedirectTo:DASHBOARD_URL
+    }
+
+   });
+
+   if(error)throw error;
+
+   if(data.session){
+
+    showAuthMessage(
+     'Your account has been created. Opening your dashboard…',
+     'success'
+    );
+
+    window.location.replace(DASHBOARD_URL);
+
+   }else{
+
+    authForm.reset();
+
+    showAuthMessage(
+     'Registration submitted successfully. Please check your email and confirm your account before logging in.',
+     'success'
+    );
+   }
+
+  }else if(authMode==='recovery'){
+
+   const {error}=await supabaseClient.auth.resetPasswordForEmail(
+    email,
+    {
+     redirectTo:window.location.origin+window.location.pathname
+    }
+   );
+
+   if(error)throw error;
+
+   showAuthMessage(
+    'If an account exists for this email, a password recovery link will be sent. Please check your inbox.',
+    'success'
+   );
+
+  }else if(authMode==='update'){
+
+   if(password.length<6){
+    throw new Error('Your new password must contain at least 6 characters.');
+   }
+
+   if(password!==confirmPassword){
+    throw new Error('Your passwords do not match.');
+   }
+
+   const {error}=await supabaseClient.auth.updateUser({
+    password:password
+   });
+
+   if(error)throw error;
+
+   showAuthMessage(
+    'Your password has been updated successfully. Opening your dashboard…',
+    'success'
+   );
+
+   setTimeout(()=>{
+    window.location.replace(DASHBOARD_URL);
+   },1200);
+
+  }
+
+ }catch(error){
+
+  showAuthMessage(
+   error.message||'Something went wrong. Please try again.'
+  );
+
+ }finally{
+
+  setAuthLoading(false);
+
+ }
+
+});
+
+/* CLOSE MODAL WHEN BACKGROUND IS CLICKED */
+authOverlay.addEventListener('click',function(event){
+ if(event.target===authOverlay){
+  closeAuth();
+ }
+});
+
+/* ESCAPE KEY */
+document.addEventListener('keydown',function(event){
+ if(event.key==='Escape'&&authOverlay.classList.contains('open')){
+  closeAuth();
+ }
+});
+
+/* PASSWORD RECOVERY CALLBACK */
+const recoveryCallback=
+ window.location.hash.includes('type=recovery')||
+ new URLSearchParams(window.location.search).get('type')==='recovery';
+
+if(recoveryCallback){
+ openAuth('update');
+}
+
+/* HANDLE EXISTING AND NEW AUTHENTICATION SESSIONS */
+supabaseClient.auth.onAuthStateChange((event,session)=>{
+
+ if(event==='PASSWORD_RECOVERY'){
+  openAuth('update');
+  return;
+ }
+
+ if(event==='SIGNED_IN'&&session&&!recoveryCallback){
+
+  if(!window.location.pathname.endsWith('/dashboard.html')){
+   window.location.replace(DASHBOARD_URL);
+  }
+
+ }
+
+});
+
+/* CHECK EXISTING SESSION */
+(async function checkExistingSession(){
+
+ if(recoveryCallback)return;
+
+ const {data,error}=await supabaseClient.auth.getSession();
+
+ if(error){
+  console.error('Session check:',error.message);
+  return;
+ }
+
+ if(data.session){
+
+  if(!window.location.pathname.endsWith('/dashboard.html')){
+   window.location.replace(DASHBOARD_URL);
+  }
+
+ }
+
+})();
+
 /* CRYPTOCURRENCY ASSETS */
 const assets=[
  {id:'bitcoin',symbol:'BTC',name:'Bitcoin'},
@@ -976,7 +1549,7 @@ function setRange(range,button){
 /* FINANCIAL SERVICES ARE NOT AVAILABLE */
 function showUnavailableMessage(){
  alert(
-  'TradingHub HQ account and financial services are currently unavailable. '+
+  'TradingHub HQ financial services are currently unavailable. '+
   'Deposits, withdrawals, investment management and trade execution are not active.'
  );
 }
