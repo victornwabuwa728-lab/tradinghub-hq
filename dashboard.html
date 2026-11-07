@@ -358,7 +358,12 @@ h1{
  background:#075ce5;
  color:white;
  font-size:20px;
- z-index:15;
+ z-index:1000;
+ box-shadow:0 4px 14px #0005;
+}
+
+.chat-button:hover{
+ background:#1d4ed8;
 }
 
 /* SIDE MENU */
@@ -1245,13 +1250,13 @@ function toggleTheme(){
 
 function openChat(){
 
- if(window.Tawk_API&&window.Tawk_API.maximize){
+ if(window.Tawk_API && typeof window.Tawk_API.maximize==="function"){
 
   window.Tawk_API.maximize();
 
  }else{
 
-  alert("Live chat is loading. Please try again.");
+  alert("Live chat is still loading. Please wait a moment and try again.");
 
  }
 
@@ -1270,19 +1275,21 @@ setInterval(loadMarkets,60000);
 </script>
 
 
-<!-- TAWK.TO LIVE CHAT -->
+<!-- TRADINGHUB HQ LIVE CHAT - TAWK.TO -->
 
 <script type="text/javascript">
 
-var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();
+var Tawk_API=window.Tawk_API||{};
+var Tawk_LoadStart=new Date();
 
 (function(){
 
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+var s1=document.createElement("script");
+var s0=document.getElementsByTagName("script")[0];
 
 s1.async=true;
 
-s1.src='https://embed.tawk.to/6aed9940ada14c3c2f0476d1/1k1a4b8nq';
+s1.src='https://embed.tawk.to/6aed9940ada14c3c2f0476d1/default';
 
 s1.charset='UTF-8';
 
