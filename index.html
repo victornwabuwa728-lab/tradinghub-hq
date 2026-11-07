@@ -4,130 +4,284 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#081426">
-<title>TradingHub HQ | Professional Trading Platform</title>
+<meta name="description" content="TradingHub HQ — cryptocurrency markets, financial market charts and digital asset information.">
+<title>TradingHub HQ | Digital Asset Market Hub</title>
 
 <style>
 :root{
- --bg:#081426;--panel:#0e1c30;--panel2:#12243b;
- --line:#203650;--text:#edf4ff;--muted:#91a4bd;
- --blue:#3987ff;--green:#20c997;--red:#ff6b78;
+ --bg:#081426;
+ --panel:#0e1c30;
+ --panel2:#12243b;
+ --line:#203650;
+ --text:#edf4ff;
+ --muted:#91a4bd;
+ --blue:#3987ff;
+ --green:#20c997;
+ --red:#ff6b78;
+ --amber:#eab64b;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
- margin:0;background:var(--bg);color:var(--text);
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
  font:14px Inter,Arial,sans-serif;
 }
 button{font:inherit;cursor:pointer}
 .wrap{max-width:1180px;margin:auto;padding:0 20px}
+
 .top{
- height:70px;border-bottom:1px solid var(--line);
- background:#081426ee;display:flex;align-items:center;
- position:sticky;top:0;z-index:20;
+ height:70px;
+ border-bottom:1px solid var(--line);
+ background:#081426ee;
+ display:flex;
+ align-items:center;
+ position:sticky;
+ top:0;
+ z-index:20;
+ backdrop-filter:blur(12px);
 }
-.nav{display:flex;align-items:center;justify-content:space-between;width:100%;gap:15px}
-.brand{font-size:20px;font-weight:900;letter-spacing:-.5px}
+.nav{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ width:100%;
+ gap:15px;
+}
+.brand{
+ font-size:20px;
+ font-weight:900;
+ letter-spacing:-.5px;
+ white-space:nowrap;
+}
 .brand span{color:#58a0ff}
 .navlinks{display:flex;gap:22px;color:var(--muted)}
 .navlinks a{color:inherit;text-decoration:none}
+.navlinks a:hover{color:white}
 .actions{display:flex;gap:8px}
+
 .btn{
- border:0;border-radius:8px;padding:10px 15px;
- font-weight:700;font-size:12px;
+ border:0;
+ border-radius:8px;
+ padding:10px 15px;
+ font-weight:700;
+ font-size:12px;
 }
 .primary{background:var(--blue);color:white}
-.ghost{background:#182b43;color:#dceaff;border:1px solid var(--line)}
+.ghost{
+ background:#182b43;
+ color:#dceaff;
+ border:1px solid var(--line);
+}
+
 .hero{
  padding:55px 0 35px;
- display:grid;grid-template-columns:1.15fr .85fr;
- gap:25px;align-items:center;
+ display:grid;
+ grid-template-columns:1.15fr .85fr;
+ gap:25px;
+ align-items:center;
 }
 .eyebrow{
- color:#70adff;font-weight:800;text-transform:uppercase;
- letter-spacing:2px;font-size:10px;
+ color:#70adff;
+ font-weight:800;
+ text-transform:uppercase;
+ letter-spacing:2px;
+ font-size:10px;
 }
 .hero h1{
  font-size:clamp(38px,6vw,62px);
- line-height:1.03;letter-spacing:-2px;margin:15px 0;
+ line-height:1.03;
+ letter-spacing:-2px;
+ margin:15px 0;
 }
 .hero h1 span{color:#63a5ff}
-.hero p{color:var(--muted);font-size:15px;line-height:1.7}
+.hero p{
+ color:var(--muted);
+ font-size:15px;
+ line-height:1.7;
+}
 .cta{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}
+
 .hero-card,.panel{
  background:linear-gradient(145deg,#11243c,#0c192b);
- border:1px solid var(--line);border-radius:15px;padding:20px;
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:20px;
 }
-.hero-card .big{font-size:30px;font-weight:800;margin:12px 0}
+.hero-card .big{
+ font-size:30px;
+ font-weight:800;
+ margin:12px 0;
+}
 .muted{color:var(--muted)}
+
+.notice{
+ color:#f1d69a;
+ font-size:11px;
+ line-height:1.7;
+ border-left:3px solid var(--amber);
+ padding:12px 13px;
+ background:#241f16;
+ border-radius:6px;
+ margin-top:17px;
+}
+
 .section{padding:35px 0 42px}
 .section h2{font-size:26px;margin:7px 0}
 .section-head{
- display:flex;justify-content:space-between;align-items:end;
- gap:12px;margin-bottom:17px;
+ display:flex;
+ justify-content:space-between;
+ align-items:end;
+ gap:12px;
+ margin-bottom:17px;
 }
-.section-head p{color:var(--muted);margin:5px 0 0;font-size:12px}
-.feature-grid{
- display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
-}
-.feature{
- padding:17px;background:var(--panel);
- border:1px solid var(--line);border-radius:12px;
-}
-.feature h3{font-size:14px;margin:0 0 7px}
-.feature p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
-.feature-icon{
- width:31px;height:31px;border-radius:9px;
- display:grid;place-items:center;background:#1e3a8a;
- margin-bottom:12px;font-size:16px;
-}
-.professional-cta{
- margin-top:18px;padding:20px;border-radius:13px;
- background:linear-gradient(110deg,#153c72,#102743);
- border:1px solid #28558b;
- display:flex;align-items:center;justify-content:space-between;
- gap:15px;flex-wrap:wrap;
-}
-.market-tabs,.range-tabs{
- display:flex;gap:7px;flex-wrap:wrap;margin:15px 0;
-}
-.tab,.range{
- border:1px solid var(--line);background:#12243b;
- color:#b9c9dc;padding:9px 14px;border-radius:7px;
+.section-head p{
+ color:var(--muted);
+ margin:5px 0 0;
  font-size:12px;
 }
-.tab.active,.range.active{background:#2563eb;color:white;border-color:#2563eb}
+
+.feature-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+}
+.feature{
+ padding:17px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:12px;
+}
+.feature h3{font-size:14px;margin:0 0 7px}
+.feature p{
+ font-size:12px;
+ color:var(--muted);
+ line-height:1.6;
+ margin:0;
+}
+.feature-icon{
+ width:31px;
+ height:31px;
+ border-radius:9px;
+ display:grid;
+ place-items:center;
+ background:#1e3a8a;
+ margin-bottom:12px;
+ font-size:16px;
+}
+.unavailable-label{
+ display:inline-block;
+ margin-top:11px;
+ padding:5px 8px;
+ background:#38212a;
+ border:1px solid #713444;
+ border-radius:5px;
+ color:#ff9ba5;
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:.6px;
+}
+.professional-cta{
+ margin-top:18px;
+ padding:20px;
+ border-radius:13px;
+ background:linear-gradient(110deg,#153c72,#102743);
+ border:1px solid #28558b;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ flex-wrap:wrap;
+}
+
+.market-tabs,.range-tabs{
+ display:flex;
+ gap:7px;
+ flex-wrap:wrap;
+ margin:15px 0;
+}
+.tab,.range{
+ border:1px solid var(--line);
+ background:#12243b;
+ color:#b9c9dc;
+ padding:9px 14px;
+ border-radius:7px;
+ font-size:12px;
+}
+.tab.active,.range.active{
+ background:#2563eb;
+ color:white;
+ border-color:#2563eb;
+}
 .chart-panel{
- background:#0b192b;border:1px solid var(--line);
- border-radius:12px;overflow:hidden;
+ background:#0b192b;
+ border:1px solid var(--line);
+ border-radius:12px;
+ overflow:hidden;
 }
 .chart-title{
- padding:15px;display:flex;align-items:center;
- justify-content:space-between;gap:10px;flex-wrap:wrap;
+ padding:15px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ flex-wrap:wrap;
 }
 .chart-title strong{font-size:15px}
 .chart-frame{height:430px;width:100%}
 .chart-frame iframe{width:100%;height:100%;border:0}
+
 .instrument-list{
- display:grid;grid-template-columns:repeat(3,1fr);
- gap:9px;margin-top:13px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+ margin-top:13px;
 }
 .instrument{
- display:flex;align-items:center;gap:10px;
- padding:12px;background:var(--panel);
- border:1px solid var(--line);border-radius:9px;
- color:var(--text);text-align:left;
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:12px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:9px;
+ color:var(--text);
+ text-align:left;
 }
-.instrument.active{border-color:var(--blue);background:#142b49}
+.instrument.active{
+ border-color:var(--blue);
+ background:#142b49;
+}
 .instrument-logo{
- min-width:32px;height:32px;border-radius:50%;
- display:grid;place-items:center;background:#263d5a;
- color:#dceaff;font-size:11px;font-weight:900;
+ min-width:32px;
+ height:32px;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ background:#263d5a;
+ color:#dceaff;
+ font-size:11px;
+ font-weight:900;
 }
 .instrument strong{display:block;font-size:12px}
-.instrument small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
-.coin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+.instrument small{
+ display:block;
+ color:var(--muted);
+ font-size:10px;
+ margin-top:3px;
+}
+
+.coin-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:11px;
+}
 .coin{
- background:var(--panel);border:1px solid var(--line);
- padding:14px;border-radius:11px;
+ background:var(--panel);
+ border:1px solid var(--line);
+ padding:14px;
+ border-radius:11px;
 }
 .coin-top{display:flex;align-items:center;gap:9px}
 .coin-logo{width:29px;height:29px;border-radius:50%}
@@ -136,36 +290,96 @@ button{font:inherit;cursor:pointer}
 .coin-price{font-size:17px;font-weight:800;margin:13px 0 5px}
 .positive{color:var(--green)}
 .negative{color:var(--red)}
-.activity{
- margin-top:25px;padding:15px 17px;
- border:1px solid #254466;background:#10233a;
- border-radius:11px;display:flex;gap:12px;align-items:center;
+
+/* AUTOMATIC MARKET NOTIFICATIONS */
+.market-toast{
+ position:fixed;
+ bottom:22px;
+ left:20px;
+ width:min(350px,calc(100% - 40px));
+ background:#10233a;
+ border:1px solid #28558b;
+ border-radius:12px;
+ padding:15px;
+ box-shadow:0 10px 35px #0008;
+ z-index:100;
+ display:flex;
+ gap:12px;
+ align-items:flex-start;
+ opacity:0;
+ transform:translateY(20px);
+ pointer-events:none;
+ transition:opacity .35s ease,transform .35s ease;
 }
-.activity-dot{width:9px;height:9px;background:#eab64b;border-radius:50%;flex-shrink:0}
-.activity small{color:#eab64b;font-size:9px;font-weight:800;letter-spacing:1px}
-.activity p{margin:5px 0 0;font-size:12px;color:#d6e3f3}
-.notice{
- color:#b6c6d9;font-size:11px;line-height:1.6;
- border-left:3px solid #e5ad48;padding:10px 13px;
- background:#241f16;border-radius:6px;margin-top:17px;
+.market-toast.show{
+ opacity:1;
+ transform:translateY(0);
+ pointer-events:auto;
 }
-.footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:11px}
-.modal{
- display:none;position:fixed;inset:0;background:#000b;
- z-index:50;align-items:center;justify-content:center;padding:15px;
+.toast-icon{
+ width:36px;
+ height:36px;
+ border-radius:50%;
+ background:#1d3e68;
+ display:grid;
+ place-items:center;
+ flex-shrink:0;
+ font-size:17px;
 }
-.modal.show{display:flex}
-.modal-box{
- width:min(420px,100%);background:#0e1c30;
- border:1px solid var(--line);padding:23px;border-radius:14px;
+.toast-content{min-width:0;flex:1}
+.toast-label{
+ color:#65a5ff;
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1px;
 }
-.modal-box input{
- width:100%;padding:12px;margin:7px 0 13px;
- border-radius:8px;border:1px solid var(--line);
- background:#081426;color:white;
+.toast-content p{
+ margin:6px 0;
+ color:#edf4ff;
+ font-size:12px;
+ line-height:1.5;
 }
-.modal-box button{width:100%;margin-top:8px}
-.close{float:right;background:transparent;color:white;border:0;font-size:21px}
+.toast-time{font-size:10px;color:#91a4bd}
+.toast-close{
+ background:transparent;
+ border:0;
+ color:#91a4bd;
+ font-size:19px;
+ padding:0 3px;
+}
+.toast-close:hover{color:white}
+
+.status-pill{
+ display:inline-flex;
+ align-items:center;
+ gap:6px;
+ color:#9ce8c9;
+ background:#10352f;
+ border:1px solid #1d6554;
+ border-radius:20px;
+ padding:6px 9px;
+ font-size:10px;
+}
+.status-dot{
+ width:7px;
+ height:7px;
+ border-radius:50%;
+ background:var(--green);
+}
+
+.footer{
+ border-top:1px solid var(--line);
+ padding:25px 0;
+ color:var(--muted);
+ font-size:11px;
+}
+.footer-inner{
+ display:flex;
+ justify-content:space-between;
+ gap:12px;
+ flex-wrap:wrap;
+}
+
 @media(max-width:850px){
  .hero{grid-template-columns:1fr;padding-top:38px}
  .feature-grid{grid-template-columns:repeat(2,1fr)}
@@ -185,6 +399,11 @@ button{font:inherit;cursor:pointer}
  .instrument-list{grid-template-columns:1fr 1fr}
  .instrument{padding:9px;gap:7px}
  .instrument-logo{min-width:27px;height:27px}
+ .market-toast{left:12px;bottom:14px;width:calc(100% - 24px)}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .market-toast{transition:none}
 }
 </style>
 </head>
@@ -194,14 +413,16 @@ button{font:inherit;cursor:pointer}
 <header class="top">
  <div class="wrap nav">
   <div class="brand">TRADINGHUB<span> HQ</span></div>
+
   <nav class="navlinks">
    <a href="#professional">Platform</a>
    <a href="#live-markets">Markets</a>
    <a href="#crypto">Crypto</a>
   </nav>
+
   <div class="actions">
-   <button class="btn ghost" onclick="openModal('login')">Log in</button>
-   <button class="btn primary" onclick="openModal('register')">Get started</button>
+   <button class="btn ghost" onclick="showUnavailableMessage()">Log in</button>
+   <button class="btn primary" onclick="showUnavailableMessage()">Get started</button>
   </div>
  </div>
 </header>
@@ -212,82 +433,134 @@ button{font:inherit;cursor:pointer}
 <section class="hero">
  <div>
   <div class="eyebrow">Digital asset market hub</div>
+
   <h1>Make your next move with <span>clarity.</span></h1>
-  <p>Explore cryptocurrency markets, follow live prices and keep your digital-asset activity organised in one place.</p>
+
+  <p>
+   Explore cryptocurrency markets, follow market prices
+   and discover global financial instruments in one place.
+  </p>
+
   <div class="cta">
-   <button class="btn primary" onclick="openModal('register')">Get started</button>
-   <button class="btn ghost" onclick="document.getElementById('live-markets').scrollIntoView({behavior:'smooth'})">Explore markets</button>
+   <button class="btn primary" onclick="showUnavailableMessage()">Get started</button>
+   <button class="btn ghost"
+    onclick="document.getElementById('live-markets').scrollIntoView({behavior:'smooth'})">
+    Explore markets
+   </button>
   </div>
-  <div class="notice"><b>TEST VERSION:</b> This platform is a prototype. It does not accept deposits, manage customer funds or execute real trades. Do not send cryptocurrency to this website.</div>
+
+  <div class="notice">
+   <b>IMPORTANT SERVICE NOTICE</b><br>
+   TradingHub HQ currently provides public market information only.
+   Customer deposits, withdrawals, investment management and trade execution
+   are unavailable. Do not send cryptocurrency to this website.
+  </div>
  </div>
 
  <div class="hero-card">
   <div class="eyebrow">TradingHub HQ market watch</div>
-  <div class="muted" style="margin-top:20px">Cryptocurrency assets monitored</div>
-  <div class="big">08 <span style="color:#68a8ff">Assets</span></div>
-  <div class="muted">BTC · ETH · USDT · SOL · BNB · TRX · USDC · LTC</div>
-  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-  <div style="display:flex;justify-content:space-between">
-   <span class="muted">Market data</span><b id="market-status">Connecting…</b>
+
+  <div class="muted" style="margin-top:20px">
+   Cryptocurrency assets monitored
   </div>
-  <div class="muted" style="font-size:11px;margin-top:8px">Public market information. Prices shown in USD.</div>
+
+  <div class="big">08 <span style="color:#68a8ff">Assets</span></div>
+
+  <div class="muted">
+   BTC · ETH · USDT · SOL · BNB · TRX · USDC · LTC
+  </div>
+
+  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+
+  <div style="display:flex;justify-content:space-between;gap:10px">
+   <span class="muted">Market data</span>
+   <b id="market-status">Connecting…</b>
+  </div>
+
+  <div class="muted" style="font-size:11px;margin-top:8px">
+   Public market information. Prices shown in USD.
+  </div>
  </div>
 </section>
 
-<!-- PROFESSIONAL TRADING FIRST -->
+<!-- PROFESSIONAL TRADING -->
 <section class="section" id="professional">
- <div class="eyebrow">10:57:31 AM · PROFESSIONAL</div>
- <h2 style="font-size:32px;letter-spacing:1px">PROFESSIONAL <span style="color:#63a5ff">TRADING</span></h2>
- <p class="muted" style="font-size:14px;margin:8px 0 23px">Advanced Platform · Platform Features</p>
+ <div class="eyebrow">TradingHub HQ platform</div>
+
+ <h2 style="font-size:32px;letter-spacing:1px">
+  PROFESSIONAL <span style="color:#63a5ff">TRADING</span>
+ </h2>
+
+ <p class="muted" style="font-size:14px;margin:8px 0 23px">
+  Platform Features · Service Availability
+ </p>
 
  <div class="feature-grid">
+
   <div class="feature">
    <div class="feature-icon">⚡</div>
-   <h3>Lightning Fast Execution</h3>
-   <p>Designed around a streamlined trading experience and responsive platform interface.</p>
+   <h3>Trading Execution</h3>
+   <p>Live order placement and trade execution are not currently available.</p>
+   <span class="unavailable-label">UNAVAILABLE</span>
   </div>
+
   <div class="feature">
    <div class="feature-icon">◈</div>
-   <h3>Ultra-low Latency Trading</h3>
-   <p>Platform architecture designed with performance and responsiveness in mind.</p>
+   <h3>Investment Management</h3>
+   <p>Customer investment management services are not currently available.</p>
+   <span class="unavailable-label">UNAVAILABLE</span>
   </div>
+
   <div class="feature">
    <div class="feature-icon">◇</div>
-   <h3>Advanced Risk Management</h3>
-   <p>Risk-management tools are planned for a future version of the platform.</p>
+   <h3>Risk Management</h3>
+   <p>Customer trading risk-management tools are not currently active.</p>
+   <span class="unavailable-label">UNAVAILABLE</span>
   </div>
+
   <div class="feature">
    <div class="feature-icon">▥</div>
    <h3>Real-Time Analytics</h3>
-   <p>Explore market information and trading data in a clear interface.</p>
+   <p>Explore public market information and available price movements.</p>
+   <span class="status-pill">Market information</span>
   </div>
+
   <div class="feature">
    <div class="feature-icon">📈</div>
-   <h3>Live Market Data &amp; Charts</h3>
-   <p>Follow supported market instruments through embedded market charts.</p>
+   <h3>Live Market Charts</h3>
+   <p>Follow supported global financial instruments through market charts.</p>
+   <span class="status-pill">Market information</span>
   </div>
+
   <div class="feature">
    <div class="feature-icon">🔒</div>
-   <h3>Account Protection</h3>
-   <p>Security and compliance systems must be completed before public financial services launch.</p>
+   <h3>Customer Account Services</h3>
+   <p>Customer financial account services are not currently available.</p>
+   <span class="unavailable-label">UNAVAILABLE</span>
   </div>
+
  </div>
 
  <div class="professional-cta">
   <div>
-   <strong style="font-size:17px">Start Trading Today</strong>
-   <div class="muted" style="font-size:11px;margin-top:5px">• Access Your Account</div>
+   <strong style="font-size:17px">Trading and Investment Services</strong>
+   <div class="muted" style="font-size:11px;margin-top:5px">
+    Customer financial services are not currently active.
+   </div>
   </div>
-  <button class="btn primary" onclick="openModal('login')">Access Your Account</button>
+
+  <span class="unavailable-label">SERVICES UNAVAILABLE</span>
  </div>
- <p class="muted" style="font-size:10px;margin-top:12px">Prototype · Secure services and real trading are not yet active.</p>
 </section>
 
 <!-- LIVE MARKET OVERVIEW -->
 <section class="section" id="live-markets">
  <div class="eyebrow">Global financial markets</div>
  <h2>Live Market Overview</h2>
- <p class="muted">Explore indices, futures, bonds and foreign exchange markets.</p>
+
+ <p class="muted">
+  Explore indices, futures, bonds and foreign exchange markets.
+ </p>
 
  <div class="market-tabs">
   <button class="tab active" onclick="selectCategory('indices',this)">Indices</button>
@@ -300,7 +573,10 @@ button{font:inherit;cursor:pointer}
   <div class="chart-title">
    <div>
     <strong id="chart-name">S&amp;P 500 · SPX</strong>
-    <div class="muted" id="chart-description" style="font-size:10px;margin-top:5px">United States benchmark index</div>
+    <div class="muted" id="chart-description"
+     style="font-size:10px;margin-top:5px">
+     United States benchmark index
+    </div>
    </div>
    <span class="muted" style="font-size:10px">TradingView chart</span>
   </div>
@@ -315,15 +591,20 @@ button{font:inherit;cursor:pointer}
   </div>
 
   <div class="chart-frame">
-   <iframe id="tradingChart" title="TradingView market chart"
+   <iframe id="tradingChart"
+    title="TradingView market chart"
     src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_chart&symbol=SP%3ASPX&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=0&toolbarbg=f1f3f6&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&hideideas=1&studies=[]&locale=en"
-    allowfullscreen></iframe>
+    allowfullscreen>
+   </iframe>
   </div>
  </div>
 
  <div class="instrument-list" id="instrumentList"></div>
 
- <p class="muted" style="font-size:10px;margin-top:12px">Charts are supplied by TradingView. Market availability, symbols and delays depend on the data provider and exchange permissions.</p>
+ <p class="muted" style="font-size:10px;margin-top:12px">
+  Charts are supplied by TradingView. Market availability, symbols
+  and delays depend on the data provider and exchange permissions.
+ </p>
 </section>
 
 <!-- CRYPTOCURRENCY MARKET -->
@@ -334,62 +615,70 @@ button{font:inherit;cursor:pointer}
    <h2>Cryptocurrency Market</h2>
    <p>Current prices and 24-hour movement.</p>
   </div>
+
   <button class="btn ghost" onclick="loadPrices()">Refresh</button>
  </div>
 
  <div class="coin-grid" id="coins">
   <div class="muted">Loading cryptocurrency prices…</div>
  </div>
- <p class="muted" style="font-size:10px;margin-top:12px">Market data supplied by CoinGecko public API. Prices may be delayed. This is informational data, not investment advice.</p>
+
+ <p class="muted" style="font-size:10px;margin-top:12px">
+  Market data supplied by CoinGecko public API. Prices may be delayed.
+  This information is not investment advice.
+ </p>
 </section>
 
-<!-- DEMO ACTIVITY -->
+<!-- AUTOMATIC MARKET NOTIFICATIONS -->
 <section class="section">
- <div class="eyebrow">Platform notifications</div>
- <h2>Live Trading Activity</h2>
- <div class="activity" aria-live="polite">
-  <span class="activity-dot"></span>
-  <div>
-   <small>SIMULATED DEMO ACTIVITY</small>
-   <p id="activityText">Example activity notifications for demonstration only.</p>
-  </div>
- </div>
- <p class="muted" style="font-size:10px;margin-top:9px">These are fictional examples, not verified customer transactions or actual withdrawals.</p>
+ <div class="eyebrow">Automatic market notifications</div>
+ <h2>Live Market Activity</h2>
+
+ <p class="muted" style="line-height:1.7">
+  Follow cryptocurrency price movements through automatic market
+  notifications. Updates are based on public market data.
+ </p>
 </section>
 
+<!-- AUTOMATIC POPUP -->
+<div class="market-toast" id="marketToast" aria-live="polite">
+ <div class="toast-icon">📊</div>
+
+ <div class="toast-content">
+  <div class="toast-label">LIVE MARKET UPDATE</div>
+  <p id="toastMessage">Connecting to market data...</p>
+  <div class="toast-time" id="toastTime">Waiting for market data</div>
+ </div>
+
+ <button class="toast-close"
+  onclick="hideMarketToast()"
+  aria-label="Close notification">×</button>
+</div>
+
+<!-- ABOUT -->
 <section class="section">
  <div class="eyebrow">About TradingHub HQ</div>
  <h2>A clearer view of digital assets</h2>
+
  <p class="muted" style="max-width:760px;line-height:1.8">
- TradingHub HQ is developing a cryptocurrency market and portfolio platform.
- The current website is a prototype. It does not hold customer funds,
- provide custody or execute real trades.
+  TradingHub HQ provides access to public cryptocurrency prices
+  and global financial market information. Customer deposits,
+  withdrawals, custody, investment management and live trading
+  are currently unavailable.
  </p>
 </section>
 
 </main>
 
 <footer class="footer">
- <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+ <div class="wrap footer-inner">
   <span>© 2026 TradingHub HQ</span>
-  <span>Prototype · Test mode only</span>
+  <span>Public market information only · Financial services unavailable</span>
  </div>
 </footer>
 
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
- <div class="modal-box">
-  <button class="close" onclick="closeModal()">×</button>
-  <h2 id="modal-title">Create account</h2>
-  <p class="muted" style="font-size:12px">Preview only — account services are not connected here.</p>
-  <label>Email address</label>
-  <input type="email" placeholder="Email address" autocomplete="off">
-  <label>Password</label>
-  <input type="password" placeholder="Do not enter a real password" autocomplete="off">
-  <button class="btn primary" onclick="alert('Account services are not active in this prototype.')">Continue (preview)</button>
- </div>
-</div>
-
 <script>
+/* CRYPTOCURRENCY ASSETS */
 const assets=[
  {id:'bitcoin',symbol:'BTC',name:'Bitcoin'},
  {id:'ethereum',symbol:'ETH',name:'Ethereum'},
@@ -401,45 +690,81 @@ const assets=[
  {id:'litecoin',symbol:'LTC',name:'Litecoin'}
 ];
 
+let latestMarketData=[];
+let marketUpdateIndex=0;
+let marketUpdateTimer=null;
+let toastHideTimer=null;
+let notificationStarted=false;
+
 function money(n){
  return new Intl.NumberFormat('en-US',{
-  style:'currency',currency:'USD',
+  style:'currency',
+  currency:'USD',
   maximumFractionDigits:n<1?5:2
  }).format(n);
 }
 
+/* LOAD PUBLIC CRYPTOCURRENCY PRICES */
 async function loadPrices(){
  const box=document.getElementById('coins');
  const status=document.getElementById('market-status');
+
  status.textContent='Updating…';
 
  try{
   const ids=assets.map(a=>a.id).join(',');
-  const r=await fetch(
+
+  const response=await fetch(
    'https://api.coingecko.com/api/v3/simple/price?ids='+
    ids+'&vs_currencies=usd&include_24hr_change=true'
   );
-  if(!r.ok)throw new Error('Market feed unavailable');
-  const data=await r.json();
+
+  if(!response.ok){
+   throw new Error('Market feed unavailable');
+  }
+
+  const data=await response.json();
+
+  latestMarketData=assets
+   .filter(a=>
+    data[a.id] &&
+    Number.isFinite(Number(data[a.id].usd))
+   )
+   .map(a=>({
+    name:a.name,
+    symbol:a.symbol,
+    price:Number(data[a.id].usd),
+    change:Number(data[a.id].usd_24h_change||0)
+   }));
 
   box.innerHTML=assets.map(a=>{
    const d=data[a.id];
-   if(!d)return '';
+
+   if(!d || !Number.isFinite(Number(d.usd)))return '';
+
    const change=Number(d.usd_24h_change||0);
    const cls=change>=0?'positive':'negative';
-   const logo='https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/'+a.symbol.toLowerCase()+'.svg';
+
+   const logo=
+    'https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/'+
+    a.symbol.toLowerCase()+'.svg';
 
    return `
     <article class="coin">
      <div class="coin-top">
-      <img class="coin-logo" src="${logo}" alt="${a.symbol} logo"
+      <img class="coin-logo"
+       src="${logo}"
+       alt="${a.symbol} logo"
        onerror="this.style.display='none'">
+
       <div>
        <div class="coin-symbol">${a.symbol}</div>
        <div class="coin-name">${a.name}</div>
       </div>
      </div>
-     <div class="coin-price">${money(d.usd)}</div>
+
+     <div class="coin-price">${money(Number(d.usd))}</div>
+
      <div class="${cls}" style="font-size:11px">
       ${change>=0?'+':''}${change.toFixed(2)}%
      </div>
@@ -447,10 +772,77 @@ async function loadPrices(){
   }).join('')||'<div class="muted">No market data returned.</div>';
 
   status.textContent='Market feed connected';
- }catch(e){
+
+  if(latestMarketData.length){
+   startMarketNotifications();
+  }
+
+ }catch(error){
   status.textContent='Feed unavailable';
-  box.innerHTML='<div class="muted">Market prices could not load. Please refresh shortly.</div>';
+
+  if(!latestMarketData.length){
+   box.innerHTML=
+    '<div class="muted">Market prices could not load. Please refresh shortly.</div>';
+  }
  }
+}
+
+/* AUTOMATIC MARKET UPDATE POPUPS */
+function hideMarketToast(){
+ const toast=document.getElementById('marketToast');
+
+ toast.classList.remove('show');
+
+ clearTimeout(toastHideTimer);
+}
+
+function showMarketToast(){
+ const toast=document.getElementById('marketToast');
+ const message=document.getElementById('toastMessage');
+ const time=document.getElementById('toastTime');
+
+ if(!latestMarketData.length)return;
+
+ const asset=
+  latestMarketData[
+   marketUpdateIndex%latestMarketData.length
+  ];
+
+ marketUpdateIndex++;
+
+ const direction=asset.change>=0?'up':'down';
+ const arrow=asset.change>=0?'▲':'▼';
+
+ message.textContent=
+  asset.name+' ('+asset.symbol+') is '+
+  direction+' '+arrow+' '+
+  Math.abs(asset.change).toFixed(2)+
+  '% over the last 24 hours. Current price: '+
+  money(asset.price)+'.';
+
+ time.textContent=
+  'Public market snapshot · '+
+  new Date().toLocaleTimeString();
+
+ toast.classList.add('show');
+
+ clearTimeout(toastHideTimer);
+
+ toastHideTimer=setTimeout(()=>{
+  toast.classList.remove('show');
+ },6500);
+}
+
+function startMarketNotifications(){
+ if(notificationStarted)return;
+
+ notificationStarted=true;
+
+ showMarketToast();
+
+ marketUpdateTimer=setInterval(()=>{
+  showMarketToast();
+ },10000);
 }
 
 /* TRADINGVIEW MARKET SYMBOLS */
@@ -463,6 +855,7 @@ const markets={
   {symbol:'XETR:DAX',name:'DAX 40',code:'DAX',logo:'DAX',desc:'Germany 40 index'},
   {symbol:'TVC:NI225',name:'Nikkei 225',code:'NI225',logo:'225',desc:'Japan 225 index'}
  ],
+
  futures:[
   {symbol:'CME_MINI:ES1!',name:'E-mini S&P 500',code:'ES1!',logo:'ES',desc:'S&P 500 futures'},
   {symbol:'CME_MINI:NQ1!',name:'E-mini Nasdaq 100',code:'NQ1!',logo:'NQ',desc:'Nasdaq futures'},
@@ -471,6 +864,7 @@ const markets={
   {symbol:'NYMEX:NG1!',name:'Natural Gas',code:'NG1!',logo:'GAS',desc:'Natural gas futures'},
   {symbol:'CBOT:ZB1!',name:'US Treasury Bond',code:'ZB1!',logo:'B',desc:'30-year Treasury bond futures'}
  ],
+
  bonds:[
   {symbol:'TVC:US10Y',name:'US 10-Year Yield',code:'US10Y',logo:'10Y',desc:'United States 10-year yield'},
   {symbol:'TVC:US02Y',name:'US 2-Year Yield',code:'US02Y',logo:'2Y',desc:'United States 2-year yield'},
@@ -478,6 +872,7 @@ const markets={
   {symbol:'TVC:DE10Y',name:'Germany 10-Year Yield',code:'DE10Y',logo:'DE',desc:'German 10-year yield'},
   {symbol:'TVC:GB10Y',name:'UK 10-Year Yield',code:'GB10Y',logo:'UK',desc:'UK 10-year yield'}
  ],
+
  forex:[
   {symbol:'FX:EURUSD',name:'Euro / US Dollar',code:'EURUSD',logo:'€',desc:'Major currency pair'},
   {symbol:'FX:GBPUSD',name:'British Pound / US Dollar',code:'GBPUSD',logo:'£',desc:'Major currency pair'},
@@ -493,87 +888,105 @@ let selectedSymbol='SP:SPX';
 let selectedRange='1D';
 
 const rangeIntervals={
- '1D':'60','1M':'D','3M':'D','1Y':'W','5Y':'M','ALL':'M'
+ '1D':'60',
+ '1M':'D',
+ '3M':'D',
+ '1Y':'W',
+ '5Y':'M',
+ 'ALL':'M'
 };
 
 function renderInstruments(){
  const list=document.getElementById('instrumentList');
+
  list.innerHTML=markets[selectedCategory].map(m=>`
   <button class="instrument ${m.symbol===selectedSymbol?'active':''}"
    onclick="selectInstrument('${m.symbol}')">
+
    <span class="instrument-logo">${m.logo}</span>
-   <span><strong>${m.code}</strong><small>${m.name}</small></span>
+
+   <span>
+    <strong>${m.code}</strong>
+    <small>${m.name}</small>
+   </span>
   </button>
  `).join('');
 }
 
 function selectCategory(category,button){
  selectedCategory=category;
- document.querySelectorAll('.market-tabs .tab').forEach(b=>b.classList.remove('active'));
+
+ document.querySelectorAll('.market-tabs .tab')
+  .forEach(b=>b.classList.remove('active'));
+
  button.classList.add('active');
+
  const first=markets[category][0];
+
  loadChart(first);
  renderInstruments();
 }
 
 function selectInstrument(symbol){
- const item=markets[selectedCategory].find(m=>m.symbol===symbol);
+ const item=markets[selectedCategory]
+  .find(m=>m.symbol===symbol);
+
  if(item)loadChart(item);
+
  renderInstruments();
 }
 
 function loadChart(item){
  selectedSymbol=item.symbol;
- document.getElementById('chart-name').textContent=item.name+' · '+item.code;
- document.getElementById('chart-description').textContent=item.desc;
+
+ document.getElementById('chart-name').textContent=
+  item.name+' · '+item.code;
+
+ document.getElementById('chart-description').textContent=
+  item.desc;
+
  const interval=rangeIntervals[selectedRange]||'D';
- const url='https://s.tradingview.com/widgetembed/?frameElementId=tradingview_chart'
+
+ const url=
+  'https://s.tradingview.com/widgetembed/?frameElementId=tradingview_chart'
   +'&symbol='+encodeURIComponent(item.symbol)
   +'&interval='+interval
   +'&hidesidetoolbar=0&symboledit=1&saveimage=0'
   +'&toolbarbg=0b192b&theme=dark&style=1'
   +'&timezone=Etc%2FUTC&withdateranges=1&hideideas=1'
   +'&studies=[]&locale=en';
+
  document.getElementById('tradingChart').src=url;
 }
 
 function setRange(range,button){
  selectedRange=range;
- document.querySelectorAll('.range').forEach(b=>b.classList.remove('active'));
+
+ document.querySelectorAll('.range')
+  .forEach(b=>b.classList.remove('active'));
+
  button.classList.add('active');
- const item=markets[selectedCategory].find(m=>m.symbol===selectedSymbol)||markets.indices[0];
+
+ const item=markets[selectedCategory]
+  .find(m=>m.symbol===selectedSymbol)||markets.indices[0];
+
  loadChart(item);
 }
 
-function openModal(type){
- document.getElementById('modal-title').textContent=type==='login'?'Log in':'Create account';
- document.getElementById('modal').classList.add('show');
-}
-function closeModal(){
- document.getElementById('modal').classList.remove('show');
-}
-
-/* DEMONSTRATION ACTIVITY ONLY — NOT REAL CUSTOMER TRANSACTIONS */
-const demoActivities=[
- 'Demo trader from Madrid completed a simulated $2,500 withdrawal.',
- 'Demo trader from London completed a simulated $850 withdrawal.',
- 'Demo trader from Toronto completed a simulated $4,200 withdrawal.',
- 'Demo trader from Singapore completed a simulated $1,750 withdrawal.',
- 'Demo trader from Lagos completed a simulated $600 withdrawal.',
- 'Demo trader from Dubai completed a simulated $3,100 withdrawal.'
-];
-let activityIndex=0;
-function rotateActivity(){
- document.getElementById('activityText').textContent=demoActivities[activityIndex];
- activityIndex=(activityIndex+1)%demoActivities.length;
+/* FINANCIAL SERVICES ARE NOT AVAILABLE */
+function showUnavailableMessage(){
+ alert(
+  'TradingHub HQ account and financial services are currently unavailable. '+
+  'Deposits, withdrawals, investment management and trade execution are not active.'
+ );
 }
 
+/* INITIALISE PAGE */
 renderInstruments();
 loadChart(markets.indices[0]);
 loadPrices();
-rotateActivity();
+
 setInterval(loadPrices,60000);
-setInterval(rotateActivity,9000);
 </script>
 
 </body>
