@@ -2,324 +2,630 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>TradingHub HQ | Customer Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradingHub HQ | Dashboard</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-:root{
---bg:#080d1b;--panel:#111a30;--border:#26324c;
---text:#f5f7ff;--muted:#9aa8c3;
-}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-header{padding:18px 22px;background:#0d1426;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
-.logo{font-weight:800;font-size:20px}
-.logo span{color:#8b78ff}
-.header-right{display:flex;align-items:center;gap:12px}
-button{cursor:pointer;border:0;border-radius:8px;padding:11px 15px;font-weight:bold}
-.logout{background:#26334d;color:white}
-.layout{display:flex;min-height:calc(100vh - 70px)}
-.sidebar{width:230px;background:#0d1426;border-right:1px solid var(--border);padding:20px 13px;flex-shrink:0}
-.sidebar p{color:var(--muted);font-size:11px;letter-spacing:2px;padding:0 10px}
-.navitem{display:flex;align-items:center;gap:12px;width:100%;padding:14px 12px;margin:5px 0;background:transparent;color:#aebbd3;text-align:left;border-radius:9px}
-.navitem.active{background:#202b44;color:white}
-.navitem:hover{background:#18243b}
-.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.n1 .dot{background:#4388ff}
-.n2 .dot{background:#9b65ff}
-.n3 .dot{background:#23c990}
-.n4 .dot{background:#ff6475}
-.n5 .dot{background:#ff9d43}
-.n6 .dot{background:#e9c34d}
-.n7 .dot{background:#35c8db}
-.n8 .dot{background:#ed78bc}
-main{padding:28px;width:100%;max-width:1200px;margin:auto}
+body{
+ margin:0;
+ background:#111827;
+ color:#f9fafb;
+ font-family:Arial,Helvetica,sans-serif;
+}
+button{cursor:pointer}
+.topbar{
+ height:140px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:20px 5%;
+ border-bottom:1px solid #374151;
+}
+.logo{
+ font-size:21px;
+ font-weight:800;
+ color:#60a5fa;
+}
+.logo span{color:#a78bfa}
+.icon-btn{
+ background:transparent;
+ border:0;
+ color:#d1d5db;
+ font-size:26px;
+ padding:8px;
+}
+.ticker{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:18px;
+ padding:17px 4%;
+ background:#1f2937;
+ border-bottom:1px solid #374151;
+ overflow-x:auto;
+ white-space:nowrap;
+ color:#9ca3af;
+}
+.live-dot{
+ display:inline-block;
+ width:10px;height:10px;
+ background:#16a34a;
+ border-radius:50%;
+ margin-right:7px;
+}
+.price{color:#34d399;margin-left:8px}
+.balance{margin-left:auto;color:#9ca3af}
+.balance strong{display:block;color:white;font-size:20px}
+.main{
+ max-width:1100px;
+ margin:auto;
+ padding:28px 5% 130px;
+}
+h1{font-size:32px;margin:0 0 20px;font-weight:800}
+.subtitle{
+ color:#9ca3af;
+ font-size:19px;
+ line-height:1.6;
+ margin-bottom:28px;
+}
+.primary-btn{
+ display:block;
+ width:100%;
+ padding:22px;
+ border:0;
+ border-radius:22px;
+ background:#2563eb;
+ color:white;
+ font-size:21px;
+ font-weight:bold;
+ margin-bottom:18px;
+}
+.secondary-btn{
+ display:block;
+ width:100%;
+ padding:19px;
+ border:0;
+ border-radius:20px;
+ background:#374151;
+ color:#d1d5db;
+ font-size:23px;
+ margin-bottom:40px;
+}
+.cards{
+ display:grid;
+ grid-template-columns:1fr;
+ gap:26px;
+}
+.card{
+ position:relative;
+ background:#1f2937;
+ border:1px solid #374151;
+ border-radius:28px;
+ padding:27px;
+ min-height:175px;
+}
+.card-label{color:#9ca3af;font-size:18px}
+.card-value{font-size:40px;font-weight:800;margin:13px 0}
+.card-desc{color:#9ca3af;font-size:18px}
+.card-icon{
+ position:absolute;
+ right:27px;
+ top:50%;
+ transform:translateY(-50%);
+ width:64px;height:64px;
+ border-radius:22px;
+ display:grid;
+ place-items:center;
+ font-size:29px;
+ background:#1e3a8a;
+}
+.green{background:#064e3b;color:#34d399}
+.purple{background:#312e81;color:#a5b4fc}
+.orange{background:#78350f;color:#fbbf24}
+.nav-bottom{
+ position:fixed;
+ bottom:0;left:0;right:0;
+ background:#111827f5;
+ border-top:1px solid #263244;
+ display:flex;
+ justify-content:space-around;
+ align-items:center;
+ padding:15px 5px 25px;
+ z-index:10;
+}
+.nav-bottom button{
+ background:none;border:0;
+ color:#9ca3af;
+ font-size:13px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ gap:6px;
+}
+.nav-bottom .nav-icon{font-size:25px}
+.nav-bottom .active{color:#60a5fa}
+.chat-button{
+ position:fixed;
+ right:20px;
+ bottom:115px;
+ width:66px;height:66px;
+ border:0;
+ border-radius:50%;
+ background:#075ce5;
+ color:white;
+ font-size:30px;
+ z-index:20;
+}
+.menu{
+ position:fixed;
+ inset:0;
+ background:#111827;
+ z-index:50;
+ overflow-y:auto;
+ display:none;
+ max-width:500px;
+ box-shadow:10px 0 40px #0008;
+}
+.menu.open{display:block}
+.menu-profile{
+ padding:28px;
+ border-bottom:1px solid #374151;
+ display:flex;
+ align-items:center;
+ gap:18px;
+}
+.avatar{
+ width:75px;height:75px;
+ border-radius:50%;
+ background:#374151;
+ display:grid;
+ place-items:center;
+ font-size:28px;
+ overflow:hidden;
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.menu-section{
+ padding:22px 28px 8px;
+ color:#9ca3af;
+ font-weight:bold;
+}
+.menu-item{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:16px 24px;
+ margin:3px 15px;
+ border-radius:15px;
+ color:#e5e7eb;
+ text-decoration:none;
+ font-size:17px;
+}
+.menu-item.active{background:#1e3a8a}
+.menu-item span:first-child{display:flex;gap:17px;align-items:center}
+.badge{
+ background:#7c3aed;
+ color:white;
+ padding:5px 12px;
+ border-radius:30px;
+ font-size:12px;
+}
 .page{display:none}
 .page.active{display:block}
-h1{font-size:27px;margin-top:0}
-.muted{color:var(--muted);line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px;margin-bottom:17px}
-.card h3{margin-top:0}
-.balance{font-size:34px;font-weight:bold;margin:12px 0}
-.profile{display:flex;align-items:center;gap:17px;flex-wrap:wrap}
-.avatar{width:85px;height:85px;border-radius:50%;background:#26334d;object-fit:cover;border:2px solid #8b78ff}
-input{display:block;width:100%;padding:12px;margin:10px 0 16px;background:#091224;color:white;border:1px solid var(--border);border-radius:8px}
-.primary{background:linear-gradient(100deg,#3978ff,#7855ef);color:white}
-.upload{background:#273858;color:white}
-.market-price{font-size:23px;font-weight:bold;margin:12px 0}
-.green{color:#24d69a}
-.red{color:#ff747e}
-.badge{display:inline-block;padding:6px 10px;border-radius:20px;background:#29243e;color:#c2aaff;font-size:12px}
-footer{text-align:center;color:var(--muted);padding:25px;border-top:1px solid var(--border);font-size:12px}
-@media(max-width:720px){
-.layout{display:block}
-.sidebar{width:100%;display:flex;overflow-x:auto;padding:10px;gap:5px;border-right:0;border-bottom:1px solid var(--border)}
-.sidebar p{display:none}
-.navitem{min-width:max-content;width:auto;margin:0}
-main{padding:18px}
+.notice{
+ background:#263449;
+ border:1px solid #475569;
+ padding:16px;
+ border-radius:14px;
+ color:#cbd5e1;
+ margin:20px 0;
+}
+.coming{
+ background:#374151;
+ color:#fbbf24;
+ padding:5px 12px;
+ border-radius:20px;
+ font-size:12px;
+}
+.profile-input{
+ width:100%;
+ padding:14px;
+ background:#1f2937;
+ color:white;
+ border:1px solid #475569;
+ border-radius:12px;
+ margin:8px 0 18px;
+}
+@media(min-width:750px){
+ .cards{grid-template-columns:1fr 1fr}
+ .main{padding-top:45px}
+ .nav-bottom{display:none}
+ .chat-button{bottom:30px}
 }
 </style>
 </head>
+
 <body>
 
-<header>
-<div class="logo">TRADINGHUB <span>HQ</span></div>
-<div class="header-right">
-<span id="headerName" class="muted">Customer</span>
-<button class="logout" onclick="logout()">Log out</button>
-</div>
+<header class="topbar">
+ <div class="logo">◆ <span>TradingHub</span> HQ</div>
+ <div style="display:flex;align-items:center;gap:16px">
+  <button class="icon-btn" aria-label="Notifications">♧</button>
+  <button class="icon-btn" onclick="toggleTheme()">☾</button>
+  <div class="avatar" style="width:46px;height:46px;font-size:20px" id="topAvatar">U</div>
+  <button class="icon-btn" onclick="openMenu()">☰</button>
+ </div>
 </header>
 
-<div class="layout">
-<aside class="sidebar">
-<p>MAIN MENU</p>
-<button class="navitem n1 active" onclick="showPage('overview',this)"><i class="dot"></i>Overview</button>
-<button class="navitem n2" onclick="showPage('copy',this)"><i class="dot"></i>Copy Trading</button>
-<button class="navitem n3" onclick="showPage('spot',this)"><i class="dot"></i>Spot Trading</button>
-<button class="navitem n4" onclick="showPage('futures',this)"><i class="dot"></i>Futures Trading</button>
-<button class="navitem n5" onclick="showPage('markets',this)"><i class="dot"></i>Markets</button>
-<button class="navitem n6" onclick="showPage('transactions',this)"><i class="dot"></i>Transactions</button>
-<button class="navitem n7" onclick="showPage('profile',this)"><i class="dot"></i>Profile</button>
-<button class="navitem n8" onclick="showPage('support',this)"><i class="dot"></i>Support</button>
-</aside>
+<div class="ticker">
+ <span><span class="live-dot"></span>LIVE</span>
+ <span>BTC: <b class="price" id="btc">$--</b></span>
+ <span>ETH: <b class="price" id="eth">$--</b></span>
+ <span>SOL: <b class="price" id="sol">$--</b></span>
+ <span class="balance">Balance:<strong id="tickerBalance">$0.00</strong></span>
+</div>
 
-<main>
+<main class="main">
 
-<section class="page active" id="overview">
-<h1>Account Overview</h1>
-<p class="muted">Welcome to your TradingHub HQ personal dashboard.</p>
-<div class="grid">
-<div class="card">
-<span class="muted">Available Balance</span>
-<div class="balance" id="balance">$0.00</div>
-<span class="badge">Account balance</span>
-</div>
-<div class="card">
-<span class="muted">Account Status</span>
-<h2>Active</h2>
-<p class="muted">Your account is registered.</p>
-</div>
-</div>
-<div class="card">
-<h3>Welcome, <span id="welcomeName">Customer</span></h3>
-<p class="muted">Manage your account, explore cryptocurrency markets and access customer support from your dashboard.</p>
-</div>
+<section id="overview" class="page active">
+ <h1>Copy Trading Dashboard</h1>
+ <p class="subtitle">Manage your copy trading portfolio and track performance.</p>
+
+ <button class="primary-btn" onclick="showPage('copy')">♙ &nbsp; Experts</button>
+ <button class="secondary-btn" onclick="loadMarkets()">⟳</button>
+
+ <div class="cards">
+  <div class="card">
+   <div class="card-label">Active Copies</div>
+   <div class="card-value">0</div>
+   <div class="card-desc">Experts being copied</div>
+   <div class="card-icon">♙</div>
+  </div>
+
+  <div class="card">
+   <div class="card-label">Total Invested</div>
+   <div class="card-value">$0.00</div>
+   <div class="card-desc">Capital deployed</div>
+   <div class="card-icon green">$</div>
+  </div>
+
+  <div class="card">
+   <div class="card-label">Current Value</div>
+   <div class="card-value">$0.00</div>
+   <div class="card-desc">Portfolio value</div>
+   <div class="card-icon purple">▣</div>
+  </div>
+
+  <div class="card">
+   <div class="card-label">Total P&amp;L</div>
+   <div class="card-value">$0.00</div>
+   <div class="card-desc">Recorded profit and loss</div>
+   <div class="card-icon orange">↗</div>
+  </div>
+ </div>
+
+ <div class="notice">
+  Trading features are currently under development.
+  Deposits and withdrawals are not available.
+ </div>
 </section>
 
-<section class="page" id="copy">
-<h1>Copy Trading</h1>
-<div class="card">
-<span class="badge">Coming Soon</span>
-<h3>Follow trading strategies</h3>
-<p class="muted">This section will provide trader profiles, performance information and copy-trading controls when the secure trading system is ready.</p>
-</div>
+<section id="statement" class="page">
+ <h1>Account Statement</h1>
+ <p class="subtitle">Review your recorded account activity.</p>
+ <div class="notice">No account transactions recorded yet.</div>
 </section>
 
-<section class="page" id="spot">
-<h1>Spot Trading</h1>
-<div class="card">
-<span class="badge">Coming Soon</span>
-<h3>Cryptocurrency Spot Trading</h3>
-<p class="muted">Spot trading tools and order execution will be available after the trading backend is implemented.</p>
-</div>
+<section id="plans" class="page">
+ <h1>Investment Plans</h1>
+ <p class="subtitle">Explore future investment plan options.</p>
+ <div class="notice">Investment plans are currently unavailable.</div>
 </section>
 
-<section class="page" id="futures">
-<h1>Futures Trading</h1>
-<div class="card">
-<span class="badge">Coming Soon</span>
-<h3>Futures Market</h3>
-<p class="muted">Futures charts, positions and order management are not yet enabled.</p>
-</div>
+<section id="portfolio" class="page">
+ <h1>My Portfolio</h1>
+ <p class="subtitle">Your cryptocurrency portfolio overview.</p>
+ <div class="notice">Your portfolio is currently empty.</div>
 </section>
 
-<section class="page" id="markets">
-<h1>Cryptocurrency Markets</h1>
-<p class="muted">Live market prices in USD.</p>
-<div class="grid" id="marketGrid">
-<div class="card">Loading market prices...</div>
-</div>
-<p class="muted" id="marketStatus"></p>
-<button class="primary" onclick="loadMarkets()">Refresh Prices</button>
+<section id="performance" class="page">
+ <h1>Performance History</h1>
+ <p class="subtitle">Review your recorded trading performance.</p>
+ <div class="notice">No trading performance records yet.</div>
 </section>
 
-<section class="page" id="transactions">
-<h1>Transactions</h1>
-<div class="card">
-<span class="badge">Not Available Yet</span>
-<h3>Transaction History</h3>
-<p class="muted">Your transaction history will appear here once secure deposit and withdrawal services are implemented.</p>
-</div>
+<section id="demo" class="page">
+ <h1>Demo Trading</h1>
+ <p class="subtitle">Practice trading without risking real funds.</p>
+ <div class="notice">Demo trading simulator is coming soon.</div>
 </section>
 
-<section class="page" id="profile">
-<h1>My Profile</h1>
-<div class="card">
-<div class="profile">
-<img id="avatar" class="avatar" src="https://placehold.co/100x100/26334d/ffffff?text=TH" alt="Profile picture">
-<div>
-<h3 id="profileName">Customer</h3>
-<p class="muted" id="profileEmail"></p>
-</div>
-</div>
-<hr style="border-color:var(--border);margin:22px 0">
-<h3>Profile Picture</h3>
-<p class="muted">Choose a JPG, PNG or WebP picture. Maximum size: 2 MB.</p>
-<input type="file" id="pictureFile" accept="image/jpeg,image/png,image/webp">
-<button class="primary" onclick="uploadPicture()">Upload Picture</button>
-<p id="pictureMessage" class="muted"></p>
-</div>
-<div class="card">
-<h3>Personal Information</h3>
-<p class="muted">Full name: <strong id="detailName"></strong></p>
-<p class="muted">Email: <strong id="detailEmail"></strong></p>
-</div>
+<section id="markets" class="page">
+ <h1>Live Markets</h1>
+ <p class="subtitle">Cryptocurrency market prices.</p>
+ <div id="marketList" class="cards">
+  <div class="card">Loading market prices...</div>
+ </div>
 </section>
 
-<section class="page" id="support">
-<h1>Customer Support</h1>
-<div class="card">
-<h3>We're here to help.</h3>
-<p class="muted">Contact our support team through the live chat.</p>
-<button class="primary" onclick="openChat()">Open Live Chat</button>
-</div>
+<section id="copy" class="page">
+ <h1>Copy Trading</h1>
+ <p class="subtitle">Explore copy trading features.</p>
+ <div class="notice">Copy trading is coming soon. No customer funds are being managed.</div>
+</section>
+
+<section id="bots" class="page">
+ <h1>AI Trading Bots</h1>
+ <p class="subtitle">Explore automated trading tools.</p>
+ <div class="notice">AI trading bots are coming soon.</div>
+</section>
+
+<section id="signals" class="page">
+ <h1>Trading Signals</h1>
+ <p class="subtitle">Market insights and trading analysis.</p>
+ <div class="notice">Trading signals are coming soon.</div>
+</section>
+
+<section id="deposit" class="page">
+ <h1>Wallet &amp; Funds</h1>
+ <p class="subtitle">Manage your account funds.</p>
+ <div class="notice">Deposits and withdrawals are currently unavailable. Do not send cryptocurrency to this platform.</div>
+</section>
+
+<section id="profile" class="page">
+ <h1>My Profile</h1>
+ <p class="subtitle">Manage your account information.</p>
+ <div class="card">
+  <div class="avatar" id="profileAvatar">U</div>
+  <p id="profileEmail"></p>
+  <label>Profile picture</label>
+  <input class="profile-input" type="file" id="photoInput" accept="image/jpeg,image/png,image/webp">
+  <button class="primary-btn" onclick="uploadPhoto()">Upload picture</button>
+  <label>Full name</label>
+  <input class="profile-input" id="fullName" placeholder="Your full name">
+  <button class="primary-btn" onclick="saveProfile()">Save profile</button>
+  <button class="secondary-btn" onclick="logout()">Log out</button>
+ </div>
+</section>
+
+<section id="support" class="page">
+ <h1>Customer Support</h1>
+ <p class="subtitle">We're here to help you.</p>
+ <button class="primary-btn" onclick="openChat()">Open Live Chat</button>
 </section>
 
 </main>
-</div>
 
-<footer>© 2026 TradingHub HQ. All rights reserved.</footer>
+<nav class="nav-bottom">
+ <button class="active" onclick="showPage('overview',this)">
+  <span class="nav-icon">⌂</span>Home
+ </button>
+ <button onclick="showPage('markets',this)">
+  <span class="nav-icon">◈</span>Markets
+ </button>
+ <button onclick="showPage('deposit',this)">
+  <span class="nav-icon">▣</span>Wallet
+ </button>
+ <button onclick="showPage('profile',this)">
+  <span class="nav-icon">♙</span>Profile
+ </button>
+ <button onclick="showPage('support',this)">
+  <span class="nav-icon">◎</span>Support
+ </button>
+</nav>
+
+<button class="chat-button" onclick="openChat()">●</button>
+
+<aside class="menu" id="sideMenu">
+ <div style="display:flex;justify-content:space-between;padding:20px 25px">
+  <strong style="font-size:22px">TradingHub HQ</strong>
+  <button class="icon-btn" onclick="closeMenu()">✕</button>
+ </div>
+
+ <div class="menu-profile">
+  <div class="avatar" id="menuAvatar">U</div>
+  <div>
+   <strong id="menuName">Customer</strong>
+   <div style="color:#9ca3af;margin-top:7px" id="menuBalance">Account Balance: $0.00</div>
+  </div>
+ </div>
+
+ <div class="menu-section">LIVE MARKET <span style="color:#22c55e">● LIVE</span></div>
+
+ <div class="menu-section">OVERVIEW</div>
+ <a class="menu-item active" href="#" onclick="navigate('overview')"><span>▦ Dashboard</span></a>
+ <a class="menu-item" href="#" onclick="navigate('statement')"><span>▤ Account Statement</span></a>
+
+ <div class="menu-section">PORTFOLIO &amp; INVESTMENTS</div>
+ <a class="menu-item" href="#" onclick="navigate('plans')"><span>◎ Investment Plans</span><span>⌄</span></a>
+ <a class="menu-item" href="#" onclick="navigate('portfolio')"><span>◷ My Portfolio</span></a>
+ <a class="menu-item" href="#" onclick="navigate('performance')"><span>♧ Performance History</span></a>
+
+ <div class="menu-section">TRADING &amp; MARKETS</div>
+ <a class="menu-item" href="#" onclick="navigate('demo')"><span>♧ Demo Trading</span><span class="badge" style="background:#16a34a">Practice</span></a>
+ <a class="menu-item" href="#" onclick="navigate('markets')"><span>▥ Live Markets</span><span class="badge" style="background:#dc2626">Live</span></a>
+ <a class="menu-item" href="#" onclick="navigate('copy')"><span>♙ Copy Trading</span><span class="badge">Pro</span></a>
+ <a class="menu-item" href="#" onclick="navigate('bots')"><span>♙ AI Trading Bots</span><span class="badge" style="background:#2563eb">AI</span></a>
+
+ <div class="menu-section">MARKET INTELLIGENCE</div>
+ <a class="menu-item" href="#" onclick="navigate('signals')"><span>◉ Trading Signals</span><span class="badge" style="background:#d97706">Premium</span></a>
+
+ <div class="menu-section">WALLET &amp; FUNDS</div>
+ <a class="menu-item" href="#" onclick="navigate('deposit')"><span>▣ Deposits &amp; Withdrawals</span><span class="coming">Unavailable</span></a>
+
+ <div class="menu-section">ACCOUNT</div>
+ <a class="menu-item" href="#" onclick="navigate('profile')"><span>♙ Profile</span></a>
+ <a class="menu-item" href="#" onclick="navigate('support')"><span>◎ Support</span></a>
+ <a class="menu-item" href="#" onclick="logout()"><span>↪ Log Out</span></a>
+</aside>
 
 <script>
-const SUPABASE_URL='https://jbkjldyzjdlcwktbsbqt.supabase.co';
-const SUPABASE_KEY='sb_publishable_4iHI8rdv2L_4IovDJaQQKQ_kDd8COEk';
+const SUPABASE_URL="https://jbkjldyzjdlcwktbsbqt.supabase.co";
+const SUPABASE_KEY="sb_publishable_4iHI8rdv2L_4IovDJaQQKQ_kDd8COEk";
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let currentUser=null;
 
-function showPage(id,button){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-document.querySelectorAll('.navitem').forEach(b=>b.classList.remove('active'));
-button.classList.add('active');
+let currentUser=null;
+let profile=null;
+
+async function init(){
+ const {data,error}=await db.auth.getSession();
+ if(error || !data.session){
+  window.location.replace("./index.html");
+  return;
+ }
+ currentUser=data.session.user;
+ await loadProfile();
+ loadMarkets();
 }
 
-function openChat(){
-if(window.Tawk_API&&window.Tawk_API.maximize)window.Tawk_API.maximize();
-else alert('Live chat is loading. Please try again.');
+async function loadProfile(){
+ const {data}=await db.from("profiles")
+ .select("full_name,balance,profile_picture_path")
+ .eq("id",currentUser.id).single();
+
+ profile=data||{};
+ const name=profile.full_name||currentUser.user_metadata?.full_name||"Customer";
+ const balance=Number(profile.balance||0).toFixed(2);
+
+ document.getElementById("menuName").textContent=name;
+ document.getElementById("menuBalance").textContent="Account Balance: $"+balance;
+ document.getElementById("tickerBalance").textContent="$"+balance;
+ document.getElementById("profileEmail").textContent=currentUser.email;
+ document.getElementById("fullName").value=profile.full_name||"";
+
+ const initial=(name.trim()[0]||"U").toUpperCase();
+ ["topAvatar","menuAvatar","profileAvatar"].forEach(id=>{
+  document.getElementById(id).textContent=initial;
+ });
+
+ if(profile.profile_picture_path){
+  const {data}=await db.storage.from("profile-pictures")
+  .createSignedUrl(profile.profile_picture_path,3600);
+  if(data?.signedUrl){
+   ["topAvatar","menuAvatar","profileAvatar"].forEach(id=>{
+    document.getElementById(id).innerHTML='<img src="'+data.signedUrl+'" alt="Profile picture">';
+   });
+  }
+ }
+}
+
+async function saveProfile(){
+ const fullName=document.getElementById("fullName").value.trim();
+ if(!fullName)return alert("Enter your name.");
+ const {error}=await db.from("profiles")
+ .update({full_name:fullName}).eq("id",currentUser.id);
+ if(error)return alert(error.message);
+ alert("Profile updated.");
+ await loadProfile();
+}
+
+async function uploadPhoto(){
+ const file=document.getElementById("photoInput").files[0];
+ if(!file)return alert("Choose a picture first.");
+ if(file.size>2*1024*1024)return alert("Image must be under 2MB.");
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type))
+ return alert("Use JPG, PNG or WebP.");
+
+ const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
+ const path=currentUser.id+"/profile."+ext;
+
+ const {error:uploadError}=await db.storage.from("profile-pictures")
+ .upload(path,file,{upsert:true,contentType:file.type});
+ if(uploadError)return alert(uploadError.message);
+
+ const {error:updateError}=await db.from("profiles")
+ .update({profile_picture_path:path}).eq("id",currentUser.id);
+ if(updateError)return alert(updateError.message);
+
+ alert("Profile picture updated.");
+ await loadProfile();
 }
 
 async function logout(){
-await db.auth.signOut();
-window.location.href='./index.html';
+ await db.auth.signOut();
+ window.location.replace("./index.html");
 }
 
-async function loadAccount(user){
-currentUser=user;
-const {data,error}=await db.from('profiles')
-.select('full_name,balance,profile_picture_path')
-.eq('id',user.id).single();
-
-if(error){
-document.body.innerHTML='<div style="padding:30px;color:white">Your account profile could not be loaded. Please contact support.</div>';
-return;
+function openMenu(){
+ document.getElementById("sideMenu").classList.add("open");
 }
-
-const name=data.full_name||'Customer';
-document.getElementById('headerName').textContent=name;
-document.getElementById('welcomeName').textContent=name;
-document.getElementById('profileName').textContent=name;
-document.getElementById('detailName').textContent=name;
-document.getElementById('profileEmail').textContent=user.email;
-document.getElementById('detailEmail').textContent=user.email;
-document.getElementById('balance').textContent='$'+Number(data.balance||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-
-if(data.profile_picture_path){
-const {data:picture}=await db.storage.from('profile-pictures')
-.createSignedUrl(data.profile_picture_path,3600);
-if(picture?.signedUrl)document.getElementById('avatar').src=picture.signedUrl;
+function closeMenu(){
+ document.getElementById("sideMenu").classList.remove("open");
 }
+function navigate(page){
+ showPage(page);
+ closeMenu();
+ return false;
 }
-
-async function uploadPicture(){
-const file=document.getElementById('pictureFile').files[0];
-const msg=document.getElementById('pictureMessage');
-if(!file){msg.textContent='Please select a picture first.';return;}
-if(file.size>2*1024*1024){msg.textContent='Picture must be 2 MB or smaller.';return;}
-if(!['image/jpeg','image/png','image/webp'].includes(file.type)){
-msg.textContent='Please choose a JPG, PNG or WebP picture.';return;
-}
-if(!currentUser){msg.textContent='Please log in again.';return;}
-
-msg.textContent='Uploading picture...';
-const extension=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
-const path=currentUser.id+'/profile.'+extension;
-
-const {error:uploadError}=await db.storage.from('profile-pictures')
-.upload(path,file,{upsert:true,contentType:file.type});
-
-if(uploadError){msg.textContent=uploadError.message;return;}
-
-const {error:updateError}=await db.from('profiles')
-.update({profile_picture_path:path}).eq('id',currentUser.id);
-
-if(updateError){msg.textContent=updateError.message;return;}
-
-const {data}=await db.storage.from('profile-pictures').createSignedUrl(path,3600);
-if(data?.signedUrl)document.getElementById('avatar').src=data.signedUrl;
-msg.textContent='Profile picture updated successfully.';
+function showPage(page,button){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const section=document.getElementById(page);
+ if(section)section.classList.add("active");
+ document.querySelectorAll(".nav-bottom button").forEach(b=>b.classList.remove("active"));
+ if(button)button.classList.add("active");
+ window.scrollTo(0,0);
 }
 
 async function loadMarkets(){
-const grid=document.getElementById('marketGrid');
-const status=document.getElementById('marketStatus');
-grid.innerHTML='<div class="card">Loading prices...</div>';
-const ids='bitcoin,ethereum,tether,solana,binancecoin,tron,usd-coin,litecoin';
-try{
-const response=await fetch('https://api.coingecko.com/api/v3/simple/price?ids='+ids+'&vs_currencies=usd&include_24hr_change=true');
-if(!response.ok)throw new Error('Market prices temporarily unavailable.');
-const data=await response.json();
-const coins=[
-['Bitcoin','BTC','bitcoin'],['Ethereum','ETH','ethereum'],
-['Tether','USDT','tether'],['Solana','SOL','solana'],
-['BNB','BNB','binancecoin'],['TRON','TRX','tron'],
-['USD Coin','USDC','usd-coin'],['Litecoin','LTC','litecoin']
-];
-grid.innerHTML=coins.map(([name,symbol,id])=>{
-const c=data[id];if(!c)return '';
-const change=Number(c.usd_24h_change||0);
-return `<div class="card"><span class="muted">${name} · ${symbol}</span>
-<div class="market-price">$${Number(c.usd).toLocaleString('en-US',{maximumFractionDigits:6})}</div>
-<span class="${change>=0?'green':'red'}">${change>=0?'+':''}${change.toFixed(2)}% (24h)</span></div>`;
-}).join('');
-status.textContent='Updated '+new Date().toLocaleTimeString();
-}catch(e){
-grid.innerHTML='<div class="card">Prices are temporarily unavailable. Please try again later.</div>';
-status.textContent=e.message;
+ const list=document.getElementById("marketList");
+ if(list)list.innerHTML='<div class="card">Updating live prices...</div>';
+ try{
+  const response=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,solana,binancecoin,tron,usd-coin,litecoin&vs_currencies=usd");
+  if(!response.ok)throw new Error("Market service unavailable");
+  const data=await response.json();
+  const coins=[
+   ["Bitcoin","BTC","bitcoin"],
+   ["Ethereum","ETH","ethereum"],
+   ["Tether","USDT","tether"],
+   ["Solana","SOL","solana"],
+   ["BNB","BNB","binancecoin"],
+   ["TRON","TRX","tron"],
+   ["USD Coin","USDC","usd-coin"],
+   ["Litecoin","LTC","litecoin"]
+  ];
+  coins.forEach((coin,i)=>{
+   const price=data[coin[2]]?.usd;
+   const value=price===undefined?"Unavailable":"$"+Number(price).toLocaleString("en-US",{maximumFractionDigits:6});
+   if(i===0)document.getElementById("btc").textContent=value;
+   if(i===1)document.getElementById("eth").textContent=value;
+   if(i===3)document.getElementById("sol").textContent=value;
+  });
+  if(list){
+   list.innerHTML=coins.map(c=>`
+    <div class="card">
+     <div class="card-label">${c[0]}</div>
+     <div class="card-value" style="font-size:25px">${data[c[2]]?.usd!==undefined?"$"+Number(data[c[2]].usd).toLocaleString("en-US",{maximumFractionDigits:6}):"Unavailable"}</div>
+     <div class="card-desc">${c[1]}</div>
+    </div>`).join("");
+  }
+ }catch(e){
+  if(list)list.innerHTML='<div class="notice">Market prices are temporarily unavailable. Please try again later.</div>';
+ }
 }
+function toggleTheme(){
+ document.body.style.background=
+ document.body.style.background==="#111827"?"#f3f4f6":"#111827";
+ document.body.style.color=
+ document.body.style.background==="#f3f4f6"?"#111827":"#f9fafb";
+}
+function openChat(){
+ if(window.Tawk_API&&window.Tawk_API.maximize)window.Tawk_API.maximize();
+ else alert("Live chat is loading. Please try again.");
 }
 
-async function start(){
-const {data:{session}}=await db.auth.getSession();
-if(!session){
-window.location.replace('./index.html');
-return;
-}
-await loadAccount(session.user);
-loadMarkets();
-}
-
-start();
-setInterval(()=>{if(currentUser)loadMarkets()},60000);
+init();
+setInterval(loadMarkets,60000);
 </script>
 
-<!-- Tawk.to Live Chat -->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
 s1.async=true;
-s1.src='https://embed.tawk.to/6aed9940ada14c3c2f0476d1/default';
+s1.src='https://embed.tawk.to/6aed9940ada14c3c2f0476d1/1k1a4b8nq';
 s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
