@@ -1,458 +1,150 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111827">
-<meta name="description" content="TradingHub HQ account dashboard with cryptocurrency market information and profile tools.">
-<title>TradingHub HQ | Dashboard</title>
+<title>TradingHub HQ | Cryptocurrency Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+:root {
+  --bg:#111827;
+  --panel:#1f2937;
+  --panel2:#263449;
+  --border:#374151;
+  --text:#f9fafb;
+  --muted:#9ca3af;
+  --blue:#2563eb;
+  --blue-light:#60a5fa;
+  --green:#34d399;
+  --red:#f87171;
+  --purple:#a78bfa;
+  --orange:#fbbf24;
+}
 *{box-sizing:border-box}
-
-body{
- margin:0;
- background:#111827;
- color:#f9fafb;
- font-family:Arial,Helvetica,sans-serif;
- font-size:14px;
-}
-
-button{cursor:pointer;font-family:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible{
- outline:2px solid #60a5fa;outline-offset:3px
-}
-button:disabled{opacity:.55;cursor:not-allowed}
-html{scroll-behavior:smooth}
-body{padding-bottom:env(safe-area-inset-bottom)}
-
-.topbar{
- height:66px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 18px;
- border-bottom:1px solid #263244;
- background:#111827;
-}
-
-.logo{font-size:17px;font-weight:800;color:#60a5fa}
-.logo span{color:#a78bfa}
-
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:14px}
+button,input,select{font-family:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+a{color:var(--blue-light)}
+.topbar{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:0;z-index:20}
+.logo{font-size:17px;font-weight:800;color:var(--blue-light)}
+.logo span{color:var(--purple)}
 .header-actions{display:flex;align-items:center;gap:9px}
-
-.icon-btn{
- background:transparent;
- border:0;
- color:#d1d5db;
- font-size:19px;
- padding:7px;
-}
-
-.small-avatar{
- width:32px;height:32px;
- border-radius:50%;
- background:#374151;
- display:grid;
- place-items:center;
- overflow:hidden;
- font-size:14px;
-}
-
-.small-avatar img,.avatar img{
- width:100%;height:100%;object-fit:cover;
-}
-
-.ticker{
- min-height:39px;
- display:flex;
- align-items:center;
- gap:17px;
- padding:7px 16px;
- background:#1f2937;
- border-bottom:1px solid #374151;
- overflow-x:auto;
- white-space:nowrap;
- color:#9ca3af;
- font-size:11px;
-}
-
-.live-dot{
- display:inline-block;
- width:7px;height:7px;
- background:#16a34a;
- border-radius:50%;
- margin-right:5px;
-}
-
-.price{color:#34d399;margin-left:3px}
+.icon-btn{background:transparent;border:0;color:#d1d5db;font-size:19px;padding:7px}
+.small-avatar,.avatar{border-radius:50%;background:#374151;display:grid;place-items:center;overflow:hidden}
+.small-avatar{width:32px;height:32px}
+.avatar{width:52px;height:52px;font-size:20px}
+.avatar img,.small-avatar img{width:100%;height:100%;object-fit:cover}
+.ticker{min-height:39px;display:flex;align-items:center;gap:17px;padding:7px 16px;background:#1f2937;border-bottom:1px solid var(--border);overflow-x:auto;white-space:nowrap;color:var(--muted);font-size:11px}
+.live-dot{display:inline-block;width:7px;height:7px;background:#16a34a;border-radius:50%;margin-right:5px}
+.price{color:var(--green)}
 .balance{margin-left:auto}
-.balance strong{color:white;font-size:12px;margin-left:5px}
-
-.main{
- max-width:1050px;
- margin:auto;
- padding:22px 18px 90px;
-}
-
-h1{
- font-size:21px;
- margin:0 0 7px;
- font-weight:700;
-}
-
-.subtitle{
- color:#9ca3af;
- font-size:12px;
- line-height:1.5;
- margin:0 0 17px;
-}
-
-.primary-btn{
- display:inline-flex;
- align-items:center;
- justify-content:center;
- padding:10px 16px;
- border:0;
- border-radius:8px;
- background:#2563eb;
- color:white;
- font-size:12px;
- font-weight:bold;
- margin:0 0 12px;
-}
-
-.secondary-btn{
- display:inline-flex;
- align-items:center;
- justify-content:center;
- padding:9px 12px;
- border:1px solid #374151;
- border-radius:8px;
- background:#1f2937;
- color:#d1d5db;
- font-size:14px;
- margin:0 0 12px 7px;
-}
-
-.cards{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;
-}
-
-.card{
- position:relative;
- background:#1f2937;
- border:1px solid #374151;
- border-radius:12px;
- padding:15px;
- min-height:105px;
-}
-
-.card-label{color:#9ca3af;font-size:11px}
-.card-value{font-size:22px;font-weight:700;margin:9px 0}
-.card-desc{color:#9ca3af;font-size:10px}
-
-.card-icon{
- position:absolute;
- right:13px;
- top:15px;
- width:29px;height:29px;
- border-radius:8px;
- display:grid;
- place-items:center;
- font-size:15px;
- background:#1e3a8a;
-}
-
-.green{background:#064e3b;color:#34d399}
-.purple{background:#312e81;color:#a5b4fc}
-.orange{background:#78350f;color:#fbbf24}
-
-.notice{
- background:#263449;
- border:1px solid #475569;
- padding:12px;
- border-radius:9px;
- color:#cbd5e1;
- margin:16px 0;
- font-size:12px;
- line-height:1.5;
-}
-
-.coming{
- background:#374151;
- color:#fbbf24;
- padding:4px 8px;
- border-radius:20px;
- font-size:10px;
-}
-
-.profile-input{
- width:100%;
- padding:11px;
- background:#1f2937;
- color:white;
- border:1px solid #475569;
- border-radius:8px;
- margin:7px 0 14px;
- font-size:13px;
-}
-
-.avatar{
- width:52px;height:52px;
- border-radius:50%;
- background:#374151;
- display:grid;
- place-items:center;
- font-size:20px;
- overflow:hidden;
-}
-
+.balance strong{color:white;margin-left:5px}
+.main{max-width:1200px;margin:auto;padding:24px 18px 100px}
 .page{display:none}
 .page.active{display:block}
-
-/* LIVE MARKETS */
-
-.market-grid{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:12px;
-}
-
-.market-card{
- background:#1f2937;
- border:1px solid #374151;
- border-radius:12px;
- padding:15px;
- min-height:112px;
- transition:border-color .2s;
-}
-
-.market-card:hover{border-color:#60a5fa}
-
-.coin-info{
- display:flex;
- align-items:center;
- gap:10px;
-}
-
-.coin-logo{
- width:38px;
- height:38px;
- object-fit:contain;
- flex-shrink:0;
- border-radius:50%;
- background:#374151;
- padding:3px;
-}
-
-.coin-name{
- color:#f9fafb;
- font-size:13px;
- font-weight:bold;
-}
-
-.coin-symbol{
- color:#9ca3af;
- font-size:10px;
- margin-top:4px;
-}
-
-.coin-price{
- color:#34d399;
- font-size:19px;
- font-weight:bold;
- margin-top:15px;
- word-break:break-word;
-}
-
-.market-updated{
- color:#9ca3af;
- font-size:10px;
- margin-top:15px;
-}
-
-.market-loading{
- padding:18px;
- color:#9ca3af;
- background:#1f2937;
- border-radius:10px;
- border:1px solid #374151;
-}
-
-.market-error{
- padding:15px;
- background:#451a1a;
- color:#fecaca;
- border:1px solid #7f1d1d;
- border-radius:10px;
- font-size:12px;
-}
-
-/* WALLET WARNING */
-
-.wallet-warning{
- background:#451a1a;
- border:1px solid #dc2626;
- border-radius:10px;
- padding:16px;
- color:#fecaca;
- margin:16px 0;
- line-height:1.6;
-}
-
-.wallet-warning strong{
- color:#fca5a5;
- display:block;
- font-size:14px;
- margin-bottom:7px;
-}
-
-.disabled-action{
- display:inline-block;
- padding:9px 13px;
- margin:7px 5px 0 0;
- background:#374151;
- color:#9ca3af;
- border:1px solid #4b5563;
- border-radius:7px;
- cursor:not-allowed;
- font-size:11px;
-}
-
-/* BOTTOM NAVIGATION */
-
-.nav-bottom{
- position:fixed;
- bottom:0;left:0;right:0;
- background:#111827;
- border-top:1px solid #263244;
- display:flex;
- justify-content:space-around;
- align-items:center;
- padding:7px 3px 9px;
- z-index:10;
-}
-
-.nav-bottom button{
- background:none;
- border:0;
- color:#9ca3af;
- font-size:10px;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:3px;
- min-width:48px;
-}
-
-.nav-bottom .nav-icon{font-size:17px}
-.nav-bottom .active{color:#60a5fa}
-
-/* SIDE MENU */
-
-.menu-overlay{
- position:fixed;
- inset:0;
- background:#0009;
- z-index:40;
- display:none;
-}
-
+h1{font-size:22px;margin:0 0 7px}
+h2{font-size:17px;margin:0 0 13px}
+h3{font-size:14px;margin:0 0 12px}
+.subtitle{color:var(--muted);font-size:12px;line-height:1.6;margin:0 0 18px}
+.primary-btn,.secondary-btn,.danger-btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border:0;border-radius:8px;font-size:12px;font-weight:bold;margin:4px 4px 8px 0}
+.primary-btn{background:var(--blue);color:white}
+.secondary-btn{background:var(--panel);border:1px solid var(--border);color:#d1d5db}
+.danger-btn{background:#7f1d1d;color:#fecaca}
+.primary-btn:hover{background:#1d4ed8}
+.cards,.market-grid,.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card,.market-card,.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:15px}
+.card{position:relative;min-height:105px}
+.card-label,.muted{color:var(--muted);font-size:11px}
+.card-value{font-size:22px;font-weight:700;margin:9px 0}
+.card-desc{color:var(--muted);font-size:10px}
+.card-icon{position:absolute;right:13px;top:15px;width:29px;height:29px;border-radius:8px;display:grid;place-items:center;background:#1e3a8a}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.purple{color:var(--purple)}
+.orange{color:var(--orange)}
+.notice{background:var(--panel2);border:1px solid #475569;padding:13px;border-radius:9px;color:#cbd5e1;margin:15px 0;font-size:12px;line-height:1.6}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 12px}
+.section-heading h2{margin:0}
+.coin-info{display:flex;align-items:center;gap:10px}
+.coin-logo{width:37px;height:37px;object-fit:contain;flex-shrink:0;border-radius:50%;background:#374151;padding:3px}
+.coin-name{font-size:13px;font-weight:bold}
+.coin-symbol{color:var(--muted);font-size:10px;margin-top:4px}
+.coin-price{font-size:18px;font-weight:bold;margin-top:13px;word-break:break-word}
+.coin-change{font-size:11px;margin-top:6px}
+.market-updated{color:var(--muted);font-size:10px;margin-top:13px}
+.market-loading{padding:18px;color:var(--muted);background:var(--panel);border-radius:10px}
+.market-error{padding:15px;background:#451a1a;color:#fecaca;border-radius:10px}
+.market-table-wrap{overflow-x:auto}
+.market-table{width:100%;border-collapse:collapse;min-width:570px}
+.market-table th,.market-table td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--border);font-size:12px}
+.market-table th{color:var(--muted);font-weight:normal}
+.market-table tr:hover{background:#263449}
+.coin-cell{display:flex;align-items:center;gap:9px}
+.coin-cell img{width:27px;height:27px;border-radius:50%}
+.star-btn{border:0;background:transparent;color:#fbbf24;font-size:19px}
+.search-input,.profile-input,.form-input,.select-input{width:100%;padding:11px;background:#111827;color:white;border:1px solid #475569;border-radius:8px;margin:7px 0 14px;font-size:13px}
+.form-label{font-size:12px;color:#cbd5e1}
+.chart-container{height:300px;position:relative}
+.chart-controls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chart-controls button{background:#374151;color:#d1d5db;border:0;border-radius:6px;padding:7px 10px;font-size:11px}
+.chart-controls button.active{background:var(--blue);color:white}
+.stat-value{font-size:21px;font-weight:bold;margin-top:9px}
+.progress{height:9px;border-radius:20px;background:#374151;overflow:hidden;margin:12px 0}
+.progress-bar{height:100%;background:linear-gradient(90deg,#ef4444,#fbbf24,#22c55e);width:50%}
+.news-item{padding:13px 0;border-bottom:1px solid var(--border)}
+.news-item:last-child{border-bottom:0}
+.news-item a{text-decoration:none;color:white;font-size:13px;font-weight:bold;line-height:1.5}
+.news-item p{font-size:11px;color:var(--muted);line-height:1.5}
+.news-meta{font-size:10px;color:var(--muted);margin-top:7px}
+.alert-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--border)}
+.wallet-warning{background:#451a1a;border:1px solid #dc2626;border-radius:10px;padding:16px;color:#fecaca;margin:16px 0;line-height:1.6}
+.wallet-warning strong{display:block;margin-bottom:7px}
+.disabled-action{display:inline-block;padding:9px 13px;margin:7px 5px 0 0;background:#374151;color:#9ca3af;border:1px solid #4b5563;border-radius:7px}
+.profile-input{margin-top:8px}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding:7px 3px 9px;z-index:30}
+.nav-bottom button{background:none;border:0;color:var(--muted);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:48px}
+.nav-icon{font-size:17px}
+.nav-bottom .active{color:var(--blue-light)}
+.menu-overlay{position:fixed;inset:0;background:#0009;z-index:40;display:none}
 .menu-overlay.open{display:block}
-
-.menu{
- position:fixed;
- top:0;left:0;bottom:0;
- width:275px;
- max-width:82%;
- background:#111827;
- z-index:50;
- overflow-y:auto;
- transform:translateX(-105%);
- transition:transform .25s ease;
- box-shadow:8px 0 25px #0006;
-}
-
+.menu{position:fixed;top:0;left:0;bottom:0;width:285px;max-width:82%;background:var(--bg);z-index:50;overflow-y:auto;transform:translateX(-105%);transition:transform .25s;box-shadow:8px 0 25px #0006}
 .menu.open{transform:translateX(0)}
-
-.menu-header{
- display:flex;
- justify-content:space-between;
- align-items:center;
- padding:15px 17px;
- border-bottom:1px solid #374151;
-}
-
-.menu-header strong{font-size:16px}
-
-.menu-profile{
- padding:15px 17px;
- border-bottom:1px solid #374151;
- display:flex;
- align-items:center;
- gap:11px;
-}
-
-.menu-profile strong{font-size:13px}
-
-.menu-profile small{
- display:block;
- color:#9ca3af;
- margin-top:5px;
- font-size:10px;
-}
-
-.menu-section{
- padding:14px 17px 5px;
- color:#9ca3af;
- font-size:9px;
- font-weight:bold;
- letter-spacing:.6px;
-}
-
-.menu-item{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:10px 15px;
- margin:2px 8px;
- border-radius:7px;
- color:#e5e7eb;
- text-decoration:none;
- font-size:12px;
-}
-
+.menu-header,.menu-profile{display:flex;justify-content:space-between;align-items:center;padding:15px 17px;border-bottom:1px solid var(--border)}
+.menu-profile{justify-content:flex-start;gap:11px}
+.menu-profile small{display:block;color:var(--muted);margin-top:5px;font-size:10px}
+.menu-section{padding:14px 17px 5px;color:var(--muted);font-size:9px;font-weight:bold;letter-spacing:.6px}
+.menu-item{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;margin:2px 8px;border-radius:7px;color:#e5e7eb;text-decoration:none;font-size:12px}
 .menu-item.active{background:#1e3a8a}
-
-.menu-item span:first-child{
- display:flex;
- gap:10px;
- align-items:center;
-}
-
-.badge{
- background:#7c3aed;
- color:white;
- padding:3px 6px;
- border-radius:20px;
- font-size:9px;
-}
-
+.badge{background:#7c3aed;color:white;padding:3px 6px;border-radius:20px;font-size:9px}
+.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:100;padding:18px}
+.modal-backdrop.open{display:flex}
+.modal{width:100%;max-width:410px;background:var(--panel);border:1px solid var(--border);border-radius:15px;padding:22px;max-height:90vh;overflow:auto}
+.modal h2{font-size:20px}
+.modal-close{float:right;background:none;border:0;color:white;font-size:20px}
+.auth-tabs{display:flex;gap:8px;margin:15px 0}
+.auth-tabs button{flex:1;padding:10px;background:#374151;border:0;color:white;border-radius:7px}
+.auth-tabs button.active{background:var(--blue)}
+.auth-message{font-size:12px;color:var(--orange);margin:8px 0}
+#authScreen{display:none;position:fixed;inset:0;background:#111827;z-index:200;align-items:center;justify-content:center;padding:18px}
+#authScreen.open{display:flex}
+.auth-box{width:100%;max-width:420px;background:var(--panel);padding:24px;border-radius:14px;border:1px solid var(--border)}
+.auth-box .logo{margin-bottom:20px}
+#toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#263449;border:1px solid #475569;padding:12px 17px;border-radius:9px;z-index:300;display:none;font-size:12px;max-width:90%;text-align:center}
+#tawkButton{position:fixed;right:18px;bottom:85px;width:54px;height:54px;border:0;border-radius:50%;background:#2563eb;color:white;font-size:23px;box-shadow:0 5px 20px #0007;z-index:35}
 @media(min-width:750px){
  .main{padding-top:30px}
- .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
- .market-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .cards,.market-grid,.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
  .nav-bottom{display:none}
- .menu{width:285px}
+ .main{padding-bottom:40px}
+ .chart-container{height:380px}
 }
-
-@media(max-width:380px){
+@media(max-width:480px){
  .topbar{padding:0 11px}
  .logo{font-size:15px}
  .header-actions{gap:4px}
@@ -463,809 +155,1316 @@ h1{
  .market-card{padding:12px}
  .coin-logo{width:32px;height:32px}
  .coin-price{font-size:16px}
+ .chart-container{height:250px}
 }
-
 </style>
 </head>
 
 <body>
 
 <header class="topbar">
-
  <div class="logo">◆ <span>TradingHub</span> HQ</div>
-
  <div class="header-actions">
-
-  <button class="icon-btn" aria-label="Notifications">♧</button>
-
-  <button class="icon-btn" onclick="toggleTheme()">☾</button>
-
+  <button class="icon-btn" onclick="showPage('alerts')" aria-label="Notifications">♧</button>
+  <button class="icon-btn" onclick="toggleTheme()" aria-label="Theme">☾</button>
   <div class="small-avatar" id="topAvatar">U</div>
-
   <button class="icon-btn" onclick="openMenu()" aria-label="Open menu">☰</button>
-
  </div>
-
 </header>
 
 <div class="ticker">
-
  <span><span class="live-dot"></span>LIVE</span>
-
  <span>BTC: <b class="price" id="btc">$--</b></span>
-
  <span>ETH: <b class="price" id="eth">$--</b></span>
-
  <span>SOL: <b class="price" id="sol">$--</b></span>
-
  <span class="balance">Balance:<strong id="tickerBalance">$0.00</strong></span>
-
 </div>
 
 <main class="main">
 
+<!-- DASHBOARD OVERVIEW -->
 <section id="overview" class="page active">
-
- <h1>Copy Trading Dashboard</h1>
-
- <p class="subtitle">Manage your copy trading portfolio and track performance.</p>
-
- <button class="primary-btn" onclick="showPage('copy')">♙ &nbsp; Experts</button>
-
- <button class="secondary-btn" onclick="loadMarkets()">⟳</button>
+ <h1>Trading Dashboard</h1>
+ <p class="subtitle">Welcome to TradingHub HQ. Monitor cryptocurrency markets and your trading portfolio.</p>
+ <button class="primary-btn" onclick="showPage('copy')">♙ Experts</button>
+ <button class="secondary-btn" onclick="refreshAll()">⟳ Refresh Dashboard</button>
 
  <div class="cards">
-
   <div class="card">
    <div class="card-label">Active Copies</div>
    <div class="card-value">0</div>
    <div class="card-desc">Experts being copied</div>
    <div class="card-icon">♙</div>
   </div>
-
   <div class="card">
    <div class="card-label">Total Invested</div>
    <div class="card-value">$0.00</div>
    <div class="card-desc">Capital deployed</div>
    <div class="card-icon green">$</div>
   </div>
-
   <div class="card">
    <div class="card-label">Current Value</div>
    <div class="card-value">$0.00</div>
    <div class="card-desc">Portfolio value</div>
    <div class="card-icon purple">▣</div>
   </div>
-
   <div class="card">
-   <div class="card-label">Total P&amp;L</div>
+   <div class="card-label">Total P&L</div>
    <div class="card-value">$0.00</div>
    <div class="card-desc">Recorded profit and loss</div>
    <div class="card-icon orange">↗</div>
   </div>
-
  </div>
 
- <div class="notice">
-  Trading features are currently under development.
-  Deposits and withdrawals are not available.
+ <div class="section-heading"><h2>Global Cryptocurrency Market</h2><button class="secondary-btn" onclick="showPage('markets')">View markets</button></div>
+ <div class="stats-grid">
+  <div class="card"><div class="card-label">Total Market Cap</div><div class="stat-value" id="overviewMarketCap">Loading...</div></div>
+  <div class="card"><div class="card-label">24h Trading Volume</div><div class="stat-value" id="overviewVolume">Loading...</div></div>
+  <div class="card"><div class="card-label">BTC Dominance</div><div class="stat-value" id="overviewDominance">--</div></div>
+  <div class="card"><div class="card-label">Active Cryptocurrencies</div><div class="stat-value" id="overviewCoins">--</div></div>
  </div>
 
+ <div class="section-heading"><h2>Trending Cryptocurrencies</h2><button class="secondary-btn" onclick="showPage('trending')">See all</button></div>
+ <div class="market-grid" id="overviewTrending"><div class="market-loading">Loading trending coins...</div></div>
+
+ <div class="section-heading"><h2>Market Sentiment</h2><button class="secondary-btn" onclick="showPage('sentiment')">Details</button></div>
+ <div class="card">
+  <div class="card-label">Fear & Greed Index</div>
+  <div class="card-value" id="overviewFear">Loading...</div>
+  <div class="progress"><div class="progress-bar" id="overviewFearBar"></div></div>
+  <div class="card-desc" id="overviewFearText">Fetching market sentiment...</div>
+ </div>
+
+ <div class="notice">Trading features are currently under development. Deposits and withdrawals are unavailable. Market information is provided for informational purposes.</div>
 </section>
 
+<!-- ACCOUNT STATEMENT -->
 <section id="statement" class="page">
  <h1>Account Statement</h1>
  <p class="subtitle">Review your recorded account activity.</p>
  <div class="notice">No account transactions recorded yet.</div>
 </section>
 
+<!-- PLANS -->
 <section id="plans" class="page">
  <h1>Investment Plans</h1>
  <p class="subtitle">Explore future investment plan options.</p>
  <div class="notice">Investment plans are currently unavailable.</div>
 </section>
 
+<!-- PORTFOLIO -->
 <section id="portfolio" class="page">
  <h1>My Portfolio</h1>
  <p class="subtitle">Your cryptocurrency portfolio overview.</p>
- <div class="notice">Your portfolio is currently empty.</div>
+ <div class="notice">Your portfolio is currently empty. Your market watchlist is available separately.</div>
+ <button class="primary-btn" onclick="showPage('watchlist')">Open Watchlist</button>
 </section>
 
+<!-- PERFORMANCE -->
 <section id="performance" class="page">
  <h1>Performance History</h1>
  <p class="subtitle">Review your recorded trading performance.</p>
  <div class="notice">No trading performance records yet.</div>
 </section>
 
+<!-- DEMO -->
 <section id="demo" class="page">
  <h1>Demo Trading</h1>
  <p class="subtitle">Practice trading without risking real funds.</p>
  <div class="notice">Demo trading simulator is coming soon.</div>
 </section>
 
-<!-- LIVE MARKETS -->
-
+<!-- MARKETS -->
 <section id="markets" class="page">
-
- <h1>Live Markets</h1>
-
- <p class="subtitle">Cryptocurrency market prices. Live USD prices updated automatically.</p>
-
+ <h1>Live Cryptocurrency Markets</h1>
+ <p class="subtitle">Live USD cryptocurrency prices, market capitalization, volume and daily price changes.</p>
+ <input class="search-input" id="marketSearch" placeholder="Search cryptocurrency by name or symbol..." oninput="renderMarkets()">
  <button class="secondary-btn" onclick="loadMarkets()">⟳ Refresh Prices</button>
-
- <div id="marketList" class="market-grid">
-
-  <div class="market-loading">Loading live cryptocurrency prices...</div>
-
+ <div class="market-table-wrap panel">
+  <table class="market-table">
+   <thead><tr><th>Asset</th><th>Price</th><th>24h</th><th>Market Cap</th><th>Watch</th></tr></thead>
+   <tbody id="marketTable"><tr><td colspan="5">Loading cryptocurrency markets...</td></tr></tbody>
+  </table>
  </div>
-
- <div class="market-updated" id="marketUpdated">
-  Waiting for market data...
- </div>
-
+ <div class="market-updated" id="marketUpdated">Waiting for market data...</div>
 </section>
 
+<!-- GLOBAL STATISTICS -->
+<section id="statistics" class="page">
+ <h1>Global Market Statistics</h1>
+ <p class="subtitle">Overview of the cryptocurrency market.</p>
+ <div class="stats-grid">
+  <div class="card"><div class="card-label">Total Market Cap</div><div class="stat-value" id="statMarketCap">--</div></div>
+  <div class="card"><div class="card-label">24h Volume</div><div class="stat-value" id="statVolume">--</div></div>
+  <div class="card"><div class="card-label">BTC Dominance</div><div class="stat-value" id="statBTC">--</div></div>
+  <div class="card"><div class="card-label">ETH Dominance</div><div class="stat-value" id="statETH">--</div></div>
+  <div class="card"><div class="card-label">Active Cryptocurrencies</div><div class="stat-value" id="statActive">--</div></div>
+  <div class="card"><div class="card-label">Markets Tracked</div><div class="stat-value" id="statMarkets">--</div></div>
+  <div class="card"><div class="card-label">Market Cap Change (24h)</div><div class="stat-value" id="statChange">--</div></div>
+ </div>
+ <button class="secondary-btn" onclick="loadGlobalStats()">⟳ Refresh Statistics</button>
+</section>
+
+<!-- TRENDING -->
+<section id="trending" class="page">
+ <h1>Trending Cryptocurrencies</h1>
+ <p class="subtitle">Cryptocurrencies receiving increased attention in the market.</p>
+ <div class="market-grid" id="trendingList"><div class="market-loading">Loading trending cryptocurrencies...</div></div>
+</section>
+
+<!-- FEAR AND GREED -->
+<section id="sentiment" class="page">
+ <h1>Fear & Greed Index</h1>
+ <p class="subtitle">A market sentiment indicator showing whether cryptocurrency investors are experiencing fear or greed.</p>
+ <div class="card">
+  <div class="card-label">Current Sentiment Score</div>
+  <div class="card-value" id="fearValue">Loading...</div>
+  <div class="progress"><div class="progress-bar" id="fearBar"></div></div>
+  <h2 id="fearClassification">Fetching index...</h2>
+  <p class="muted" id="fearDate"></p>
+ </div>
+ <div class="section-heading"><h2>Historical Sentiment</h2></div>
+ <div class="panel"><div id="fearHistory">Historical sentiment data will appear here when available.</div></div>
+</section>
+
+<!-- CHARTS -->
+<section id="charts" class="page">
+ <h1>Interactive Cryptocurrency Charts</h1>
+ <p class="subtitle">Explore historical cryptocurrency price movements.</p>
+ <label class="form-label" for="chartCoin">Select cryptocurrency</label>
+ <select class="select-input" id="chartCoin" onchange="loadChart()">
+  <option value="bitcoin">Bitcoin (BTC)</option>
+  <option value="ethereum">Ethereum (ETH)</option>
+  <option value="solana">Solana (SOL)</option>
+  <option value="binancecoin">BNB</option>
+  <option value="ripple">XRP</option>
+  <option value="dogecoin">Dogecoin</option>
+  <option value="cardano">Cardano</option>
+  <option value="litecoin">Litecoin</option>
+ </select>
+ <div class="chart-controls">
+  <button class="active" onclick="setChartDays(1,this)">24H</button>
+  <button onclick="setChartDays(7,this)">7D</button>
+  <button onclick="setChartDays(30,this)">30D</button>
+  <button onclick="setChartDays(90,this)">90D</button>
+  <button onclick="setChartDays(365,this)">1Y</button>
+ </div>
+ <div class="panel">
+  <div class="chart-container"><canvas id="priceChart"></canvas></div>
+  <div class="market-updated" id="chartStatus">Select a cryptocurrency to load its chart.</div>
+ </div>
+</section>
+
+<!-- WATCHLIST -->
+<section id="watchlist" class="page">
+ <h1>My Watchlist</h1>
+ <p class="subtitle">Keep track of the cryptocurrencies you want to monitor.</p>
+ <input class="search-input" id="watchSearch" placeholder="Find a cryptocurrency..." oninput="renderWatchlist()">
+ <div class="market-grid" id="watchlistGrid"></div>
+ <div class="notice">Watchlist items are saved in this browser and associated with the signed-in account on this device.</div>
+</section>
+
+<!-- PRICE ALERTS -->
+<section id="alerts" class="page">
+ <h1>Price Alerts</h1>
+ <p class="subtitle">Create alerts when a cryptocurrency reaches your target price.</p>
+ <div class="panel">
+  <h3>Create a Price Alert</h3>
+  <label class="form-label">Cryptocurrency</label>
+  <select class="select-input" id="alertCoin">
+   <option value="bitcoin">Bitcoin (BTC)</option>
+   <option value="ethereum">Ethereum (ETH)</option>
+   <option value="solana">Solana (SOL)</option>
+   <option value="binancecoin">BNB</option>
+   <option value="ripple">XRP</option>
+   <option value="dogecoin">Dogecoin</option>
+   <option value="cardano">Cardano</option>
+   <option value="litecoin">Litecoin</option>
+  </select>
+  <label class="form-label">Target price in USD</label>
+  <input class="form-input" id="alertPrice" type="number" min="0.00000001" step="any" placeholder="Enter target price">
+  <label class="form-label">Alert condition</label>
+  <select class="select-input" id="alertCondition">
+   <option value="above">Price rises above target</option>
+   <option value="below">Price falls below target</option>
+  </select>
+  <button class="primary-btn" onclick="createAlert()">Create Price Alert</button>
+ </div>
+ <div class="section-heading"><h2>Your Active Alerts</h2></div>
+ <div class="panel" id="alertList">No price alerts created yet.</div>
+</section>
+
+<!-- NEWS -->
+<section id="news" class="page">
+ <h1>Cryptocurrency News</h1>
+ <p class="subtitle">Cryptocurrency and blockchain news headlines.</p>
+ <button class="secondary-btn" onclick="loadNews()">⟳ Refresh News</button>
+ <div class="panel" id="newsList"><div class="market-loading">Loading cryptocurrency news...</div></div>
+</section>
+
+<!-- COPY TRADING -->
 <section id="copy" class="page">
  <h1>Copy Trading</h1>
  <p class="subtitle">Explore copy trading features.</p>
  <div class="notice">Copy trading is coming soon. No customer funds are being managed.</div>
 </section>
 
+<!-- BOTS -->
 <section id="bots" class="page">
  <h1>AI Trading Bots</h1>
  <p class="subtitle">Explore automated trading tools.</p>
  <div class="notice">AI trading bots are coming soon.</div>
 </section>
 
+<!-- SIGNALS -->
 <section id="signals" class="page">
  <h1>Trading Signals</h1>
  <p class="subtitle">Market insights and trading analysis.</p>
  <div class="notice">Trading signals are coming soon.</div>
 </section>
 
+<!-- WALLET -->
 <section id="deposit" class="page">
-
- <h1>Wallet &amp; Funds</h1>
-
+ <h1>Wallet & Funds</h1>
  <p class="subtitle">Manage your account funds.</p>
-
  <div class="wallet-warning">
-
   <strong>⚠ Important Security Warning</strong>
-
   Deposits and withdrawals are currently unavailable on TradingHub HQ.
-
   Do not send Bitcoin, Ethereum, USDT or any other cryptocurrency to this platform.
-
   TradingHub HQ is not currently accepting cryptocurrency deposits.
-
   No deposit or withdrawal transactions can be processed.
-
   <br>
-
   <button class="disabled-action" disabled>Deposits Unavailable</button>
-
   <button class="disabled-action" disabled>Withdrawals Unavailable</button>
-
  </div>
-
 </section>
 
+<!-- PROFILE -->
 <section id="profile" class="page">
-
  <h1>My Profile</h1>
-
  <p class="subtitle">Manage your account information.</p>
-
  <div class="card">
-
   <div class="avatar" id="profileAvatar">U</div>
-
   <p id="profileEmail"></p>
-
-  <label>Profile picture</label>
-
+  <label class="form-label">Profile picture</label>
   <input class="profile-input" type="file" id="photoInput" accept="image/jpeg,image/png,image/webp">
-
-  <button class="primary-btn" onclick="uploadPhoto()">Upload picture</button>
-
-  <label>Full name</label>
-
+  <button class="primary-btn" onclick="uploadPhoto()">Upload Picture</button>
+  <label class="form-label">Full name</label>
   <input class="profile-input" id="fullName" placeholder="Your full name">
-
-  <button class="primary-btn" onclick="saveProfile()">Save profile</button>
-
-  <button class="secondary-btn" onclick="logout()">Log out</button>
-
+  <button class="primary-btn" onclick="saveProfile()">Save Profile</button>
+  <button class="secondary-btn" onclick="logout()">Log Out</button>
  </div>
-
 </section>
 
+<!-- SUPPORT -->
 <section id="support" class="page">
-  <h1>Customer Support</h1>
-  <p class="subtitle">Support information for your TradingHub HQ account.</p>
-  <div class="card">
-   <div class="card-label">Support status</div>
-   <div class="card-value" style="font-size:17px">Help centre</div>
-   <p class="card-desc" style="font-size:12px;line-height:1.6">
-    Live chat is not enabled on this dashboard. For account assistance,
-    use the official contact channel provided by the website owner.
-    Never share your password, one-time codes, or wallet recovery phrase.
-   </p>
-  </div>
- </section>
+ <h1>Customer Support</h1>
+ <p class="subtitle">We're here to help you.</p>
+ <div class="panel">
+  <h3>Live Customer Support</h3>
+  <p class="muted">Chat with our support team using the live chat service.</p>
+  <button class="primary-btn" onclick="openChat()">Open Live Chat</button>
+ </div>
+</section>
 
 </main>
 
-<!-- BOTTOM NAVIGATION -->
-
+<!-- MOBILE NAVIGATION -->
 <nav class="nav-bottom">
-
- <button class="active" onclick="showPage('overview',this)">
-  <span class="nav-icon">⌂</span>Home
- </button>
-
- <button onclick="showPage('markets',this)">
-  <span class="nav-icon">◈</span>Markets
- </button>
-
- <button onclick="showPage('deposit',this)">
-  <span class="nav-icon">▣</span>Wallet
- </button>
-
- <button onclick="showPage('profile',this)">
-  <span class="nav-icon">♙</span>Profile
- </button>
-
- <button onclick="showPage('support',this)">
-  <span class="nav-icon">◎</span>Support
- </button>
-
+ <button class="active" onclick="showPage('overview',this)"><span class="nav-icon">⌂</span>Home</button>
+ <button onclick="showPage('markets',this)"><span class="nav-icon">◈</span>Markets</button>
+ <button onclick="showPage('watchlist',this)"><span class="nav-icon">☆</span>Watchlist</button>
+ <button onclick="showPage('charts',this)"><span class="nav-icon">▥</span>Charts</button>
+ <button onclick="showPage('profile',this)"><span class="nav-icon">♙</span>Profile</button>
 </nav>
 
-<!-- EXTRA FLOATING BLUE CHAT BUTTON REMOVED -->
+<!-- TAWK FLOATING BUTTON -->
+<button id="tawkButton" onclick="openChat()" aria-label="Open live chat">☏</button>
 
-<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()" aria-hidden="true"></div>
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
 
-<!-- LEFT SLIDING MENU -->
-
-<aside class="menu" id="sideMenu" aria-label="Main navigation" aria-hidden="true">
-
+<!-- SIDE MENU -->
+<aside class="menu" id="sideMenu">
  <div class="menu-header">
   <strong>TradingHub HQ</strong>
   <button class="icon-btn" onclick="closeMenu()">✕</button>
  </div>
-
  <div class="menu-profile">
-
   <div class="avatar" id="menuAvatar">U</div>
-
-  <div>
-   <strong id="menuName">Customer</strong>
-   <small id="menuBalance">Account Balance: $0.00</small>
-  </div>
-
+  <div><strong id="menuName">Customer</strong><small id="menuBalance">Account Balance: $0.00</small></div>
  </div>
-
- <div class="menu-section">LIVE MARKET <span style="color:#22c55e">● LIVE</span></div>
-
  <div class="menu-section">OVERVIEW</div>
-
  <a class="menu-item active" href="#" onclick="navigate('overview')"><span>▦ Dashboard</span></a>
-
  <a class="menu-item" href="#" onclick="navigate('statement')"><span>▤ Account Statement</span></a>
-
- <div class="menu-section">PORTFOLIO &amp; INVESTMENTS</div>
-
+ <div class="menu-section">PORTFOLIO & INVESTMENTS</div>
  <a class="menu-item" href="#" onclick="navigate('plans')"><span>◎ Investment Plans</span></a>
-
  <a class="menu-item" href="#" onclick="navigate('portfolio')"><span>◷ My Portfolio</span></a>
-
  <a class="menu-item" href="#" onclick="navigate('performance')"><span>♧ Performance History</span></a>
-
- <div class="menu-section">TRADING &amp; MARKETS</div>
-
- <a class="menu-item" href="#" onclick="navigate('demo')"><span>♧ Demo Trading</span><span class="badge" style="background:#16a34a">Practice</span></a>
-
- <a class="menu-item" href="#" onclick="navigate('markets')"><span>▥ Live Markets</span><span class="badge" style="background:#dc2626">Live</span></a>
-
+ <a class="menu-item" href="#" onclick="navigate('watchlist')"><span>☆ My Watchlist</span></a>
+ <a class="menu-item" href="#" onclick="navigate('alerts')"><span>♧ Price Alerts</span></a>
+ <div class="menu-section">TRADING & MARKETS</div>
+ <a class="menu-item" href="#" onclick="navigate('demo')"><span>♧ Demo Trading</span><span class="badge">Practice</span></a>
+ <a class="menu-item" href="#" onclick="navigate('markets')"><span>▥ Live Markets</span><span class="badge">Live</span></a>
+ <a class="menu-item" href="#" onclick="navigate('statistics')"><span>▦ Global Statistics</span></a>
+ <a class="menu-item" href="#" onclick="navigate('trending')"><span>↗ Trending Coins</span></a>
+ <a class="menu-item" href="#" onclick="navigate('sentiment')"><span>◉ Fear & Greed Index</span></a>
+ <a class="menu-item" href="#" onclick="navigate('charts')"><span>▥ Crypto Charts</span></a>
+ <a class="menu-item" href="#" onclick="navigate('news')"><span>▤ Crypto News</span></a>
  <a class="menu-item" href="#" onclick="navigate('copy')"><span>♙ Copy Trading</span><span class="badge">Pro</span></a>
-
- <a class="menu-item" href="#" onclick="navigate('bots')"><span>♙ AI Trading Bots</span><span class="badge" style="background:#2563eb">AI</span></a>
-
+ <a class="menu-item" href="#" onclick="navigate('bots')"><span>♙ AI Trading Bots</span><span class="badge">AI</span></a>
  <div class="menu-section">MARKET INTELLIGENCE</div>
-
- <a class="menu-item" href="#" onclick="navigate('signals')"><span>◉ Trading Signals</span><span class="badge" style="background:#d97706">Premium</span></a>
-
- <div class="menu-section">WALLET &amp; FUNDS</div>
-
- <a class="menu-item" href="#" onclick="navigate('deposit')"><span>▣ Deposits &amp; Withdrawals</span><span class="coming">Unavailable</span></a>
-
+ <a class="menu-item" href="#" onclick="navigate('signals')"><span>◉ Trading Signals</span><span class="badge">Premium</span></a>
+ <div class="menu-section">WALLET & FUNDS</div>
+ <a class="menu-item" href="#" onclick="navigate('deposit')"><span>▣ Deposits & Withdrawals</span><span class="badge">Unavailable</span></a>
  <div class="menu-section">ACCOUNT</div>
-
  <a class="menu-item" href="#" onclick="navigate('profile')"><span>♙ Profile</span></a>
-
  <a class="menu-item" href="#" onclick="navigate('support')"><span>◎ Support</span></a>
-
  <a class="menu-item" href="#" onclick="logout()"><span>↪ Log Out</span></a>
-
 </aside>
 
+<!-- AUTHENTICATION SCREEN -->
+<div id="authScreen">
+ <div class="auth-box">
+  <div class="logo">◆ <span>TradingHub</span> HQ</div>
+  <h2 id="authHeading">Welcome Back</h2>
+  <p class="subtitle">Sign in to access your cryptocurrency dashboard.</p>
+  <div class="auth-tabs">
+   <button id="loginTab" class="active" onclick="setAuthMode('login')">Login</button>
+   <button id="signupTab" onclick="setAuthMode('signup')">Create Account</button>
+  </div>
+  <form id="authForm" onsubmit="handleAuth(event)">
+   <div id="authNameWrap" style="display:none">
+    <label class="form-label">Full Name</label>
+    <input class="form-input" id="authName" autocomplete="name" placeholder="Your full name">
+   </div>
+   <label class="form-label">Email Address</label>
+   <input class="form-input" id="authEmail" type="email" required autocomplete="email" placeholder="name@example.com">
+   <label class="form-label">Password</label>
+   <input class="form-input" id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters">
+   <button class="primary-btn" id="authSubmit" type="submit" style="width:100%;margin-top:10px">Sign In</button>
+  </form>
+  <div id="authMessage" class="auth-message"></div>
+ </div>
+</div>
+
+<div id="toast"></div>
+
 <script>
+/* =========================================
+   SUPABASE CONFIGURATION
+========================================= */
 
-/* SUPABASE CONFIGURATION */
+const SUPABASE_URL = "https://jbkjldyzjdlcwktbsbqt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_4iHI8rdv2L_4IovDJaQQKQ_kDd8COEk";
 
-const SUPABASE_URL="https://jbkjldyzjdlcwktbsbqt.supabase.co";
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const SUPABASE_KEY="sb_publishable_4iHI8rdv2L_4IovDJaQQKQ_kDd8COEk";
+let currentUser = null;
+let profile = {};
+let authMode = "login";
 
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+/* =========================================
+   CRYPTOCURRENCY CONFIGURATION
+========================================= */
 
-let currentUser=null;
-let profile=null;
+const coins = [
+ {id:"bitcoin",name:"Bitcoin",symbol:"BTC",logo:"https://assets.coingecko.com/coins/images/1/large/bitcoin.png"},
+ {id:"ethereum",name:"Ethereum",symbol:"ETH",logo:"https://assets.coingecko.com/coins/images/279/large/ethereum.png"},
+ {id:"tether",name:"Tether",symbol:"USDT",logo:"https://assets.coingecko.com/coins/images/325/large/Tether.png"},
+ {id:"solana",name:"Solana",symbol:"SOL",logo:"https://assets.coingecko.com/coins/images/4128/large/solana.png"},
+ {id:"binancecoin",name:"BNB",symbol:"BNB",logo:"https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png"},
+ {id:"ripple",name:"XRP",symbol:"XRP",logo:"https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png"},
+ {id:"usd-coin",name:"USD Coin",symbol:"USDC",logo:"https://assets.coingecko.com/coins/images/6319/large/usdc.png"},
+ {id:"dogecoin",name:"Dogecoin",symbol:"DOGE",logo:"https://assets.coingecko.com/coins/images/5/large/dogecoin.png"},
+ {id:"cardano",name:"Cardano",symbol:"ADA",logo:"https://assets.coingecko.com/coins/images/975/large/cardano.png"},
+ {id:"litecoin",name:"Litecoin",symbol:"LTC",logo:"https://assets.coingecko.com/coins/images/2/large/litecoin.png"},
+ {id:"tron",name:"TRON",symbol:"TRX",logo:"https://assets.coingecko.com/coins/images/1094/large/tron-logo.png"},
+ {id:"avalanche-2",name:"Avalanche",symbol:"AVAX",logo:"https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png"},
+ {id:"chainlink",name:"Chainlink",symbol:"LINK",logo:"https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png"},
+ {id:"polkadot",name:"Polkadot",symbol:"DOT",logo:"https://assets.coingecko.com/coins/images/12171/large/polkadot.png"},
+ {id:"shiba-inu",name:"Shiba Inu",symbol:"SHIB",logo:"https://assets.coingecko.com/coins/images/11939/large/shiba.png"}
+];
 
+let marketData = [];
+let globalData = null;
+let trendingData = [];
+let fearData = null;
+let priceChart = null;
+let chartDays = 1;
+let marketLoading = false;
+let newsLoaded = false;
 
-/* AUTHENTICATION */
+/* =========================================
+   GENERAL HELPERS
+========================================= */
+
+function money(value,maximum=2){
+ if(value===undefined || value===null || !Number.isFinite(Number(value)))return "--";
+ return "$"+Number(value).toLocaleString("en-US",{maximumFractionDigits:maximum});
+}
+
+function compactMoney(value){
+ if(value===undefined || value===null)return "--";
+ return "$"+Number(value).toLocaleString("en-US",{notation:"compact",maximumFractionDigits:2});
+}
+
+function numberFormat(value){
+ return Number(value||0).toLocaleString("en-US");
+}
+
+function toast(message){
+ const box=document.getElementById("toast");
+ box.textContent=message;
+ box.style.display="block";
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>box.style.display="none",3500);
+}
+
+async function api(url){
+ const response=await fetch(url,{cache:"no-store"});
+ if(!response.ok)throw new Error("Data service returned HTTP "+response.status);
+ return response.json();
+}
+
+function coinById(id){
+ return coins.find(c=>c.id===id)||{
+  id,
+  name:id,
+  symbol:id.toUpperCase(),
+  logo:""
+ };
+}
+
+function safeImage(url,name){
+ return `<img class="coin-logo" src="${url}" alt="${name} logo" onerror="this.style.display='none'">`;
+}
+
+/* =========================================
+   AUTHENTICATION
+========================================= */
 
 async function init(){
-
  try{
-
   const {data,error}=await db.auth.getSession();
 
-  if(error || !data.session){
+  if(error)throw error;
 
-   window.location.replace("./index.html");
-
+  if(!data.session){
+   document.getElementById("authScreen").classList.add("open");
    return;
-
   }
 
   currentUser=data.session.user;
+  document.getElementById("authScreen").classList.remove("open");
 
   await loadProfile();
-
-  await loadMarkets();
+  await refreshAll();
 
  }catch(error){
-
-  console.error("Dashboard initialization failed:",error);
-
+  console.error("Initialization error:",error);
+  document.getElementById("authScreen").classList.add("open");
+  document.getElementById("authMessage").textContent=error.message;
  }
-
 }
 
+function setAuthMode(mode){
+ authMode=mode;
 
-/* AUTH STATE MONITORING */
+ document.getElementById("loginTab").classList.toggle("active",mode==="login");
+ document.getElementById("signupTab").classList.toggle("active",mode==="signup");
+ document.getElementById("authNameWrap").style.display=mode==="signup"?"block":"none";
+ document.getElementById("authHeading").textContent=mode==="login"?"Welcome Back":"Create Your Account";
+ document.getElementById("authSubmit").textContent=mode==="login"?"Sign In":"Create Account";
+ document.getElementById("authMessage").textContent="";
+ document.getElementById("authPassword").autocomplete=mode==="login"?"current-password":"new-password";
+}
+
+async function handleAuth(event){
+ event.preventDefault();
+
+ const email=document.getElementById("authEmail").value.trim();
+ const password=document.getElementById("authPassword").value;
+ const name=document.getElementById("authName").value.trim();
+ const button=document.getElementById("authSubmit");
+ const message=document.getElementById("authMessage");
+
+ button.disabled=true;
+ message.textContent="Please wait...";
+
+ try{
+  let result;
+
+  if(authMode==="signup"){
+   result=await db.auth.signUp({
+    email,
+    password,
+    options:{data:{full_name:name}}
+   });
+  }else{
+   result=await db.auth.signInWithPassword({email,password});
+  }
+
+  if(result.error)throw result.error;
+
+  if(authMode==="signup" && !result.data.session){
+   message.textContent="Account created. Check your email to confirm your account before signing in.";
+   return;
+  }
+
+  currentUser=result.data.user;
+  document.getElementById("authScreen").classList.remove("open");
+  toast(authMode==="login"?"Login successful":"Account created successfully");
+
+  await loadProfile();
+  await refreshAll();
+
+ }catch(error){
+  message.textContent=error.message||"Authentication failed.";
+ }finally{
+  button.disabled=false;
+ }
+}
 
 db.auth.onAuthStateChange((event,session)=>{
-
- if(event==="SIGNED_OUT"){
-
-  window.location.replace("./index.html");
-
+ if(event==="SIGNED_OUT" || !session){
+  currentUser=null;
+  document.getElementById("authScreen").classList.add("open");
  }
-
+ if(session && event==="SIGNED_IN"){
+  currentUser=session.user;
+ }
 });
 
-
-/* PROFILE */
+/* =========================================
+   PROFILE
+========================================= */
 
 async function loadProfile(){
+ if(!currentUser)return;
 
  const {data,error}=await db.from("profiles")
-
- .select("full_name,balance,profile_picture_path")
-
- .eq("id",currentUser.id).single();
+  .select("full_name,balance,profile_picture_path")
+  .eq("id",currentUser.id)
+  .single();
 
  if(error){
-
   console.error("Profile loading error:",error.message);
-
  }
 
  profile=data||{};
 
  const name=profile.full_name||currentUser.user_metadata?.full_name||"Customer";
-
  const balance=Number(profile.balance||0).toFixed(2);
-
- document.getElementById("menuName").textContent=name;
-
- document.getElementById("menuBalance").textContent="Account Balance: $"+balance;
-
- document.getElementById("tickerBalance").textContent="$"+balance;
-
- document.getElementById("profileEmail").textContent=currentUser.email||"";
-
- document.getElementById("fullName").value=profile.full_name||"";
-
  const initial=(name.trim()[0]||"U").toUpperCase();
 
+ document.getElementById("menuName").textContent=name;
+ document.getElementById("menuBalance").textContent="Account Balance: $"+balance;
+ document.getElementById("tickerBalance").textContent="$"+balance;
+ document.getElementById("profileEmail").textContent=currentUser.email||"";
+ document.getElementById("fullName").value=profile.full_name||"";
+
  ["topAvatar","menuAvatar","profileAvatar"].forEach(id=>{
-
-  document.getElementById(id).textContent=initial;
-
+  const element=document.getElementById(id);
+  element.textContent=initial;
  });
 
  if(profile.profile_picture_path){
-
   const {data}=await db.storage.from("profile-pictures")
-
-  .createSignedUrl(profile.profile_picture_path,3600);
+   .createSignedUrl(profile.profile_picture_path,3600);
 
   if(data?.signedUrl){
-
    ["topAvatar","menuAvatar","profileAvatar"].forEach(id=>{
-
     const container=document.getElementById(id);
-
     const img=document.createElement("img");
-
     img.src=data.signedUrl;
-
     img.alt="Profile picture";
-
     container.replaceChildren(img);
-
    });
-
   }
-
  }
-
 }
 
-
-/* SAVE PROFILE */
-
 async function saveProfile(){
-
  if(!currentUser)return;
 
  const fullName=document.getElementById("fullName").value.trim();
 
- if(!fullName)return alert("Enter your name.");
+ if(!fullName)return toast("Enter your name.");
 
  const {error}=await db.from("profiles")
+  .update({full_name:fullName})
+  .eq("id",currentUser.id);
 
- .update({full_name:fullName})
-
- .eq("id",currentUser.id);
-
- if(error)return alert(error.message);
-
- alert("Profile updated.");
+ if(error)return toast(error.message);
 
  await loadProfile();
-
+ toast("Profile updated successfully.");
 }
 
-
-/* UPLOAD PROFILE PICTURE */
-
 async function uploadPhoto(){
-
  if(!currentUser)return;
 
  const file=document.getElementById("photoInput").files[0];
 
- if(!file)return alert("Choose a picture first.");
-
- if(file.size>2*1024*1024)return alert("Image must be under 2MB.");
-
+ if(!file)return toast("Choose a picture first.");
+ if(file.size>2*1024*1024)return toast("Image must be under 2MB.");
  if(!["image/jpeg","image/png","image/webp"].includes(file.type))
-
- return alert("Use JPG, PNG or WebP.");
+  return toast("Use JPG, PNG or WebP.");
 
  const ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg";
-
  const path=currentUser.id+"/profile."+ext;
 
  const {error:uploadError}=await db.storage.from("profile-pictures")
+  .upload(path,file,{upsert:true,contentType:file.type});
 
- .upload(path,file,{upsert:true,contentType:file.type});
-
- if(uploadError)return alert(uploadError.message);
+ if(uploadError)return toast(uploadError.message);
 
  const {error:updateError}=await db.from("profiles")
+  .update({profile_picture_path:path})
+  .eq("id",currentUser.id);
 
- .update({profile_picture_path:path})
-
- .eq("id",currentUser.id);
-
- if(updateError)return alert(updateError.message);
-
- alert("Profile picture updated.");
+ if(updateError)return toast(updateError.message);
 
  await loadProfile();
-
+ toast("Profile picture updated.");
 }
-
-
-/* LOGOUT */
 
 async function logout(){
+ const {error}=await db.auth.signOut();
+ if(error)return toast(error.message);
 
- await db.auth.signOut();
-
- window.location.replace("./index.html");
-
+ currentUser=null;
+ document.getElementById("authScreen").classList.add("open");
 }
 
-
-/* MENU */
+/* =========================================
+   NAVIGATION
+========================================= */
 
 function openMenu(){
-
  document.getElementById("sideMenu").classList.add("open");
-
  document.getElementById("menuOverlay").classList.add("open");
-
- document.getElementById("sideMenu").setAttribute("aria-hidden","false");
-
- document.getElementById("menuOverlay").setAttribute("aria-hidden","false");
-
 }
 
 function closeMenu(){
-
  document.getElementById("sideMenu").classList.remove("open");
-
  document.getElementById("menuOverlay").classList.remove("open");
-
- document.getElementById("sideMenu").setAttribute("aria-hidden","true");
-
- document.getElementById("menuOverlay").setAttribute("aria-hidden","true");
-
 }
-
-document.addEventListener("keydown",event=>{
-
- if(event.key==="Escape")closeMenu();
-
-});
 
 function navigate(page){
-
  showPage(page);
-
  closeMenu();
-
  return false;
-
 }
 
-
-/* PAGE NAVIGATION */
-
 function showPage(page,button){
-
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 
  const section=document.getElementById(page);
-
  if(section)section.classList.add("active");
 
  document.querySelectorAll(".nav-bottom button").forEach(b=>b.classList.remove("active"));
-
  if(button)button.classList.add("active");
 
- document.querySelectorAll(".menu-item").forEach(b=>b.classList.remove("active"));
+ const navPages={
+  overview:0,
+  markets:1,
+  watchlist:2,
+  charts:3,
+  profile:4
+ };
 
- document.querySelectorAll(".menu-item").forEach(b=>{
-
-  if(b.getAttribute("onclick")?.includes("'"+page+"'"))b.classList.add("active");
-
- });
-
- if(page==="markets")loadMarkets();
-
- window.scrollTo(0,0);
-
-}
-
-
-/* CRYPTOCURRENCY LIST */
-
-const coins=[
-
- {
-  name:"Bitcoin",
-  symbol:"BTC",
-  id:"bitcoin",
-  logo:"https://assets.coingecko.com/coins/images/1/large/bitcoin.png"
- },
-
- {
-  name:"Ethereum",
-  symbol:"ETH",
-  id:"ethereum",
-  logo:"https://assets.coingecko.com/coins/images/279/large/ethereum.png"
- },
-
- {
-  name:"Tether",
-  symbol:"USDT",
-  id:"tether",
-  logo:"https://assets.coingecko.com/coins/images/325/large/Tether.png"
- },
-
- {
-  name:"Solana",
-  symbol:"SOL",
-  id:"solana",
-  logo:"https://assets.coingecko.com/coins/images/4128/large/solana.png"
- },
-
- {
-  name:"BNB",
-  symbol:"BNB",
-  id:"binancecoin",
-  logo:"https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png"
- },
-
- {
-  name:"TRON",
-  symbol:"TRX",
-  id:"tron",
-  logo:"https://assets.coingecko.com/coins/images/1094/large/tron-logo.png"
- },
-
- {
-  name:"USD Coin",
-  symbol:"USDC",
-  id:"usd-coin",
-  logo:"https://assets.coingecko.com/coins/images/6319/large/usdc.png"
- },
-
- {
-  name:"Litecoin",
-  symbol:"LTC",
-  id:"litecoin",
-  logo:"https://assets.coingecko.com/coins/images/2/large/litecoin.png"
+ if(navPages[page]!==undefined){
+  document.querySelectorAll(".nav-bottom button")[navPages[page]].classList.add("active");
  }
 
-];
-
-
-/* FORMAT USD PRICES */
-
-function formatPrice(price){
-
- if(price===undefined || price===null)return "Unavailable";
-
- return "$"+Number(price).toLocaleString("en-US",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:6
+ document.querySelectorAll(".menu-item").forEach(item=>item.classList.remove("active"));
+ document.querySelectorAll(".menu-item").forEach(item=>{
+  if(item.getAttribute("onclick")?.includes("'"+page+"'")){
+   item.classList.add("active");
+  }
  });
 
+ if(page==="markets")renderMarkets();
+ if(page==="trending")renderTrending();
+ if(page==="watchlist")renderWatchlist();
+ if(page==="charts")loadChart();
+ if(page==="alerts")renderAlerts();
+ if(page==="news"&&!newsLoaded)loadNews();
+ if(page==="statistics")loadGlobalStats();
+ if(page==="sentiment")loadFearGreed();
+
+ window.scrollTo(0,0);
 }
 
-
-/* LOAD LIVE MARKET PRICES */
-
-let marketLoading=false;
+/* =========================================
+   LIVE CRYPTOCURRENCY PRICES
+========================================= */
 
 async function loadMarkets(){
-
- const list=document.getElementById("marketList");
-
- if(!list || marketLoading)return;
-
+ if(marketLoading)return;
  marketLoading=true;
 
  try{
-
   const ids=coins.map(c=>c.id).join(",");
 
-  const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),12000);
-  let response;
-  try{
-   response=await fetch(
-    "https://api.coingecko.com/api/v3/simple/price?ids="+ids+"&vs_currencies=usd",
-    {cache:"no-store",signal:controller.signal}
-   );
-  }finally{
-   clearTimeout(timeout);
-  }
+  const data=await api(
+   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids="+
+   encodeURIComponent(ids)+
+   "&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+  );
 
-  if(!response.ok)throw new Error("Market service unavailable");
+  marketData=data;
 
-  const data=await response.json();
+  const btc=data.find(c=>c.id==="bitcoin");
+  const eth=data.find(c=>c.id==="ethereum");
+  const sol=data.find(c=>c.id==="solana");
 
-  document.getElementById("btc").textContent=formatPrice(data.bitcoin?.usd);
+  document.getElementById("btc").textContent=money(btc?.current_price,2);
+  document.getElementById("eth").textContent=money(eth?.current_price,2);
+  document.getElementById("sol").textContent=money(sol?.current_price,2);
 
-  document.getElementById("eth").textContent=formatPrice(data.ethereum?.usd);
-
-  document.getElementById("sol").textContent=formatPrice(data.solana?.usd);
-
-
-  list.innerHTML=coins.map(coin=>`
-
-   <div class="market-card">
-
-    <div class="coin-info">
-
-     <img
-      class="coin-logo"
-      src="${coin.logo}"
-      alt="${coin.name} logo"
-      loading="lazy"
-      onerror="this.style.display='none'"
-     >
-
-     <div>
-      <div class="coin-name">${coin.name}</div>
-      <div class="coin-symbol">${coin.symbol}</div>
-     </div>
-
-    </div>
-
-    <div class="coin-price">
-     ${formatPrice(data[coin.id]?.usd)}
-    </div>
-
-    <div class="market-updated">
-     Live USD Market Price
-    </div>
-
-   </div>
-
-  `).join("");
-
+  renderMarkets();
+  renderWatchlist();
+  renderTrending();
 
   document.getElementById("marketUpdated").textContent=
-
    "Last updated: "+new Date().toLocaleTimeString();
 
+  checkPriceAlerts();
+
  }catch(error){
-
   console.error("Market loading error:",error);
-
-  if(!list.children.length || list.querySelector(".market-loading")){
-
-   list.innerHTML=
-
-    '<div class="market-error">Live market prices are temporarily unavailable. Please try again later.</div>';
-
-  }
-
-  document.getElementById("marketUpdated").textContent=
-
-   "Unable to update market prices.";
-
+  document.getElementById("marketTable").innerHTML=
+   '<tr><td colspan="5">Unable to load market data. Please try again later.</td></tr>';
+  document.getElementById("marketUpdated").textContent="Market data unavailable.";
  }finally{
-
   marketLoading=false;
+ }
+}
 
+function renderMarkets(){
+ const table=document.getElementById("marketTable");
+ if(!table)return;
+
+ const query=(document.getElementById("marketSearch")?.value||"").toLowerCase();
+
+ const filtered=marketData.filter(c=>
+  c.name.toLowerCase().includes(query)||
+  c.symbol.toLowerCase().includes(query)
+ );
+
+ if(!filtered.length){
+  table.innerHTML='<tr><td colspan="5">No matching cryptocurrencies found.</td></tr>';
+  return;
  }
 
+ table.innerHTML=filtered.map(c=>{
+  const change=Number(c.price_change_percentage_24h||0);
+  const watched=getWatchlist().includes(c.id);
+
+  return `
+   <tr>
+    <td>
+     <div class="coin-cell">
+      <img src="${c.image}" alt="${c.name}" onerror="this.style.display='none'">
+      <div><strong>${c.name}</strong><div class="muted">${c.symbol.toUpperCase()}</div></div>
+     </div>
+    </td>
+    <td>${money(c.current_price,6)}</td>
+    <td class="${change>=0?'green':'red'}">${change.toFixed(2)}%</td>
+    <td>${compactMoney(c.market_cap)}</td>
+    <td><button class="star-btn" onclick="toggleWatch('${c.id}')">${watched?'★':'☆'}</button></td>
+   </tr>
+  `;
+ }).join("");
 }
 
+/* =========================================
+   GLOBAL CRYPTO MARKET STATISTICS
+========================================= */
 
-/* THEME */
+async function loadGlobalStats(){
+ try{
+  const data=await api("https://api.coingecko.com/api/v3/global");
+  globalData=data.data;
+
+  const d=globalData;
+
+  const values={
+   overviewMarketCap:compactMoney(d.total_market_cap.usd),
+   overviewVolume:compactMoney(d.total_volume.usd),
+   overviewDominance:Number(d.market_cap_percentage.btc).toFixed(2)+"%",
+   overviewCoins:numberFormat(d.active_cryptocurrencies),
+   statMarketCap:compactMoney(d.total_market_cap.usd),
+   statVolume:compactMoney(d.total_volume.usd),
+   statBTC:Number(d.market_cap_percentage.btc).toFixed(2)+"%",
+   statETH:Number(d.market_cap_percentage.eth).toFixed(2)+"%",
+   statActive:numberFormat(d.active_cryptocurrencies),
+   statMarkets:numberFormat(d.markets),
+   statChange:Number(d.market_cap_change_percentage_24h_usd||0).toFixed(2)+"%"
+  };
+
+  Object.entries(values).forEach(([id,value])=>{
+   const el=document.getElementById(id);
+   if(el)el.textContent=value;
+  });
+
+ }catch(error){
+  console.error("Global statistics error:",error);
+ }
+}
+
+/* =========================================
+   TRENDING CRYPTOCURRENCIES
+========================================= */
+
+async function loadTrending(){
+ try{
+  const data=await api("https://api.coingecko.com/api/v3/search/trending");
+  trendingData=data.coins||[];
+  renderTrending();
+ }catch(error){
+  console.error("Trending error:",error);
+ }
+}
+
+function renderTrending(){
+ const containers=[
+  document.getElementById("trendingList"),
+  document.getElementById("overviewTrending")
+ ].filter(Boolean);
+
+ if(!trendingData.length)return;
+
+ containers.forEach((container,index)=>{
+  const list=index===0?trendingData:trendingData.slice(0,4);
+
+  container.innerHTML=list.map(item=>{
+   const c=item.item;
+   const price=c.data?.price||"--";
+
+   return `
+    <div class="market-card">
+     <div class="coin-info">
+      ${safeImage(c.large||c.thumb,c.name)}
+      <div>
+       <div class="coin-name">${c.name}</div>
+       <div class="coin-symbol">${c.symbol}</div>
+      </div>
+     </div>
+     <div class="coin-price">${price}</div>
+     <div class="market-updated">Market rank: ${c.market_cap_rank||"N/A"}</div>
+     <button class="secondary-btn" onclick="addTrendingToWatch('${c.id}','${c.name.replace(/'/g,"")}')">Add to Watchlist</button>
+    </div>
+   `;
+  }).join("");
+ });
+}
+
+function addTrendingToWatch(id,name){
+ const list=getWatchlist();
+ if(!list.includes(id))list.push(id);
+ saveWatchlist(list);
+ toast(name+" added to watchlist.");
+}
+
+/* =========================================
+   FEAR AND GREED INDEX
+========================================= */
+
+async function loadFearGreed(){
+ try{
+  const data=await api("https://api.alternative.me/fng/?limit=7");
+  fearData=data.data||[];
+
+  const current=fearData[0];
+  if(!current)return;
+
+  const value=Number(current.value);
+  const classification=current.value_classification;
+
+  document.getElementById("fearValue").textContent=value+"/100";
+  document.getElementById("fearClassification").textContent=classification;
+  document.getElementById("fearDate").textContent=
+   "Last updated: "+new Date(Number(current.timestamp)*1000).toLocaleString();
+
+  document.getElementById("fearBar").style.width=value+"%";
+  document.getElementById("overviewFear").textContent=value+"/100";
+  document.getElementById("overviewFearText").textContent=classification;
+  document.getElementById("overviewFearBar").style.width=value+"%";
+
+  document.getElementById("fearHistory").innerHTML=fearData.map(item=>`
+   <div class="alert-item">
+    <span>${new Date(Number(item.timestamp)*1000).toLocaleDateString()}</span>
+    <strong>${item.value}/100 — ${item.value_classification}</strong>
+   </div>
+  `).join("");
+
+ }catch(error){
+  console.error("Fear and Greed error:",error);
+  document.getElementById("fearClassification").textContent="Index temporarily unavailable";
+  document.getElementById("overviewFear").textContent="Unavailable";
+ }
+}
+
+/* =========================================
+   INTERACTIVE PRICE CHARTS
+========================================= */
+
+async function loadChart(){
+ const coin=document.getElementById("chartCoin")?.value||"bitcoin";
+ const status=document.getElementById("chartStatus");
+
+ status.textContent="Loading chart data...";
+
+ try{
+  const data=await api(
+   `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=${chartDays}`
+  );
+
+  const prices=data.prices||[];
+
+  if(!prices.length)throw new Error("No chart data returned.");
+
+  const labels=prices.map(p=>{
+   const date=new Date(p[0]);
+   return chartDays===1?date.toLocaleTimeString():date.toLocaleDateString();
+  });
+
+  const values=prices.map(p=>p[1]);
+
+  if(priceChart)priceChart.destroy();
+
+  const ctx=document.getElementById("priceChart").getContext("2d");
+
+  priceChart=new Chart(ctx,{
+   type:"line",
+   data:{
+    labels,
+    datasets:[{
+     label:coin.toUpperCase()+" Price (USD)",
+     data:values,
+     borderColor:"#60a5fa",
+     backgroundColor:"rgba(37,99,235,.13)",
+     fill:true,
+     tension:.25,
+     pointRadius:0,
+     borderWidth:2
+    }]
+   },
+   options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    interaction:{intersect:false,mode:"index"},
+    plugins:{
+     legend:{labels:{color:"#d1d5db"}},
+     tooltip:{callbacks:{label:context=>money(context.raw,6)}}
+    },
+    scales:{
+     x:{ticks:{color:"#9ca3af",maxTicksLimit:7},grid:{color:"#374151"}},
+     y:{ticks:{color:"#9ca3af",callback:value=>money(value)},grid:{color:"#374151"}}
+    }
+   }
+  });
+
+  status.textContent="Showing "+coin+" price history.";
+
+ }catch(error){
+  console.error("Chart error:",error);
+  status.textContent="Unable to load chart data. Please try again.";
+ }
+}
+
+function setChartDays(days,button){
+ chartDays=days;
+ document.querySelectorAll(".chart-controls button").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ loadChart();
+}
+
+/* =========================================
+   WATCHLIST
+========================================= */
+
+function storageKey(type){
+ return "tradinghub_"+type+"_"+(currentUser?.id||"guest");
+}
+
+function getWatchlist(){
+ try{return JSON.parse(localStorage.getItem(storageKey("watchlist"))||"[]");}
+ catch{return [];}
+}
+
+function saveWatchlist(list){
+ localStorage.setItem(storageKey("watchlist"),JSON.stringify(list));
+}
+
+function toggleWatch(id){
+ const list=getWatchlist();
+ const index=list.indexOf(id);
+
+ if(index>=0){
+  list.splice(index,1);
+  toast("Removed from watchlist.");
+ }else{
+  list.push(id);
+  toast("Added to watchlist.");
+ }
+
+ saveWatchlist(list);
+ renderMarkets();
+ renderWatchlist();
+}
+
+function renderWatchlist(){
+ const container=document.getElementById("watchlistGrid");
+ if(!container)return;
+
+ const list=getWatchlist();
+ const query=(document.getElementById("watchSearch")?.value||"").toLowerCase();
+
+ if(!list.length){
+  container.innerHTML='<div class="notice">Your watchlist is empty. Add cryptocurrencies from the markets page.</div>';
+  return;
+ }
+
+ const watched=marketData.filter(c=>list.includes(c.id)&&(
+  c.name.toLowerCase().includes(query)||c.symbol.toLowerCase().includes(query)
+ ));
+
+ container.innerHTML=watched.map(c=>`
+  <div class="market-card">
+   <div class="coin-info">
+    ${safeImage(c.image,c.name)}
+    <div><div class="coin-name">${c.name}</div><div class="coin-symbol">${c.symbol.toUpperCase()}</div></div>
+   </div>
+   <div class="coin-price">${money(c.current_price,6)}</div>
+   <div class="coin-change ${c.price_change_percentage_24h>=0?'green':'red'}">
+    ${Number(c.price_change_percentage_24h||0).toFixed(2)}% (24h)
+   </div>
+   <button class="secondary-btn" onclick="toggleWatch('${c.id}')">Remove</button>
+  </div>
+ `).join("")||'<div class="notice">No matching coins found.</div>';
+}
+
+/* =========================================
+   PRICE ALERTS
+========================================= */
+
+function getAlerts(){
+ try{return JSON.parse(localStorage.getItem(storageKey("alerts"))||"[]");}
+ catch{return [];}
+}
+
+function saveAlerts(alerts){
+ localStorage.setItem(storageKey("alerts"),JSON.stringify(alerts));
+}
+
+function createAlert(){
+ const coin=document.getElementById("alertCoin").value;
+ const target=Number(document.getElementById("alertPrice").value);
+ const condition=document.getElementById("alertCondition").value;
+
+ if(!Number.isFinite(target)||target<=0)return toast("Enter a valid target price.");
+
+ const alerts=getAlerts();
+
+ alerts.push({
+  id:Date.now().toString(),
+  coin,
+  target,
+  condition,
+  triggered:false,
+  created:new Date().toISOString()
+ });
+
+ saveAlerts(alerts);
+ document.getElementById("alertPrice").value="";
+ renderAlerts();
+ toast("Price alert created.");
+}
+
+function renderAlerts(){
+ const container=document.getElementById("alertList");
+ if(!container)return;
+
+ const alerts=getAlerts();
+
+ if(!alerts.length){
+  container.innerHTML="No price alerts created yet.";
+  return;
+ }
+
+ container.innerHTML=alerts.map(a=>{
+  const coin=coinById(a.coin);
+
+  return `
+   <div class="alert-item">
+    <div>
+     <strong>${coin.name}</strong>
+     <div class="muted">${a.condition==="above"?"Above":"Below"} ${money(a.target,6)}</div>
+     <div class="muted">${a.triggered?"Triggered":"Active"}</div>
+    </div>
+    <button class="danger-btn" onclick="deleteAlert('${a.id}')">Delete</button>
+   </div>
+  `;
+ }).join("");
+}
+
+function deleteAlert(id){
+ saveAlerts(getAlerts().filter(a=>a.id!==id));
+ renderAlerts();
+ toast("Alert deleted.");
+}
+
+function checkPriceAlerts(){
+ const alerts=getAlerts();
+ let changed=false;
+
+ alerts.forEach(alert=>{
+  if(alert.triggered)return;
+
+  const coin=marketData.find(c=>c.id===alert.coin);
+  if(!coin)return;
+
+  const hit=alert.condition==="above"
+   ?coin.current_price>=alert.target
+   :coin.current_price<=alert.target;
+
+  if(hit){
+   alert.triggered=true;
+   changed=true;
+
+   const message=coin.name+" reached "+money(coin.current_price,6);
+   toast("PRICE ALERT: "+message);
+
+   if("Notification" in window && Notification.permission==="granted"){
+    new Notification("TradingHub HQ Price Alert",{body:message});
+   }
+  }
+ });
+
+ if(changed){
+  saveAlerts(alerts);
+  renderAlerts();
+ }
+}
+
+async function requestAlertNotifications(){
+ if(!("Notification" in window))return toast("Notifications are not supported in this browser.");
+
+ const permission=await Notification.requestPermission();
+ toast(permission==="granted"?"Notifications enabled.":"Notification permission not granted.");
+}
+
+/* =========================================
+   CRYPTOCURRENCY NEWS
+========================================= */
+
+async function loadNews(){
+ const container=document.getElementById("newsList");
+ container.innerHTML='<div class="market-loading">Loading cryptocurrency news...</div>';
+
+ try{
+  const url="https://www.coindesk.com/arc/outboundfeeds/rss/";
+  const proxy="https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(url);
+
+  const data=await api(proxy);
+
+  if(!data.items||!data.items.length)throw new Error("No news items available.");
+
+  container.innerHTML=data.items.slice(0,15).map(item=>`
+   <article class="news-item">
+    <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+    <p>${(item.description||"").replace(/<[^>]*>/g,"").slice(0,230)}</p>
+    <div class="news-meta">${item.author||"CoinDesk"} · ${new Date(item.pubDate).toLocaleString()}</div>
+   </article>
+  `).join("");
+
+  newsLoaded=true;
+
+ }catch(error){
+  console.error("News error:",error);
+  container.innerHTML=`
+   <div class="notice">
+    Cryptocurrency news could not be loaded right now.
+    <p><a href="https://www.coindesk.com/" target="_blank" rel="noopener noreferrer">Visit CoinDesk</a></p>
+    <p><a href="https://cointelegraph.com/" target="_blank" rel="noopener noreferrer">Visit Cointelegraph</a></p>
+   </div>
+  `;
+ }
+}
+
+/* =========================================
+   REFRESH DASHBOARD
+========================================= */
+
+async function refreshAll(){
+ await Promise.allSettled([
+  loadMarkets(),
+  loadGlobalStats(),
+  loadTrending(),
+  loadFearGreed()
+ ]);
+}
 
 function toggleTheme(){
-
- alert("Theme settings are not available yet.");
-
+ document.body.classList.toggle("light-mode");
+ toast("Theme preference changed for this session.");
 }
 
+/* =========================================
+   TAWK.TO LIVE CHAT
+========================================= */
 
-/* INITIALIZE */
+function openChat(){
+ if(window.Tawk_API&&typeof window.Tawk_API.maximize==="function"){
+  window.Tawk_API.maximize();
+ }else{
+  toast("Live chat is loading. Please try again shortly.");
+ }
+}
+
+/* =========================================
+   START DASHBOARD
+========================================= */
 
 init();
 
+/* Refresh live market information every minute */
+setInterval(()=>{
+ if(currentUser)loadMarkets();
+},60000);
 
-/* AUTO REFRESH EVERY 60 SECONDS */
+/* Refresh market statistics every five minutes */
+setInterval(()=>{
+ if(currentUser){
+  loadGlobalStats();
+  loadTrending();
+  loadFearGreed();
+ }
+},300000);
 
-setInterval(loadMarkets,60000);
+/* =========================================
+   TAWK.TO WIDGET INITIALIZATION
+========================================= */
 
+var Tawk_API=window.Tawk_API||{};
+var Tawk_LoadStart=new Date();
+
+(function(){
+ var s1=document.createElement("script");
+ var s0=document.getElementsByTagName("script")[0];
+
+ s1.async=true;
+ s1.src="https://embed.tawk.to/6aed9940ada14c3c2f0476d1/default";
+ s1.charset="UTF-8";
+ s1.setAttribute("crossorigin","*");
+
+ s0.parentNode.insertBefore(s1,s0);
+})();
 </script>
-
 
 </body>
 </html>
