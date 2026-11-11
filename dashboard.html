@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#f3f6fb">
 <meta name="description" content="TradingHub HQ cryptocurrency dashboard. Monitor cryptocurrency prices, charts, market statistics, watchlists and market sentiment.">
 <title>TradingHub HQ | Cryptocurrency Dashboard</title>
 
@@ -12,20 +12,20 @@
 
 <style>
 :root {
-  --bg:#111827;
-  --panel:#1f2937;
-  --panel2:#263449;
-  --border:#374151;
-  --text:#f9fafb;
-  --muted:#9ca3af;
+  --bg:#f3f6fb;
+  --panel:#ffffff;
+  --panel2:#e9eef7;
+  --border:#d7dfeb;
+  --text:#172033;
+  --muted:#68758b;
   --blue:#2563eb;
-  --blue-light:#60a5fa;
-  --green:#34d399;
-  --red:#f87171;
-  --purple:#a78bfa;
-  --orange:#fbbf24;
-  --input:#111827;
-  --shadow:0 5px 20px rgba(0,0,0,.16);
+  --blue-light:#3b82f6;
+  --green:#059669;
+  --red:#dc2626;
+  --purple:#7c3aed;
+  --orange:#d97706;
+  --input:#f8fafc;
+  --shadow:0 5px 20px rgba(30,50,80,.08);
 }
 
 * {
@@ -59,88 +59,155 @@ button:disabled {
 }
 
 a {
-  color:var(--blue-light);
+  color:var(--blue);
 }
 
-body.light-mode {
-  --bg:#f3f6fb;
-  --panel:#ffffff;
-  --panel2:#e9eef7;
-  --border:#d7dfeb;
-  --text:#172033;
-  --muted:#68758b;
-  --input:#f8fafc;
-  --shadow:0 5px 20px rgba(30,50,80,.08);
+/* DARK MODE */
+
+body.dark-mode {
+  --bg:#111827;
+  --panel:#1f2937;
+  --panel2:#263449;
+  --border:#374151;
+  --text:#f9fafb;
+  --muted:#9ca3af;
+  --blue:#2563eb;
+  --blue-light:#60a5fa;
+  --green:#34d399;
+  --red:#f87171;
+  --purple:#a78bfa;
+  --orange:#fbbf24;
+  --input:#111827;
+  --shadow:0 5px 20px rgba(0,0,0,.16);
 }
 
-body.light-mode .topbar,
-body.light-mode .nav-bottom,
-body.light-mode .menu {
+body.dark-mode .topbar,
+body.dark-mode .nav-bottom,
+body.dark-mode .menu {
   background:var(--bg);
 }
 
-body.light-mode .ticker {
-  background:#e9eef7;
+body.dark-mode .ticker {
+  background:#1f2937;
 }
 
-body.light-mode .menu-item {
-  color:#253047;
+body.dark-mode .menu-item {
+  color:#e5e7eb;
 }
 
-body.light-mode .menu-item.active {
+body.dark-mode .menu-item.active {
   color:#fff;
 }
 
-body.light-mode .icon-btn {
-  color:var(--text);
+body.dark-mode .icon-btn {
+  color:#d1d5db;
 }
 
-body.light-mode .market-table tr:hover {
-  background:#edf2fa;
+body.dark-mode .market-table tr:hover {
+  background:#263449;
 }
 
-body.light-mode .market-table th,
-body.light-mode .market-table td {
-  border-color:var(--border);
+body.dark-mode .chart-controls button {
+  background:#374151;
+  color:#d1d5db;
 }
 
-body.light-mode .search-input,
-body.light-mode .profile-input,
-body.light-mode .form-input,
-body.light-mode .select-input {
-  background:var(--input);
-  color:var(--text);
-  border-color:var(--border);
-}
-
-body.light-mode .chart-controls button {
-  background:#e1e8f2;
-  color:#263449;
-}
-
-body.light-mode .chart-controls button.active {
+body.dark-mode .chart-controls button.active {
   background:var(--blue);
   color:white;
 }
 
-body.light-mode .news-item a {
+body.dark-mode .news-item a {
   color:var(--text);
 }
 
-body.light-mode .alert-item {
-  border-color:var(--border);
+body.dark-mode .secondary-btn {
+  color:#d1d5db;
 }
 
-body.light-mode .secondary-btn {
-  color:var(--text);
-}
-
-body.light-mode .modal {
+body.dark-mode .modal {
   background:var(--panel);
 }
 
-body.light-mode .modal-close {
+body.dark-mode .modal-close {
   color:var(--text);
+}
+
+body.dark-mode .auth-box {
+  background:var(--panel);
+}
+
+body.dark-mode #authScreen {
+  background:#111827;
+}
+
+body.dark-mode .progress {
+  background:#374151;
+}
+
+body.dark-mode .disabled-action {
+  background:#374151;
+  color:#9ca3af;
+  border-color:#4b5563;
+}
+
+body.dark-mode .market-error {
+  background:#451a1a;
+  color:#fecaca;
+}
+
+/* LIGHT THEME */
+
+body:not(.dark-mode) .topbar,
+body:not(.dark-mode) .nav-bottom,
+body:not(.dark-mode) .menu {
+  background:#ffffff;
+}
+
+body:not(.dark-mode) .ticker {
+  background:#e9eef7;
+}
+
+body:not(.dark-mode) .menu-item {
+  color:#253047;
+}
+
+body:not(.dark-mode) .menu-item.active {
+  color:#fff;
+}
+
+body:not(.dark-mode) .icon-btn {
+  color:var(--text);
+}
+
+body:not(.dark-mode) .market-table tr:hover {
+  background:#edf2fa;
+}
+
+body:not(.dark-mode) .chart-controls button {
+  background:#e1e8f2;
+  color:#263449;
+}
+
+body:not(.dark-mode) .chart-controls button.active {
+  background:var(--blue);
+  color:white;
+}
+
+body:not(.dark-mode) .news-item a {
+  color:var(--text);
+}
+
+body:not(.dark-mode) .secondary-btn {
+  color:var(--text);
+}
+
+body:not(.dark-mode) .modal-close {
+  color:var(--text);
+}
+
+body:not(.dark-mode) .progress {
+  background:#e2e8f0;
 }
 
 /* =========================================
@@ -163,7 +230,7 @@ body.light-mode .modal-close {
 .logo {
   font-size:17px;
   font-weight:800;
-  color:var(--blue-light);
+  color:var(--blue);
   white-space:nowrap;
 }
 
@@ -180,7 +247,7 @@ body.light-mode .modal-close {
 .icon-btn {
   background:transparent;
   border:0;
-  color:#d1d5db;
+  color:var(--text);
   font-size:19px;
   padding:7px;
   border-radius:7px;
@@ -193,7 +260,7 @@ body.light-mode .modal-close {
 .small-avatar,
 .avatar {
   border-radius:50%;
-  background:#374151;
+  background:var(--panel2);
   display:grid;
   place-items:center;
   overflow:hidden;
@@ -228,7 +295,7 @@ body.light-mode .modal-close {
   align-items:center;
   gap:17px;
   padding:7px 16px;
-  background:#1f2937;
+  background:#e9eef7;
   border-bottom:1px solid var(--border);
   overflow-x:auto;
   white-space:nowrap;
@@ -340,12 +407,12 @@ h3 {
 .secondary-btn {
   background:var(--panel);
   border:1px solid var(--border);
-  color:#d1d5db;
+  color:var(--text);
 }
 
 .danger-btn {
-  background:#7f1d1d;
-  color:#fecaca;
+  background:#fee2e2;
+  color:#991b1b;
 }
 
 .primary-btn:hover {
@@ -358,7 +425,7 @@ h3 {
 }
 
 .danger-btn:hover {
-  background:#991b1b;
+  background:#fecaca;
 }
 
 .full-width {
@@ -420,7 +487,8 @@ h3 {
   border-radius:8px;
   display:grid;
   place-items:center;
-  background:#1e3a8a;
+  background:#dbeafe;
+  color:#1d4ed8;
 }
 
 .green {
@@ -441,7 +509,7 @@ h3 {
 
 .notice {
   background:var(--panel2);
-  border:1px solid #475569;
+  border:1px solid var(--border);
   padding:13px;
   border-radius:9px;
   color:var(--muted);
@@ -486,7 +554,7 @@ h3 {
   object-fit:contain;
   flex-shrink:0;
   border-radius:50%;
-  background:#374151;
+  background:var(--panel2);
   padding:3px;
 }
 
@@ -529,8 +597,8 @@ h3 {
 
 .market-error {
   padding:15px;
-  background:#451a1a;
-  color:#fecaca;
+  background:#fee2e2;
+  color:#991b1b;
   border-radius:10px;
   line-height:1.6;
 }
@@ -564,7 +632,7 @@ h3 {
 }
 
 .market-table tr:hover {
-  background:#263449;
+  background:#edf2fa;
 }
 
 .coin-cell {
@@ -583,7 +651,7 @@ h3 {
 .star-btn {
   border:0;
   background:transparent;
-  color:#fbbf24;
+  color:#f59e0b;
   font-size:19px;
   padding:5px;
 }
@@ -600,7 +668,7 @@ h3 {
   padding:11px;
   background:var(--input);
   color:var(--text);
-  border:1px solid #475569;
+  border:1px solid var(--border);
   border-radius:8px;
   margin:7px 0 14px;
   font-size:13px;
@@ -638,8 +706,8 @@ h3 {
 }
 
 .chart-controls button {
-  background:#374151;
-  color:#d1d5db;
+  background:#e1e8f2;
+  color:#263449;
   border:0;
   border-radius:6px;
   padding:7px 10px;
@@ -658,7 +726,7 @@ h3 {
 .progress {
   height:9px;
   border-radius:20px;
-  background:#374151;
+  background:#e2e8f0;
   overflow:hidden;
   margin:12px 0;
 }
@@ -729,11 +797,11 @@ h3 {
 ========================================= */
 
 .wallet-warning {
-  background:#451a1a;
+  background:#fff1f2;
   border:1px solid #dc2626;
   border-radius:10px;
   padding:16px;
-  color:#fecaca;
+  color:#991b1b;
   margin:16px 0;
   line-height:1.7;
 }
@@ -747,10 +815,16 @@ h3 {
   display:inline-block;
   padding:9px 13px;
   margin:7px 5px 0 0;
-  background:#374151;
-  color:#9ca3af;
-  border:1px solid #4b5563;
+  background:#e5e7eb;
+  color:#6b7280;
+  border:1px solid #d1d5db;
   border-radius:7px;
+}
+
+body.dark-mode .wallet-warning {
+  background:#451a1a;
+  border-color:#dc2626;
+  color:#fecaca;
 }
 
 /* =========================================
@@ -762,7 +836,7 @@ h3 {
   bottom:0;
   left:0;
   right:0;
-  background:var(--bg);
+  background:#ffffff;
   border-top:1px solid var(--border);
   display:flex;
   justify-content:space-around;
@@ -789,7 +863,7 @@ h3 {
 }
 
 .nav-bottom .active {
-  color:var(--blue-light);
+  color:var(--blue);
 }
 
 .nav-bottom button:hover {
@@ -819,12 +893,12 @@ h3 {
   bottom:0;
   width:285px;
   max-width:82%;
-  background:var(--bg);
+  background:#ffffff;
   z-index:50;
   overflow-y:auto;
   transform:translateX(-105%);
   transition:transform .25s;
-  box-shadow:8px 0 25px #0006;
+  box-shadow:8px 0 25px #0002;
 }
 
 .menu.open {
@@ -867,7 +941,7 @@ h3 {
   padding:11px 15px;
   margin:2px 8px;
   border-radius:7px;
-  color:#e5e7eb;
+  color:#253047;
   text-decoration:none;
   font-size:12px;
 }
@@ -927,7 +1001,7 @@ h3 {
   float:right;
   background:none;
   border:0;
-  color:white;
+  color:var(--text);
   font-size:20px;
 }
 
@@ -944,14 +1018,15 @@ h3 {
 .auth-tabs button {
   flex:1;
   padding:10px;
-  background:#374151;
+  background:#e1e8f2;
   border:0;
-  color:white;
+  color:#263449;
   border-radius:7px;
 }
 
 .auth-tabs button.active {
   background:var(--blue);
+  color:white;
 }
 
 .auth-message {
@@ -965,7 +1040,7 @@ h3 {
   display:none;
   position:fixed;
   inset:0;
-  background:#111827;
+  background:#f3f6fb;
   z-index:200;
   align-items:center;
   justify-content:center;
@@ -980,7 +1055,7 @@ h3 {
 .auth-box {
   width:100%;
   max-width:420px;
-  background:var(--panel);
+  background:#ffffff;
   padding:24px;
   border-radius:14px;
   border:1px solid var(--border);
@@ -995,6 +1070,69 @@ h3 {
   font-size:20px;
 }
 
+.auth-link {
+  display:block;
+  text-align:right;
+  color:var(--blue);
+  font-size:12px;
+  margin:0 0 12px;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.auth-link:hover {
+  text-decoration:underline;
+}
+
+body.dark-mode #authScreen {
+  background:#111827;
+}
+
+body.dark-mode .auth-box {
+  background:var(--panel);
+}
+
+body.dark-mode .auth-tabs button {
+  background:#374151;
+  color:white;
+}
+
+body.dark-mode .auth-tabs button.active {
+  background:var(--blue);
+}
+
+/* =========================================
+   FLOATING LIVE CHAT BUTTON
+========================================= */
+
+.chat-float {
+  position:fixed;
+  right:18px;
+  bottom:88px;
+  z-index:35;
+  width:55px;
+  height:55px;
+  border:0;
+  border-radius:50%;
+  background:#2563eb;
+  color:#ffffff;
+  font-size:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 5px 18px rgba(37,99,235,.35);
+  transition:transform .2s,background .2s;
+}
+
+.chat-float:hover {
+  background:#1d4ed8;
+  transform:translateY(-3px);
+}
+
+.chat-float:active {
+  transform:scale(.96);
+}
+
 /* =========================================
    TOAST NOTIFICATIONS
 ========================================= */
@@ -1004,8 +1142,9 @@ h3 {
   bottom:85px;
   left:50%;
   transform:translateX(-50%);
-  background:#263449;
-  border:1px solid #475569;
+  background:#ffffff;
+  color:#172033;
+  border:1px solid var(--border);
   padding:12px 17px;
   border-radius:9px;
   z-index:300;
@@ -1016,6 +1155,11 @@ h3 {
   box-shadow:var(--shadow);
 }
 
+body.dark-mode #toast {
+  background:#263449;
+  color:#ffffff;
+}
+
 /* =========================================
    LOADING SPINNER
 ========================================= */
@@ -1024,8 +1168,8 @@ h3 {
   width:19px;
   height:19px;
   display:inline-block;
-  border:2px solid #64748b;
-  border-top-color:var(--blue-light);
+  border:2px solid #cbd5e1;
+  border-top-color:var(--blue);
   border-radius:50%;
   animation:spin .7s linear infinite;
   vertical-align:middle;
@@ -1068,6 +1212,10 @@ h3 {
     padding:0 25px;
   }
 
+  .chat-float {
+    bottom:25px;
+  }
+
 }
 
 @media(min-width:1100px) {
@@ -1084,10 +1232,6 @@ h3 {
   }
 
 }
-
-/* =========================================
-   RESPONSIVE MOBILE
-========================================= */
 
 @media(max-width:480px) {
 
@@ -1146,6 +1290,13 @@ h3 {
     font-size:20px;
   }
 
+  .chat-float {
+    width:50px;
+    height:50px;
+    right:13px;
+    bottom:82px;
+  }
+
 }
 
 @media(max-width:350px) {
@@ -1198,10 +1349,6 @@ select:focus-visible {
 
 <body>
 
-<!-- =========================================
-     TOP HEADER
-========================================= -->
-
 <header class="topbar">
 
  <div class="logo">◆ <span>TradingHub</span> HQ</div>
@@ -1229,22 +1376,13 @@ select:focus-visible {
 
 </header>
 
-<!-- =========================================
-     LIVE CRYPTO TICKER
-========================================= -->
-
 <div class="ticker">
 
  <span><span class="live-dot"></span>LIVE</span>
-
  <span>BTC: <b class="price" id="btc">$--</b></span>
-
  <span>ETH: <b class="price" id="eth">$--</b></span>
-
  <span>SOL: <b class="price" id="sol">$--</b></span>
-
  <span>BNB: <b class="price" id="bnb">$--</b></span>
-
  <span>XRP: <b class="price" id="xrp">$--</b></span>
 
  <span class="balance">
@@ -1255,9 +1393,7 @@ select:focus-visible {
 
 <main class="main">
 
-<!-- =========================================
-     DASHBOARD OVERVIEW
-========================================= -->
+<!-- DASHBOARD OVERVIEW -->
 
 <section id="overview" class="page active">
 
@@ -1279,143 +1415,93 @@ select:focus-visible {
  <div class="cards">
 
   <div class="card">
-
    <div class="card-label">Active Copies</div>
-
    <div class="card-value" id="overviewActiveCopies">0</div>
-
    <div class="card-desc">Experts being copied</div>
-
    <div class="card-icon">♙</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Total Invested</div>
-
    <div class="card-value" id="overviewInvested">$0.00</div>
-
    <div class="card-desc">Capital deployed</div>
-
    <div class="card-icon green">$</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Current Value</div>
-
    <div class="card-value" id="overviewCurrentValue">$0.00</div>
-
    <div class="card-desc">Portfolio value</div>
-
    <div class="card-icon purple">▣</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Total P&L</div>
-
    <div class="card-value" id="overviewPnL">$0.00</div>
-
    <div class="card-desc">Recorded profit and loss</div>
-
    <div class="card-icon orange">↗</div>
-
   </div>
 
  </div>
 
  <div class="section-heading">
-
   <h2>Global Cryptocurrency Market</h2>
-
   <button class="secondary-btn" onclick="showPage('markets')">
    View Markets
   </button>
-
  </div>
 
  <div class="stats-grid">
 
   <div class="card">
-
    <div class="card-label">Total Market Cap</div>
-
    <div class="stat-value" id="overviewMarketCap">Loading...</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">24h Trading Volume</div>
-
    <div class="stat-value" id="overviewVolume">Loading...</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">BTC Dominance</div>
-
    <div class="stat-value" id="overviewDominance">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Active Cryptocurrencies</div>
-
    <div class="stat-value" id="overviewCoins">--</div>
-
   </div>
 
  </div>
 
  <div class="section-heading">
-
   <h2>Trending Cryptocurrencies</h2>
-
   <button class="secondary-btn" onclick="showPage('trending')">
    See All
   </button>
-
  </div>
 
  <div class="market-grid" id="overviewTrending">
-
-  <div class="market-loading">
-   Loading trending coins...
-  </div>
-
+  <div class="market-loading">Loading trending coins...</div>
  </div>
 
  <div class="section-heading">
-
   <h2>Market Sentiment</h2>
-
   <button class="secondary-btn" onclick="showPage('sentiment')">
    Details
   </button>
-
  </div>
 
  <div class="card">
-
   <div class="card-label">Fear & Greed Index</div>
-
   <div class="card-value" id="overviewFear">Loading...</div>
-
   <div class="progress">
    <div class="progress-bar" id="overviewFearBar"></div>
   </div>
-
   <div class="card-desc" id="overviewFearText">
    Fetching market sentiment...
   </div>
-
  </div>
 
  <div class="section-heading">
@@ -1425,51 +1511,35 @@ select:focus-visible {
  <div class="market-grid">
 
   <div class="market-card">
-
    <h3>Live Markets</h3>
-
    <p class="muted">View cryptocurrency prices.</p>
-
    <button class="secondary-btn" onclick="showPage('markets')">
     Open Markets
    </button>
-
   </div>
 
   <div class="market-card">
-
    <h3>Price Alerts</h3>
-
    <p class="muted">Monitor your target prices.</p>
-
    <button class="secondary-btn" onclick="showPage('alerts')">
     Manage Alerts
    </button>
-
   </div>
 
   <div class="market-card">
-
    <h3>Crypto Charts</h3>
-
    <p class="muted">Explore historical price movements.</p>
-
    <button class="secondary-btn" onclick="showPage('charts')">
     View Charts
    </button>
-
   </div>
 
   <div class="market-card">
-
    <h3>Crypto News</h3>
-
    <p class="muted">Read market headlines.</p>
-
    <button class="secondary-btn" onclick="showPage('news')">
     Read News
    </button>
-
   </div>
 
  </div>
@@ -1482,79 +1552,48 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     ACCOUNT STATEMENT
-========================================= -->
+<!-- ACCOUNT STATEMENT -->
 
 <section id="statement" class="page">
 
  <h1>Account Statement</h1>
-
- <p class="subtitle">
-  Review your recorded account activity.
- </p>
+ <p class="subtitle">Review your recorded account activity.</p>
 
  <div class="panel">
-
   <h3>Account Activity</h3>
-
   <div class="notice">
    No account transactions recorded yet.
    Account balance information is displayed from your profile record.
   </div>
-
  </div>
 
 </section>
 
-<!-- =========================================
-     INVESTMENT PLANS
-========================================= -->
+<!-- INVESTMENT PLANS -->
 
 <section id="plans" class="page">
 
  <h1>Investment Plans</h1>
-
- <p class="subtitle">
-  Explore future investment plan options.
- </p>
+ <p class="subtitle">Explore future investment plan options.</p>
 
  <div class="market-grid">
 
   <div class="market-card">
-
    <h3>Starter Plan</h3>
-
    <div class="coin-price">Coming Soon</div>
-
-   <p class="muted">
-    Investment plan information is not yet available.
-   </p>
-
+   <p class="muted">Investment plan information is not yet available.</p>
   </div>
 
   <div class="market-card">
-
    <h3>Professional Plan</h3>
-
    <div class="coin-price">Coming Soon</div>
-
-   <p class="muted">
-    Investment plan information is not yet available.
-   </p>
-
+   <p class="muted">Investment plan information is not yet available.</p>
   </div>
 
   <div class="market-card">
-
    <h3>Premium Plan</h3>
-
    <div class="coin-price">Coming Soon</div>
-
-   <p class="muted">
-    Investment plan information is not yet available.
-   </p>
-
+   <p class="muted">Investment plan information is not yet available.</p>
   </div>
 
  </div>
@@ -1565,38 +1604,25 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     PORTFOLIO
-========================================= -->
+<!-- PORTFOLIO -->
 
 <section id="portfolio" class="page">
 
  <h1>My Portfolio</h1>
-
- <p class="subtitle">
-  Your cryptocurrency portfolio overview.
- </p>
+ <p class="subtitle">Your cryptocurrency portfolio overview.</p>
 
  <div class="cards">
 
   <div class="card">
-
    <div class="card-label">Portfolio Value</div>
-
    <div class="card-value">$0.00</div>
-
    <div class="card-desc">No portfolio holdings recorded.</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Assets</div>
-
    <div class="card-value">0</div>
-
    <div class="card-desc">Recorded cryptocurrency holdings.</div>
-
   </div>
 
  </div>
@@ -1611,62 +1637,39 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     PERFORMANCE
-========================================= -->
+<!-- PERFORMANCE -->
 
 <section id="performance" class="page">
 
  <h1>Performance History</h1>
-
- <p class="subtitle">
-  Review your recorded trading performance.
- </p>
+ <p class="subtitle">Review your recorded trading performance.</p>
 
  <div class="panel">
-
   <h3>Trading Performance</h3>
-
-  <div class="notice">
-   No trading performance records yet.
-  </div>
-
+  <div class="notice">No trading performance records yet.</div>
  </div>
 
 </section>
 
-<!-- =========================================
-     DEMO TRADING
-========================================= -->
+<!-- DEMO TRADING -->
 
 <section id="demo" class="page">
 
  <h1>Demo Trading</h1>
-
- <p class="subtitle">
-  Practice trading without risking real funds.
- </p>
+ <p class="subtitle">Practice trading without risking real funds.</p>
 
  <div class="cards">
 
   <div class="card">
-
    <div class="card-label">Demo Balance</div>
-
    <div class="card-value">$10,000.00</div>
-
    <div class="card-desc">Illustrative practice balance only.</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Open Demo Trades</div>
-
    <div class="card-value">0</div>
-
    <div class="card-desc">No demo orders have been placed.</div>
-
   </div>
 
  </div>
@@ -1678,9 +1681,7 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     LIVE MARKETS
-========================================= -->
+<!-- LIVE MARKETS -->
 
 <section id="markets" class="page">
 
@@ -1705,9 +1706,7 @@ select:focus-visible {
  <div class="market-table-wrap panel">
 
   <table class="market-table">
-
    <thead>
-
     <tr>
      <th>Asset</th>
      <th>Price</th>
@@ -1715,19 +1714,13 @@ select:focus-visible {
      <th>Market Cap</th>
      <th>Watch</th>
     </tr>
-
    </thead>
 
    <tbody id="marketTable">
-
     <tr>
-     <td colspan="5">
-      Loading cryptocurrency markets...
-     </td>
+     <td colspan="5">Loading cryptocurrency markets...</td>
     </tr>
-
    </tbody>
-
   </table>
 
  </div>
@@ -1738,74 +1731,48 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     GLOBAL STATISTICS
-========================================= -->
+<!-- GLOBAL STATISTICS -->
 
 <section id="statistics" class="page">
 
  <h1>Global Market Statistics</h1>
-
- <p class="subtitle">
-  Overview of the cryptocurrency market.
- </p>
+ <p class="subtitle">Overview of the cryptocurrency market.</p>
 
  <div class="stats-grid">
 
   <div class="card">
-
    <div class="card-label">Total Market Cap</div>
-
    <div class="stat-value" id="statMarketCap">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">24h Volume</div>
-
    <div class="stat-value" id="statVolume">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">BTC Dominance</div>
-
    <div class="stat-value" id="statBTC">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">ETH Dominance</div>
-
    <div class="stat-value" id="statETH">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Active Cryptocurrencies</div>
-
    <div class="stat-value" id="statActive">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Markets Tracked</div>
-
    <div class="stat-value" id="statMarkets">--</div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Market Cap Change (24h)</div>
-
    <div class="stat-value" id="statChange">--</div>
-
   </div>
 
  </div>
@@ -1816,14 +1783,11 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     TRENDING COINS
-========================================= -->
+<!-- TRENDING COINS -->
 
 <section id="trending" class="page">
 
  <h1>Trending Cryptocurrencies</h1>
-
  <p class="subtitle">
   Cryptocurrencies receiving increased attention in the market.
  </p>
@@ -1833,18 +1797,12 @@ select:focus-visible {
  </button>
 
  <div class="market-grid" id="trendingList">
-
-  <div class="market-loading">
-   Loading trending cryptocurrencies...
-  </div>
-
+  <div class="market-loading">Loading trending cryptocurrencies...</div>
  </div>
 
 </section>
 
-<!-- =========================================
-     FEAR AND GREED INDEX
-========================================= -->
+<!-- FEAR AND GREED INDEX -->
 
 <section id="sentiment" class="page">
 
@@ -1859,36 +1817,26 @@ select:focus-visible {
 
   <div class="card-label">Current Sentiment Score</div>
 
-  <div class="card-value" id="fearValue">
-   Loading...
-  </div>
+  <div class="card-value" id="fearValue">Loading...</div>
 
   <div class="progress">
-
    <div class="progress-bar" id="fearBar"></div>
-
   </div>
 
-  <h2 id="fearClassification">
-   Fetching index...
-  </h2>
+  <h2 id="fearClassification">Fetching index...</h2>
 
   <p class="muted" id="fearDate"></p>
 
  </div>
 
  <div class="section-heading">
-
   <h2>Historical Sentiment</h2>
-
  </div>
 
  <div class="panel">
-
   <div id="fearHistory">
    Historical sentiment data will appear here when available.
   </div>
-
  </div>
 
  <button class="secondary-btn" onclick="loadFearGreed()">
@@ -1897,9 +1845,7 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     CRYPTO CHARTS
-========================================= -->
+<!-- CRYPTO CHARTS -->
 
 <section id="charts" class="page">
 
@@ -1916,64 +1862,41 @@ select:focus-visible {
  <select class="select-input" id="chartCoin" onchange="loadChart()">
 
   <option value="bitcoin">Bitcoin (BTC)</option>
-
   <option value="ethereum">Ethereum (ETH)</option>
-
   <option value="solana">Solana (SOL)</option>
-
   <option value="binancecoin">BNB</option>
-
   <option value="ripple">XRP</option>
-
   <option value="dogecoin">Dogecoin</option>
-
   <option value="cardano">Cardano</option>
-
   <option value="litecoin">Litecoin</option>
-
   <option value="tron">TRON</option>
-
   <option value="chainlink">Chainlink</option>
-
   <option value="avalanche-2">Avalanche</option>
-
   <option value="polkadot">Polkadot</option>
 
  </select>
 
  <div class="chart-controls">
-
   <button class="active" onclick="setChartDays(1,this)">24H</button>
-
   <button onclick="setChartDays(7,this)">7D</button>
-
   <button onclick="setChartDays(30,this)">30D</button>
-
   <button onclick="setChartDays(90,this)">90D</button>
-
   <button onclick="setChartDays(365,this)">1Y</button>
-
  </div>
 
  <div class="panel">
-
   <div class="chart-container">
-
    <canvas id="priceChart"></canvas>
-
   </div>
 
   <div class="market-updated" id="chartStatus">
    Select a cryptocurrency to load its chart.
   </div>
-
  </div>
 
 </section>
 
-<!-- =========================================
-     WATCHLIST
-========================================= -->
+<!-- WATCHLIST -->
 
 <section id="watchlist" class="page">
 
@@ -1999,9 +1922,7 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     PRICE ALERTS
-========================================= -->
+<!-- PRICE ALERTS -->
 
 <section id="alerts" class="page">
 
@@ -2018,32 +1939,19 @@ select:focus-visible {
   <label class="form-label">Cryptocurrency</label>
 
   <select class="select-input" id="alertCoin">
-
    <option value="bitcoin">Bitcoin (BTC)</option>
-
    <option value="ethereum">Ethereum (ETH)</option>
-
    <option value="solana">Solana (SOL)</option>
-
    <option value="binancecoin">BNB</option>
-
    <option value="ripple">XRP</option>
-
    <option value="dogecoin">Dogecoin</option>
-
    <option value="cardano">Cardano</option>
-
    <option value="litecoin">Litecoin</option>
-
    <option value="tron">TRON</option>
-
    <option value="chainlink">Chainlink</option>
-
   </select>
 
-  <label class="form-label">
-   Target Price in USD
-  </label>
+  <label class="form-label">Target Price in USD</label>
 
   <input
    class="form-input"
@@ -2054,20 +1962,11 @@ select:focus-visible {
    placeholder="Enter target price"
   >
 
-  <label class="form-label">
-   Alert Condition
-  </label>
+  <label class="form-label">Alert Condition</label>
 
   <select class="select-input" id="alertCondition">
-
-   <option value="above">
-    Price rises above target
-   </option>
-
-   <option value="below">
-    Price falls below target
-   </option>
-
+   <option value="above">Price rises above target</option>
+   <option value="below">Price falls below target</option>
   </select>
 
   <button class="primary-btn" onclick="createAlert()">
@@ -2081,9 +1980,7 @@ select:focus-visible {
  </div>
 
  <div class="section-heading">
-
   <h2>Your Active Alerts</h2>
-
  </div>
 
  <div class="panel" id="alertList">
@@ -2092,9 +1989,7 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     CRYPTO NEWS
-========================================= -->
+<!-- CRYPTO NEWS -->
 
 <section id="news" class="page">
 
@@ -2109,26 +2004,17 @@ select:focus-visible {
  </button>
 
  <div class="panel" id="newsList">
-
-  <div class="market-loading">
-   Loading cryptocurrency news...
-  </div>
-
+  <div class="market-loading">Loading cryptocurrency news...</div>
  </div>
 
 </section>
 
-<!-- =========================================
-     COPY TRADING
-========================================= -->
+<!-- COPY TRADING -->
 
 <section id="copy" class="page">
 
  <h1>Copy Trading</h1>
-
- <p class="subtitle">
-  Explore copy trading features.
- </p>
+ <p class="subtitle">Explore copy trading features.</p>
 
  <div class="notice">
   Copy trading is currently under development.
@@ -2138,44 +2024,31 @@ select:focus-visible {
  <div class="market-grid">
 
   <div class="market-card">
-
    <h3>Expert Traders</h3>
-
    <p class="muted">
     Expert profiles and performance information will be displayed here.
    </p>
-
    <span class="badge">Coming Soon</span>
-
   </div>
 
   <div class="market-card">
-
    <h3>Copy Portfolio</h3>
-
    <p class="muted">
     Copy trading portfolio management is not available.
    </p>
-
    <span class="badge">Coming Soon</span>
-
   </div>
 
  </div>
 
 </section>
 
-<!-- =========================================
-     AI TRADING BOTS
-========================================= -->
+<!-- AI TRADING BOTS -->
 
 <section id="bots" class="page">
 
  <h1>AI Trading Bots</h1>
-
- <p class="subtitle">
-  Explore automated trading tools.
- </p>
+ <p class="subtitle">Explore automated trading tools.</p>
 
  <div class="notice">
   AI trading bots are coming soon.
@@ -2185,44 +2058,29 @@ select:focus-visible {
  <div class="market-grid">
 
   <div class="market-card">
-
    <h3>AI Market Analysis</h3>
-
-   <p class="muted">
-    Automated market analysis tools.
-   </p>
-
+   <p class="muted">Automated market analysis tools.</p>
    <span class="badge">AI</span>
-
   </div>
 
   <div class="market-card">
-
    <h3>Trading Automation</h3>
-
    <p class="muted">
     Automated execution is not currently available.
    </p>
-
    <span class="badge">Coming Soon</span>
-
   </div>
 
  </div>
 
 </section>
 
-<!-- =========================================
-     TRADING SIGNALS
-========================================= -->
+<!-- TRADING SIGNALS -->
 
 <section id="signals" class="page">
 
  <h1>Trading Signals</h1>
-
- <p class="subtitle">
-  Market insights and trading analysis.
- </p>
+ <p class="subtitle">Market insights and trading analysis.</p>
 
  <div class="notice">
   Trading signals are coming soon.
@@ -2232,67 +2090,45 @@ select:focus-visible {
  <div class="market-grid">
 
   <div class="market-card">
-
    <h3>Market Analysis</h3>
-
-   <p class="muted">
-    Market analysis tools will be available here.
-   </p>
-
+   <p class="muted">Market analysis tools will be available here.</p>
   </div>
 
   <div class="market-card">
-
    <h3>Premium Signals</h3>
-
    <p class="muted">
     Premium signal services are not currently available.
    </p>
-
    <span class="badge">Premium</span>
-
   </div>
 
  </div>
 
 </section>
 
-<!-- =========================================
-     WALLET AND FUNDS
-========================================= -->
+<!-- WALLET AND FUNDS -->
 
 <section id="deposit" class="page">
 
  <h1>Wallet & Funds</h1>
-
- <p class="subtitle">
-  Manage your account funds.
- </p>
+ <p class="subtitle">Manage your account funds.</p>
 
  <div class="cards">
 
   <div class="card">
-
    <div class="card-label">Account Balance</div>
-
    <div class="card-value" id="walletBalance">$0.00</div>
-
    <div class="card-desc">
     Balance shown from your account profile record.
    </div>
-
   </div>
 
   <div class="card">
-
    <div class="card-label">Wallet Status</div>
-
    <div class="card-value orange">Unavailable</div>
-
    <div class="card-desc">
     Deposits and withdrawals are disabled.
    </div>
-
   </div>
 
  </div>
@@ -2324,17 +2160,12 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     CREDIT
-========================================= -->
+<!-- CREDIT -->
 
 <section id="credit" class="page">
 
  <h1>Credit Center</h1>
-
- <p class="subtitle">
-  Account credit information and available services.
- </p>
+ <p class="subtitle">Account credit information and available services.</p>
 
  <div class="notice">
   Credit services are not currently available.
@@ -2343,42 +2174,29 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     REFERRALS
-========================================= -->
+<!-- REFERRALS -->
 
 <section id="referrals" class="page">
 
  <h1>Referral Center</h1>
-
- <p class="subtitle">
-  Referral information and account invitations.
- </p>
+ <p class="subtitle">Referral information and account invitations.</p>
 
  <div class="panel">
-
   <h3>Referral Program</h3>
-
   <div class="notice">
    The referral program is currently under development.
    No referral rewards or commissions are being credited.
   </div>
-
  </div>
 
 </section>
 
-<!-- =========================================
-     PROFILE
-========================================= -->
+<!-- PROFILE -->
 
 <section id="profile" class="page">
 
  <h1>My Profile</h1>
-
- <p class="subtitle">
-  Manage your account information.
- </p>
+ <p class="subtitle">Manage your account information.</p>
 
  <div class="card">
 
@@ -2386,9 +2204,7 @@ select:focus-visible {
 
   <p id="profileEmail" class="muted"></p>
 
-  <label class="form-label">
-   Profile Picture
-  </label>
+  <label class="form-label">Profile Picture</label>
 
   <input
    class="profile-input"
@@ -2401,9 +2217,7 @@ select:focus-visible {
    Upload Picture
   </button>
 
-  <label class="form-label">
-   Full Name
-  </label>
+  <label class="form-label">Full Name</label>
 
   <input
    class="profile-input"
@@ -2423,17 +2237,12 @@ select:focus-visible {
 
 </section>
 
-<!-- =========================================
-     CUSTOMER SUPPORT
-========================================= -->
+<!-- CUSTOMER SUPPORT -->
 
 <section id="support" class="page">
 
  <h1>Customer Support</h1>
-
- <p class="subtitle">
-  We're here to help you.
- </p>
+ <p class="subtitle">We're here to help you.</p>
 
  <div class="panel">
 
@@ -2464,57 +2273,49 @@ select:focus-visible {
 
 </main>
 
-<!-- =========================================
-     MOBILE NAVIGATION
-========================================= -->
+<!-- MOBILE NAVIGATION -->
 
 <nav class="nav-bottom">
 
  <button class="active" onclick="showPage('overview',this)">
-
   <span class="nav-icon">⌂</span>
-
   Home
-
  </button>
 
  <button onclick="showPage('markets',this)">
-
   <span class="nav-icon">◈</span>
-
   Markets
-
  </button>
 
  <button onclick="showPage('watchlist',this)">
-
   <span class="nav-icon">☆</span>
-
   Watchlist
-
  </button>
 
  <button onclick="showPage('charts',this)">
-
   <span class="nav-icon">▥</span>
-
   Charts
-
  </button>
 
  <button onclick="showPage('profile',this)">
-
   <span class="nav-icon">♙</span>
-
   Profile
-
  </button>
 
 </nav>
 
-<!-- =========================================
-     SIDE MENU OVERLAY
-========================================= -->
+<!-- FLOATING CHAT BUTTON -->
+
+<button
+ class="chat-float"
+ id="chatFloat"
+ onclick="openChat()"
+ aria-label="Open live customer support chat"
+ title="Chat with support">
+ 💬
+</button>
+
+<!-- SIDE MENU OVERLAY -->
 
 <div
  class="menu-overlay"
@@ -2522,20 +2323,13 @@ select:focus-visible {
  onclick="closeMenu()">
 </div>
 
-<!-- =========================================
-     SIDE MENU
-========================================= -->
+<!-- SIDE MENU -->
 
 <aside class="menu" id="sideMenu">
 
  <div class="menu-header">
-
   <strong>TradingHub HQ</strong>
-
-  <button class="icon-btn" onclick="closeMenu()">
-   ✕
-  </button>
-
+  <button class="icon-btn" onclick="closeMenu()">✕</button>
  </div>
 
  <div class="menu-profile">
@@ -2543,13 +2337,8 @@ select:focus-visible {
   <div class="avatar" id="menuAvatar">U</div>
 
   <div>
-
    <strong id="menuName">Customer</strong>
-
-   <small id="menuBalance">
-    Account Balance: $0.00
-   </small>
-
+   <small id="menuBalance">Account Balance: $0.00</small>
   </div>
 
  </div>
@@ -2666,9 +2455,7 @@ select:focus-visible {
 
 </aside>
 
-<!-- =========================================
-     AUTHENTICATION SCREEN
-========================================= -->
+<!-- AUTHENTICATION SCREEN -->
 
 <div id="authScreen">
 
@@ -2678,9 +2465,7 @@ select:focus-visible {
    ◆ <span>TradingHub</span> HQ
   </div>
 
-  <h2 id="authHeading">
-   Welcome Back
-  </h2>
+  <h2 id="authHeading">Welcome Back</h2>
 
   <p class="subtitle">
    Sign in to access your cryptocurrency dashboard.
@@ -2707,9 +2492,7 @@ select:focus-visible {
 
    <div id="authNameWrap" style="display:none">
 
-    <label class="form-label">
-     Full Name
-    </label>
+    <label class="form-label">Full Name</label>
 
     <input
      class="form-input"
@@ -2720,9 +2503,7 @@ select:focus-visible {
 
    </div>
 
-   <label class="form-label">
-    Email Address
-   </label>
+   <label class="form-label">Email Address</label>
 
    <input
     class="form-input"
@@ -2733,9 +2514,7 @@ select:focus-visible {
     placeholder="name@example.com"
    >
 
-   <label class="form-label">
-    Password
-   </label>
+   <label class="form-label">Password</label>
 
    <input
     class="form-input"
@@ -2747,14 +2526,20 @@ select:focus-visible {
     placeholder="At least 6 characters"
    >
 
+   <a
+    class="auth-link"
+    id="forgotPasswordLink"
+    href="#"
+    onclick="sendPasswordReset(event)">
+    Forgot password?
+   </a>
+
    <button
     class="primary-btn full-width"
     id="authSubmit"
     type="submit"
     style="margin-top:10px">
-
     Sign In
-
    </button>
 
   </form>
@@ -2764,10 +2549,6 @@ select:focus-visible {
  </div>
 
 </div>
-
-<!-- =========================================
-     TOAST
-========================================= -->
 
 <div id="toast"></div>
 
@@ -2789,12 +2570,10 @@ const db = window.supabase.createClient(
 );
 
 let currentUser = null;
-
 let profile = {};
-
 let authMode = "login";
-
 let authReady = false;
+let authProcessing = false;
 
 
 /* =========================================
@@ -2911,24 +2690,14 @@ const coins = [
 ];
 
 let marketData = [];
-
 let globalData = null;
-
 let trendingData = [];
-
 let fearData = null;
-
 let priceChart = null;
-
 let chartDays = 1;
-
 let marketLoading = false;
-
 let newsLoaded = false;
-
 let lastMarketUpdate = null;
-
-let marketRequestController = null;
 
 
 /* =========================================
@@ -3006,7 +2775,6 @@ function toast(message) {
  if(!box)return;
 
  box.textContent=message;
-
  box.style.display="block";
 
  clearTimeout(window.toastTimer);
@@ -3029,11 +2797,7 @@ async function api(url,options={}) {
  );
 
  if(!response.ok) {
-
-  throw new Error(
-   "Data service returned HTTP "+response.status
-  );
-
+  throw new Error("Data service returned HTTP "+response.status);
  }
 
  return response.json();
@@ -3044,15 +2808,10 @@ async function api(url,options={}) {
 function coinById(id) {
 
  return coins.find(c=>c.id===id)||{
-
   id,
-
   name:id,
-
   symbol:id.toUpperCase(),
-
   logo:""
-
  };
 
 }
@@ -3063,11 +2822,8 @@ function safeImage(url,name) {
  const image=document.createElement("img");
 
  image.src=url||"";
-
  image.alt=name+" logo";
-
  image.className="coin-logo";
-
  image.loading="lazy";
 
  image.onerror=function(){
@@ -3145,8 +2901,7 @@ async function init() {
    .classList.remove("open");
 
   await loadProfile();
-
-  await refreshAll();
+  await refreshAll(false);
 
   authReady=true;
 
@@ -3212,12 +2967,22 @@ function setAuthMode(mode) {
   .getElementById("authName")
   .required=mode==="signup";
 
+ document
+  .getElementById("forgotPasswordLink")
+  .style.display=mode==="login"?"block":"none";
+
 }
 
+
+/* =========================================
+   LOGIN / SIGNUP SUBMISSION
+========================================= */
 
 async function handleAuth(event) {
 
  event.preventDefault();
+
+ if(authProcessing)return;
 
  const email=document
   .getElementById("authEmail")
@@ -3237,8 +3002,13 @@ async function handleAuth(event) {
  const message=document
   .getElementById("authMessage");
 
- button.disabled=true;
+ if(authMode==="signup"&&!name) {
+  message.textContent="Please enter your full name.";
+  return;
+ }
 
+ authProcessing=true;
+ button.disabled=true;
  message.textContent="Please wait...";
 
  try {
@@ -3250,7 +3020,6 @@ async function handleAuth(event) {
    result=await db.auth.signUp({
 
     email,
-
     password,
 
     options:{
@@ -3264,11 +3033,8 @@ async function handleAuth(event) {
   } else {
 
    result=await db.auth.signInWithPassword({
-
     email,
-
     password
-
    });
 
   }
@@ -3300,8 +3066,7 @@ async function handleAuth(event) {
   );
 
   await loadProfile();
-
-  await refreshAll();
+  await refreshAll(false);
 
  } catch(error) {
 
@@ -3310,7 +3075,122 @@ async function handleAuth(event) {
 
  } finally {
 
+  authProcessing=false;
   button.disabled=false;
+
+ }
+
+}
+
+
+/* =========================================
+   PASSWORD RECOVERY
+========================================= */
+
+async function sendPasswordReset(event) {
+
+ if(event)event.preventDefault();
+
+ const email=document
+  .getElementById("authEmail")
+  .value.trim();
+
+ const message=document
+  .getElementById("authMessage");
+
+ if(!email) {
+
+  message.textContent=
+   "Enter your email address first.";
+
+  return;
+
+ }
+
+ message.textContent="Sending password reset email...";
+
+ try {
+
+  const redirectTo=
+   window.location.origin+
+   window.location.pathname+
+   "?reset-password=true";
+
+  const {
+   error
+  }=await db.auth.resetPasswordForEmail(
+   email,
+   {
+    redirectTo
+   }
+  );
+
+  if(error)throw error;
+
+  message.textContent=
+   "If an account exists for this email, a password reset link will be sent. Check your inbox.";
+
+ } catch(error) {
+
+  message.textContent=
+   error.message||"Unable to send password reset email.";
+
+ }
+
+}
+
+
+/* =========================================
+   PASSWORD UPDATE AFTER RESET
+========================================= */
+
+async function checkPasswordRecovery() {
+
+ const params=new URLSearchParams(
+  window.location.search
+ );
+
+ if(
+  params.get("reset-password")!=="true"
+ )return;
+
+ const newPassword=prompt(
+  "Enter your new password (at least 6 characters):"
+ );
+
+ if(!newPassword)return;
+
+ if(newPassword.length<6) {
+
+  toast("Password must contain at least 6 characters.");
+
+  return;
+
+ }
+
+ try {
+
+  const {
+   error
+  }=await db.auth.updateUser({
+   password:newPassword
+  });
+
+  if(error)throw error;
+
+  toast("Your password has been updated.");
+
+  window.history.replaceState(
+   {},
+   document.title,
+   window.location.pathname
+  );
+
+ } catch(error) {
+
+  toast(
+   error.message||"Unable to update password."
+  );
 
  }
 
@@ -3322,12 +3202,11 @@ async function handleAuth(event) {
 ========================================= */
 
 db.auth.onAuthStateChange(
- (event,session)=>{
+ async(event,session)=>{
 
   if(event==="SIGNED_OUT"||!session) {
 
    currentUser=null;
-
    profile={};
 
    document
@@ -3338,7 +3217,14 @@ db.auth.onAuthStateChange(
 
   }
 
-  if(session) {
+  if(
+   session &&
+   (
+    event==="SIGNED_IN"||
+    event==="TOKEN_REFRESHED"||
+    event==="USER_UPDATED"
+   )
+  ) {
 
    currentUser=session.user;
 
@@ -3371,14 +3257,7 @@ async function loadProfile() {
    .eq("id",currentUser.id)
    .maybeSingle();
 
-  if(error) {
-
-   console.error(
-    "Profile loading error:",
-    error.message
-   );
-
-  }
+  if(error)throw error;
 
   profile=data||{};
 
@@ -3400,15 +3279,8 @@ async function loadProfile() {
    "Account Balance: "+money(balance)
   );
 
-  setText(
-   "tickerBalance",
-   money(balance)
-  );
-
-  setText(
-   "walletBalance",
-   money(balance)
-  );
+  setText("tickerBalance",money(balance));
+  setText("walletBalance",money(balance));
 
   setText(
    "profileEmail",
@@ -3417,7 +3289,7 @@ async function loadProfile() {
 
   document
    .getElementById("fullName")
-   .value=profile.full_name||"";
+   .value=profile.full_name||name;
 
   [
    "topAvatar",
@@ -3447,12 +3319,7 @@ async function loadProfile() {
     );
 
    if(pictureError) {
-
-    console.error(
-     "Profile picture error:",
-     pictureError.message
-    );
-
+    console.error("Profile picture error:",pictureError.message);
    }
 
    if(pictureData?.signedUrl) {
@@ -3470,7 +3337,6 @@ async function loadProfile() {
      const img=document.createElement("img");
 
      img.src=pictureData.signedUrl;
-
      img.alt="Profile picture";
 
      img.onerror=()=>{
@@ -3489,10 +3355,16 @@ async function loadProfile() {
 
   console.error("Profile error:",error);
 
+  toast("Profile information could not be loaded.");
+
  }
 
 }
 
+
+/* =========================================
+   SAVE PROFILE
+========================================= */
 
 async function saveProfile() {
 
@@ -3503,9 +3375,7 @@ async function saveProfile() {
   .value.trim();
 
  if(!fullName) {
-
   return toast("Enter your name.");
-
  }
 
  try {
@@ -3514,10 +3384,15 @@ async function saveProfile() {
    error
   }=await db
    .from("profiles")
-   .update({
-    full_name:fullName
-   })
-   .eq("id",currentUser.id);
+   .upsert(
+    {
+     id:currentUser.id,
+     full_name:fullName
+    },
+    {
+     onConflict:"id"
+    }
+   );
 
   if(error)throw error;
 
@@ -3527,12 +3402,18 @@ async function saveProfile() {
 
  } catch(error) {
 
+  console.error("Profile save error:",error);
+
   toast(error.message||"Unable to update profile.");
 
  }
 
 }
 
+
+/* =========================================
+   UPLOAD PROFILE PICTURE
+========================================= */
 
 async function uploadPhoto() {
 
@@ -3543,15 +3424,11 @@ async function uploadPhoto() {
   .files[0];
 
  if(!file) {
-
   return toast("Choose a picture first.");
-
  }
 
  if(file.size>2*1024*1024) {
-
   return toast("Image must be under 2MB.");
-
  }
 
  if(
@@ -3561,9 +3438,7 @@ async function uploadPhoto() {
    "image/webp"
   ].includes(file.type)
  ) {
-
   return toast("Use JPG, PNG or WebP.");
-
  }
 
  try {
@@ -3600,10 +3475,15 @@ async function uploadPhoto() {
    error:updateError
   }=await db
    .from("profiles")
-   .update({
-    profile_picture_path:path
-   })
-   .eq("id",currentUser.id);
+   .upsert(
+    {
+     id:currentUser.id,
+     profile_picture_path:path
+    },
+    {
+     onConflict:"id"
+    }
+   );
 
   if(updateError)throw updateError;
 
@@ -3613,6 +3493,8 @@ async function uploadPhoto() {
 
  } catch(error) {
 
+  console.error("Picture upload error:",error);
+
   toast(
    error.message||"Unable to upload picture."
   );
@@ -3621,6 +3503,10 @@ async function uploadPhoto() {
 
 }
 
+
+/* =========================================
+   LOG OUT
+========================================= */
 
 async function logout() {
 
@@ -3633,7 +3519,6 @@ async function logout() {
   if(error)throw error;
 
   currentUser=null;
-
   profile={};
 
   closeMenu();
@@ -3686,7 +3571,6 @@ function closeMenu() {
 function navigate(page) {
 
  showPage(page);
-
  closeMenu();
 
  return false;
@@ -3705,11 +3589,8 @@ function showPage(page,button) {
  const section=document.getElementById(page);
 
  if(!section) {
-
   toast("Page not found.");
-
   return;
-
  }
 
  section.classList.add("active");
@@ -3720,24 +3601,14 @@ function showPage(page,button) {
    b.classList.remove("active");
   });
 
- if(button) {
-
-  button.classList.add("active");
-
- }
+ if(button)button.classList.add("active");
 
  const navPages={
-
   overview:0,
-
   markets:1,
-
   watchlist:2,
-
   charts:3,
-
   profile:4
-
  };
 
  if(navPages[page]!==undefined) {
@@ -3764,72 +3635,21 @@ function showPage(page,button) {
      "'"+page+"'"
     )
    ) {
-
     item.classList.add("active");
-
    }
 
   });
 
- if(page==="markets") {
-
-  renderMarkets();
-
- }
-
- if(page==="trending") {
-
-  renderTrending();
-
- }
-
- if(page==="watchlist") {
-
-  renderWatchlist();
-
- }
-
- if(page==="charts") {
-
-  loadChart();
-
- }
-
- if(page==="alerts") {
-
-  renderAlerts();
-
- }
-
- if(page==="news"&&!newsLoaded) {
-
-  loadNews();
-
- }
-
- if(page==="statistics") {
-
-  loadGlobalStats();
-
- }
-
- if(page==="sentiment") {
-
-  loadFearGreed();
-
- }
-
- if(page==="deposit") {
-
-  loadProfile();
-
- }
-
- if(page==="profile") {
-
-  loadProfile();
-
- }
+ if(page==="markets")renderMarkets();
+ if(page==="trending")renderTrending();
+ if(page==="watchlist")renderWatchlist();
+ if(page==="charts")loadChart();
+ if(page==="alerts")renderAlerts();
+ if(page==="news"&&!newsLoaded)loadNews();
+ if(page==="statistics")loadGlobalStats();
+ if(page==="sentiment")loadFearGreed();
+ if(page==="deposit")loadProfile();
+ if(page==="profile")loadProfile();
 
  window.scrollTo({
   top:0,
@@ -3851,22 +3671,16 @@ async function loadMarkets() {
 
  const table=document.getElementById("marketTable");
 
- if(table) {
+ if(table&&!marketData.length) {
 
-  if(!marketData.length) {
-
-   table.innerHTML=
-    '<tr><td colspan="5">Loading cryptocurrency markets...</td></tr>';
-
-  }
+  table.innerHTML=
+   '<tr><td colspan="5">Loading cryptocurrency markets...</td></tr>';
 
  }
 
  try {
 
-  const ids=coins
-   .map(c=>c.id)
-   .join(",");
+  const ids=coins.map(c=>c.id).join(",");
 
   const url=
    "https://api.coingecko.com/api/v3/coins/markets"+
@@ -3880,55 +3694,38 @@ async function loadMarkets() {
   const data=await api(url);
 
   if(!Array.isArray(data)) {
-
    throw new Error("Invalid market data received.");
-
   }
 
   marketData=data;
-
   lastMarketUpdate=new Date();
 
   const btc=data.find(c=>c.id==="bitcoin");
-
   const eth=data.find(c=>c.id==="ethereum");
-
   const sol=data.find(c=>c.id==="solana");
-
   const bnb=data.find(c=>c.id==="binancecoin");
-
   const xrp=data.find(c=>c.id==="ripple");
 
   setText("btc",money(btc?.current_price,2));
-
   setText("eth",money(eth?.current_price,2));
-
   setText("sol",money(sol?.current_price,2));
-
   setText("bnb",money(bnb?.current_price,2));
-
   setText("xrp",money(xrp?.current_price,4));
 
   renderMarkets();
-
   renderWatchlist();
-
   renderTrending();
 
   setText(
    "marketUpdated",
-   "Last updated: "+
-   lastMarketUpdate.toLocaleTimeString()
+   "Last updated: "+lastMarketUpdate.toLocaleTimeString()
   );
 
   checkPriceAlerts();
 
  } catch(error) {
 
-  console.error(
-   "Market loading error:",
-   error
-  );
+  console.error("Market loading error:",error);
 
   if(!marketData.length) {
 
@@ -3968,11 +3765,8 @@ function renderMarkets() {
  ).toLowerCase().trim();
 
  const filtered=marketData.filter(c=>
-
   String(c.name).toLowerCase().includes(query)||
-
   String(c.symbol).toLowerCase().includes(query)
-
  );
 
  if(!filtered.length) {
@@ -3986,10 +3780,7 @@ function renderMarkets() {
 
  table.innerHTML=filtered.map(c=>{
 
-  const change=Number(
-   c.price_change_percentage_24h||0
-  );
-
+  const change=Number(c.price_change_percentage_24h||0);
   const watched=getWatchlist().includes(c.id);
 
   return `
@@ -4021,17 +3812,13 @@ function renderMarkets() {
 
     </td>
 
-    <td>
-     ${money(c.current_price,6)}
-    </td>
+    <td>${money(c.current_price,6)}</td>
 
     <td class="${change>=0?'green':'red'}">
      ${change.toFixed(2)}%
     </td>
 
-    <td>
-     ${compactMoney(c.market_cap)}
-    </td>
+    <td>${compactMoney(c.market_cap)}</td>
 
     <td>
 
@@ -4039,9 +3826,7 @@ function renderMarkets() {
       class="star-btn"
       onclick="toggleWatch('${escapeHTML(c.id)}')"
       aria-label="Toggle watchlist">
-
       ${watched?'★':'☆'}
-
      </button>
 
     </td>
@@ -4068,9 +3853,7 @@ async function loadGlobalStats() {
   );
 
   if(!data?.data) {
-
    throw new Error("Global market information unavailable.");
-
   }
 
   globalData=data.data;
@@ -4117,17 +3900,12 @@ async function loadGlobalStats() {
   };
 
   Object.entries(values).forEach(([id,value])=>{
-
    setText(id,value);
-
   });
 
  } catch(error) {
 
-  console.error(
-   "Global statistics error:",
-   error
-  );
+  console.error("Global statistics error:",error);
 
  }
 
@@ -4152,10 +3930,7 @@ async function loadTrending() {
 
  } catch(error) {
 
-  console.error(
-   "Trending error:",
-   error
-  );
+  console.error("Trending error:",error);
 
   if(!trendingData.length) {
 
@@ -4179,11 +3954,8 @@ async function loadTrending() {
 function renderTrending() {
 
  const containers=[
-
   document.getElementById("trendingList"),
-
   document.getElementById("overviewTrending")
-
  ].filter(Boolean);
 
  if(!trendingData.length)return;
@@ -4197,11 +3969,8 @@ function renderTrending() {
   container.innerHTML=list.map(item=>{
 
    const c=item.item;
-
    const price=c.data?.price||"--";
-
    const id=String(c.id||"");
-
    const name=String(c.name||"");
 
    return `
@@ -4210,10 +3979,7 @@ function renderTrending() {
 
      <div class="coin-info">
 
-      ${safeImage(
-       c.large||c.thumb,
-       name
-      )}
+      ${safeImage(c.large||c.thumb,name)}
 
       <div>
 
@@ -4240,9 +4006,7 @@ function renderTrending() {
      <button
       class="secondary-btn"
       onclick="addTrendingToWatch('${escapeHTML(id)}','${escapeHTML(name)}')">
-
       Add to Watchlist
-
      </button>
 
     </div>
@@ -4263,13 +4027,10 @@ function addTrendingToWatch(id,name) {
  const list=getWatchlist();
 
  if(!list.includes(id)) {
-
   list.push(id);
-
  }
 
  saveWatchlist(list);
-
  renderWatchlist();
 
  toast(name+" added to watchlist.");
@@ -4294,58 +4055,29 @@ async function loadFearGreed() {
   const current=fearData[0];
 
   if(!current) {
-
    throw new Error("Sentiment data unavailable.");
-
   }
 
   const value=Number(current.value);
-
   const classification=current.value_classification;
 
-  setText(
-   "fearValue",
-   value+"/100"
-  );
-
-  setText(
-   "fearClassification",
-   classification
-  );
+  setText("fearValue",value+"/100");
+  setText("fearClassification",classification);
 
   setText(
    "fearDate",
    "Last updated: "+
-   new Date(
-    Number(current.timestamp)*1000
-   ).toLocaleString()
+   new Date(Number(current.timestamp)*1000).toLocaleString()
   );
 
   const fearBar=document.getElementById("fearBar");
-
   const overviewFearBar=document.getElementById("overviewFearBar");
 
-  if(fearBar) {
+  if(fearBar)fearBar.style.width=value+"%";
+  if(overviewFearBar)overviewFearBar.style.width=value+"%";
 
-   fearBar.style.width=value+"%";
-
-  }
-
-  if(overviewFearBar) {
-
-   overviewFearBar.style.width=value+"%";
-
-  }
-
-  setText(
-   "overviewFear",
-   value+"/100"
-  );
-
-  setText(
-   "overviewFearText",
-   classification
-  );
+  setText("overviewFear",value+"/100");
+  setText("overviewFearText",classification);
 
   const history=fearData.map(item=>`
 
@@ -4366,32 +4098,15 @@ async function loadFearGreed() {
 
   `).join("");
 
-  setHTML(
-   "fearHistory",
-   history
-  );
+  setHTML("fearHistory",history);
 
  } catch(error) {
 
-  console.error(
-   "Fear and Greed error:",
-   error
-  );
+  console.error("Fear and Greed error:",error);
 
-  setText(
-   "fearClassification",
-   "Index temporarily unavailable"
-  );
-
-  setText(
-   "overviewFear",
-   "Unavailable"
-  );
-
-  setText(
-   "overviewFearText",
-   "Market sentiment could not be loaded."
-  );
+  setText("fearClassification","Index temporarily unavailable");
+  setText("overviewFear","Unavailable");
+  setText("overviewFearText","Market sentiment could not be loaded.");
 
  }
 
@@ -4416,17 +4131,13 @@ async function loadChart() {
  try {
 
   const data=await api(
-
    `https://api.coingecko.com/api/v3/coins/${encodeURIComponent(coin)}/market_chart?vs_currency=usd&days=${chartDays}`
-
   );
 
   const prices=data.prices||[];
 
   if(!prices.length) {
-
    throw new Error("No chart data returned.");
-
   }
 
   const labels=prices.map(p=>{
@@ -4451,21 +4162,21 @@ async function loadChart() {
 
   const values=prices.map(p=>p[1]);
 
-  if(priceChart) {
-
-   priceChart.destroy();
-
-  }
+  if(priceChart)priceChart.destroy();
 
   const canvas=document.getElementById("priceChart");
 
-  if(!canvas) {
-
-   throw new Error("Chart canvas not found.");
-
-  }
+  if(!canvas)throw new Error("Chart canvas not found.");
 
   const ctx=canvas.getContext("2d");
+
+  const textColor=getComputedStyle(
+   document.body
+  ).getPropertyValue("--text");
+
+  const gridColor=getComputedStyle(
+   document.body
+  ).getPropertyValue("--border");
 
   priceChart=new Chart(ctx,{
 
@@ -4478,21 +4189,13 @@ async function loadChart() {
     datasets:[{
 
      label:coin.toUpperCase()+" Price (USD)",
-
      data:values,
-
-     borderColor:"#60a5fa",
-
+     borderColor:"#3b82f6",
      backgroundColor:"rgba(37,99,235,.13)",
-
      fill:true,
-
      tension:.25,
-
      pointRadius:0,
-
      pointHoverRadius:4,
-
      borderWidth:2
 
     }]
@@ -4502,7 +4205,6 @@ async function loadChart() {
    options:{
 
     responsive:true,
-
     maintainAspectRatio:false,
 
     interaction:{
@@ -4514,21 +4216,14 @@ async function loadChart() {
 
      legend:{
       labels:{
-       color:getComputedStyle(
-        document.body
-       ).getPropertyValue("--text")
+       color:textColor
       }
      },
 
      tooltip:{
-
       callbacks:{
-
-       label:context=>
-        money(context.raw,6)
-
+       label:context=>money(context.raw,6)
       }
-
      }
 
     },
@@ -4538,12 +4233,12 @@ async function loadChart() {
      x:{
 
       ticks:{
-       color:"#9ca3af",
+       color:textColor,
        maxTicksLimit:7
       },
 
       grid:{
-       color:"#374151"
+       color:gridColor
       }
 
      },
@@ -4551,15 +4246,12 @@ async function loadChart() {
      y:{
 
       ticks:{
-
-       color:"#9ca3af",
-
+       color:textColor,
        callback:value=>money(value)
-
       },
 
       grid:{
-       color:"#374151"
+       color:gridColor
       }
 
      }
@@ -4570,15 +4262,11 @@ async function loadChart() {
 
   });
 
-  status.textContent=
-   "Showing "+coin+" price history.";
+  status.textContent="Showing "+coin+" price history.";
 
  } catch(error) {
 
-  console.error(
-   "Chart error:",
-   error
-  );
+  console.error("Chart error:",error);
 
   status.textContent=
    "Unable to load chart data. Please try again.";
@@ -4598,11 +4286,7 @@ function setChartDays(days,button) {
    b.classList.remove("active");
   });
 
- if(button) {
-
-  button.classList.add("active");
-
- }
+ if(button)button.classList.add("active");
 
  loadChart();
 
@@ -4626,15 +4310,12 @@ function getWatchlist() {
  try {
 
   return JSON.parse(
-   localStorage.getItem(
-    storageKey("watchlist")
-   )||"[]"
+   localStorage.getItem(storageKey("watchlist"))||"[]"
   );
 
  } catch(error) {
 
   console.error(error);
-
   return [];
 
  }
@@ -4667,19 +4348,16 @@ function saveWatchlist(list) {
 function toggleWatch(id) {
 
  const list=getWatchlist();
-
  const index=list.indexOf(id);
 
  if(index>=0) {
 
   list.splice(index,1);
-
   toast("Removed from watchlist.");
 
  } else {
 
   list.push(id);
-
   toast("Added to watchlist.");
 
  }
@@ -4687,7 +4365,6 @@ function toggleWatch(id) {
  saveWatchlist(list);
 
  renderMarkets();
-
  renderWatchlist();
 
 }
@@ -4710,10 +4387,8 @@ function renderWatchlist() {
   container.innerHTML=`
 
    <div class="notice">
-
     Your watchlist is empty.
     Add cryptocurrencies from the markets page.
-
    </div>
 
   `;
@@ -4725,11 +4400,8 @@ function renderWatchlist() {
  const watched=marketData.filter(c=>
 
   list.includes(c.id)&&(
-
    c.name.toLowerCase().includes(query)||
-
    c.symbol.toLowerCase().includes(query)
-
   )
 
  );
@@ -4775,16 +4447,12 @@ function renderWatchlist() {
    <button
     class="secondary-btn"
     onclick="toggleWatch('${escapeHTML(c.id)}')">
-
     Remove
-
    </button>
 
   </div>
 
- `).join("")||
-
- `
+ `).join("")||`
 
   <div class="notice">
    No matching coins found or market information is still loading.
@@ -4804,9 +4472,7 @@ function getAlerts() {
  try {
 
   return JSON.parse(
-   localStorage.getItem(
-    storageKey("alerts")
-   )||"[]"
+   localStorage.getItem(storageKey("alerts"))||"[]"
   );
 
  } catch(error) {
@@ -4842,9 +4508,7 @@ function saveAlerts(alerts) {
 
 function createAlert() {
 
- const coin=document
-  .getElementById("alertCoin")
-  .value;
+ const coin=document.getElementById("alertCoin").value;
 
  const target=Number(
   document.getElementById("alertPrice").value
@@ -4854,13 +4518,8 @@ function createAlert() {
   .getElementById("alertCondition")
   .value;
 
- if(
-  !Number.isFinite(target)||
-  target<=0
- ) {
-
+ if(!Number.isFinite(target)||target<=0) {
   return toast("Enter a valid target price.");
-
  }
 
  const alerts=getAlerts();
@@ -4868,24 +4527,17 @@ function createAlert() {
  alerts.push({
 
   id:Date.now().toString(),
-
   coin,
-
   target,
-
   condition,
-
   triggered:false,
-
   created:new Date().toISOString()
 
  });
 
  saveAlerts(alerts);
 
- document
-  .getElementById("alertPrice")
-  .value="";
+ document.getElementById("alertPrice").value="";
 
  renderAlerts();
 
@@ -4907,12 +4559,8 @@ function renderAlerts() {
  const alerts=getAlerts();
 
  if(!alerts.length) {
-
-  container.innerHTML=
-   "No price alerts created yet.";
-
+  container.innerHTML="No price alerts created yet.";
   return;
-
  }
 
  container.innerHTML=alerts.map(a=>{
@@ -4925,22 +4573,15 @@ function renderAlerts() {
 
     <div>
 
-     <strong>
-      ${escapeHTML(coin.name)}
-     </strong>
+     <strong>${escapeHTML(coin.name)}</strong>
 
      <div class="muted">
-
       ${a.condition==="above"?"Above":"Below"}
-
       ${money(a.target,6)}
-
      </div>
 
      <div class="muted">
-
       ${a.triggered?"Triggered":"Active"}
-
      </div>
 
     </div>
@@ -4948,9 +4589,7 @@ function renderAlerts() {
     <button
      class="danger-btn"
      onclick="deleteAlert('${escapeHTML(a.id)}')">
-
      Delete
-
     </button>
 
    </div>
@@ -4993,28 +4632,21 @@ function checkPriceAlerts() {
 
   if(alert.triggered)return;
 
-  const coin=marketData.find(
-   c=>c.id===alert.coin
-  );
+  const coin=marketData.find(c=>c.id===alert.coin);
 
   if(!coin)return;
 
   const hit=alert.condition==="above"
-
    ?coin.current_price>=alert.target
-
    :coin.current_price<=alert.target;
 
   if(hit) {
 
    alert.triggered=true;
-
    changed=true;
 
    const message=
-    coin.name+
-    " reached "+
-    money(coin.current_price,6);
+    coin.name+" reached "+money(coin.current_price,6);
 
    toast("PRICE ALERT: "+message);
 
@@ -5037,11 +4669,8 @@ function checkPriceAlerts() {
  });
 
  if(changed) {
-
   saveAlerts(alerts);
-
   renderAlerts();
-
  }
 
 }
@@ -5054,11 +4683,7 @@ function checkPriceAlerts() {
 async function requestAlertNotifications() {
 
  if(!("Notification" in window)) {
-
-  return toast(
-   "Notifications are not supported in this browser."
-  );
-
+  return toast("Notifications are not supported in this browser.");
  }
 
  try {
@@ -5095,8 +4720,7 @@ async function loadNews() {
 
  try {
 
-  const url=
-   "https://www.coindesk.com/arc/outboundfeeds/rss/";
+  const url="https://www.coindesk.com/arc/outboundfeeds/rss/";
 
   const proxy=
    "https://api.rss2json.com/v1/api.json?rss_url="+
@@ -5104,13 +4728,8 @@ async function loadNews() {
 
   const data=await api(proxy);
 
-  if(
-   !data.items||
-   !data.items.length
-  ) {
-
+  if(!data.items||!data.items.length) {
    throw new Error("No news items available.");
-
   }
 
   container.innerHTML=data.items
@@ -5135,15 +4754,11 @@ async function loadNews() {
       parsed.protocol==="https:"||
       parsed.protocol==="http:"
      ) {
-
       safeLink=parsed.href;
-
      }
 
     } catch(error) {
-
      safeLink="#";
-
     }
 
     const published=new Date(item.pubDate);
@@ -5156,14 +4771,10 @@ async function loadNews() {
        href="${escapeHTML(safeLink)}"
        target="_blank"
        rel="noopener noreferrer">
-
        ${escapeHTML(item.title)}
-
       </a>
 
-      <p>
-       ${escapeHTML(description)}
-      </p>
+      <p>${escapeHTML(description)}</p>
 
       <div class="news-meta">
 
@@ -5189,10 +4800,7 @@ async function loadNews() {
 
  } catch(error) {
 
-  console.error(
-   "News error:",
-   error
-  );
+  console.error("News error:",error);
 
   container.innerHTML=`
 
@@ -5201,29 +4809,21 @@ async function loadNews() {
     Cryptocurrency news could not be loaded right now.
 
     <p>
-
      <a
       href="https://www.coindesk.com/"
       target="_blank"
       rel="noopener noreferrer">
-
       Visit CoinDesk
-
      </a>
-
     </p>
 
     <p>
-
      <a
       href="https://cointelegraph.com/"
       target="_blank"
       rel="noopener noreferrer">
-
       Visit Cointelegraph
-
      </a>
-
     </p>
 
    </div>
@@ -5239,27 +4839,25 @@ async function loadNews() {
    REFRESH DASHBOARD
 ========================================= */
 
-async function refreshAll() {
+async function refreshAll(showNotification=true) {
 
  if(!currentUser)return;
 
  await Promise.allSettled([
 
   loadMarkets(),
-
   loadGlobalStats(),
-
   loadTrending(),
-
   loadFearGreed()
 
  ]);
 
  renderWatchlist();
-
  renderAlerts();
 
- toast("Dashboard refresh completed.");
+ if(showNotification) {
+  toast("Dashboard refresh completed.");
+ }
 
 }
 
@@ -5270,17 +4868,15 @@ async function refreshAll() {
 
 function toggleTheme() {
 
- document.body.classList.toggle("light-mode");
+ document.body.classList.toggle("dark-mode");
 
- const light=document.body.classList.contains(
-  "light-mode"
- );
+ const dark=document.body.classList.contains("dark-mode");
 
  try {
 
   localStorage.setItem(
    "tradinghub_theme",
-   light?"light":"dark"
+   dark?"dark":"light"
   );
 
  } catch(error) {
@@ -5294,22 +4890,40 @@ function toggleTheme() {
  );
 
  if(themeButton) {
+  themeButton.textContent=dark?"☀":"☾";
+ }
 
-  themeButton.textContent=light?"☀":"☾";
+ const themeMeta=document.querySelector(
+  'meta[name="theme-color"]'
+ );
 
+ if(themeMeta) {
+  themeMeta.content=dark?"#111827":"#f3f6fb";
  }
 
  toast(
-  light
-   ?"Light theme enabled."
-   :"Dark theme enabled."
+  dark
+   ?"Dark theme enabled."
+   :"Light theme enabled."
  );
 
  if(priceChart) {
 
-  priceChart.options.plugins.legend.labels.color=
-   getComputedStyle(document.body)
-    .getPropertyValue("--text");
+  const textColor=getComputedStyle(
+   document.body
+  ).getPropertyValue("--text");
+
+  const gridColor=getComputedStyle(
+   document.body
+  ).getPropertyValue("--border");
+
+  priceChart.options.plugins.legend.labels.color=textColor;
+
+  priceChart.options.scales.x.ticks.color=textColor;
+  priceChart.options.scales.y.ticks.color=textColor;
+
+  priceChart.options.scales.x.grid.color=gridColor;
+  priceChart.options.scales.y.grid.color=gridColor;
 
   priceChart.update();
 
@@ -5322,20 +4936,32 @@ function loadSavedTheme() {
 
  try {
 
-  const theme=localStorage.getItem(
-   "tradinghub_theme"
+  const theme=localStorage.getItem("tradinghub_theme");
+
+  if(theme==="dark") {
+
+   document.body.classList.add("dark-mode");
+
+  } else {
+
+   document.body.classList.remove("dark-mode");
+
+  }
+
+  const button=document.querySelector(
+   '.header-actions button[aria-label="Theme"]'
   );
 
-  if(theme==="light") {
+  if(button) {
+   button.textContent=theme==="dark"?"☀":"☾";
+  }
 
-   document.body.classList.add("light-mode");
+  const themeMeta=document.querySelector(
+   'meta[name="theme-color"]'
+  );
 
-   const button=document.querySelector(
-    '.header-actions button[aria-label="Theme"]'
-   );
-
-   if(button)button.textContent="☀";
-
+  if(themeMeta) {
+   themeMeta.content=theme==="dark"?"#111827":"#f3f6fb";
   }
 
  } catch(error) {
@@ -5351,14 +4977,6 @@ function loadSavedTheme() {
    TAWK.TO LIVE CHAT
 ========================================= */
 
-/*
-  The separate custom blue floating chat button has been removed.
-
-  Tawk.to remains available through the Support page.
-  Its floating launcher is hidden so it does not create another
-  floating button on the dashboard.
-*/
-
 function openChat() {
 
  if(
@@ -5369,18 +4987,14 @@ function openChat() {
   if(
    typeof window.Tawk_API.showWidget==="function"
   ) {
-
    window.Tawk_API.showWidget();
-
   }
 
   window.Tawk_API.maximize();
 
  } else {
 
-  toast(
-   "Live chat is loading. Please try again shortly."
-  );
+  toast("Live chat is loading. Please try again shortly.");
 
  }
 
@@ -5404,9 +5018,7 @@ document.addEventListener(
    );
 
    if(modal) {
-
     modal.classList.remove("open");
-
    }
 
   }
@@ -5423,15 +5035,12 @@ loadSavedTheme();
 
 init();
 
+checkPasswordRecovery();
+
 
 /* =========================================
    AUTOMATIC MARKET REFRESH
 ========================================= */
-
-/*
-  Market prices refresh every 60 seconds while the
-  user is signed in.
-*/
 
 setInterval(()=>{
 
@@ -5439,9 +5048,7 @@ setInterval(()=>{
   currentUser&&
   !document.hidden
  ) {
-
   loadMarkets();
-
  }
 
 },60000);
@@ -5451,11 +5058,6 @@ setInterval(()=>{
    AUTOMATIC GLOBAL DATA REFRESH
 ========================================= */
 
-/*
-  Global statistics, trending coins and market
-  sentiment refresh every five minutes.
-*/
-
 setInterval(()=>{
 
  if(
@@ -5464,9 +5066,7 @@ setInterval(()=>{
  ) {
 
   loadGlobalStats();
-
   loadTrending();
-
   loadFearGreed();
 
  }
@@ -5486,9 +5086,7 @@ document.addEventListener(
    !document.hidden&&
    currentUser
   ) {
-
    loadMarkets();
-
   }
 
  }
@@ -5499,63 +5097,32 @@ document.addEventListener(
    TAWK.TO WIDGET INITIALIZATION
 ========================================= */
 
-/*
-  Tawk.to is retained for customer support.
-
-  Its floating launcher is hidden by default.
-  Customers can still open the chat using the
-  Open Live Chat button on the Support page.
-*/
-
 var Tawk_API=window.Tawk_API||{};
 
 var Tawk_LoadStart=new Date();
 
 Tawk_API.onLoad=function(){
 
+ /*
+  Keep the native Tawk launcher hidden.
+  The custom TradingHub HQ floating button
+  opens the chat when clicked.
+ */
+
  try {
 
   if(
    typeof Tawk_API.hideWidget==="function"
   ) {
-
    Tawk_API.hideWidget();
-
   }
 
  } catch(error) {
 
   console.error(
-   "Unable to hide Tawk floating launcher:",
+   "Unable to configure Tawk launcher:",
    error
   );
-
- }
-
-};
-
-
-/*
-  When a visitor minimizes the chat, hide the
-  launcher again to keep the dashboard free of
-  floating chat buttons.
-*/
-
-Tawk_API.onChatMinimized=function(){
-
- try {
-
-  if(
-   typeof Tawk_API.hideWidget==="function"
-  ) {
-
-   Tawk_API.hideWidget();
-
-  }
-
- } catch(error) {
-
-  console.error(error);
 
  }
 
