@@ -739,16 +739,64 @@ h3 {
 }
 
 /* =========================================
-   NEWS
+   NEWS WITH ARTICLE THUMBNAILS
 ========================================= */
 
 .news-item {
-  padding:13px 0;
+  display:grid;
+  grid-template-columns:180px minmax(0,1fr);
+  gap:15px;
+  padding:16px 0;
   border-bottom:1px solid var(--border);
 }
 
 .news-item:last-child {
   border-bottom:0;
+}
+
+.news-image-wrap {
+  width:100%;
+  height:130px;
+  min-height:130px;
+  border-radius:9px;
+  overflow:hidden;
+  background:var(--panel2);
+  position:relative;
+}
+
+.news-image {
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:130px;
+  object-fit:cover;
+  border-radius:9px;
+  background:var(--panel2);
+}
+
+.news-image-placeholder {
+  width:100%;
+  height:100%;
+  min-height:130px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:8px;
+  padding:12px;
+  text-align:center;
+  color:var(--muted);
+  background:linear-gradient(135deg,var(--panel2),var(--border));
+  font-size:12px;
+  font-weight:bold;
+}
+
+.news-image-placeholder span {
+  font-size:28px;
+}
+
+.news-content {
+  min-width:0;
 }
 
 .news-item a {
@@ -767,12 +815,67 @@ h3 {
   font-size:11px;
   color:var(--muted);
   line-height:1.6;
+  margin:8px 0;
 }
 
 .news-meta {
   font-size:10px;
   color:var(--muted);
   margin-top:7px;
+  line-height:1.6;
+}
+
+.news-publisher {
+  color:var(--blue-light);
+  font-weight:bold;
+}
+
+.news-source-label {
+  display:inline-block;
+  padding:3px 7px;
+  margin-top:7px;
+  border-radius:20px;
+  background:var(--panel2);
+  color:var(--muted);
+  font-size:9px;
+}
+
+.news-loading {
+  padding:20px;
+  text-align:center;
+  color:var(--muted);
+}
+
+@media(max-width:600px) {
+
+  .news-item {
+    grid-template-columns:1fr;
+    gap:10px;
+    padding:15px 0;
+  }
+
+  .news-image-wrap {
+    height:185px;
+    min-height:185px;
+  }
+
+  .news-image {
+    height:185px;
+    min-height:185px;
+  }
+
+  .news-image-placeholder {
+    min-height:185px;
+  }
+
+  .news-item a {
+    font-size:14px;
+  }
+
+  .news-item p {
+    font-size:12px;
+  }
+
 }
 
 /* =========================================
@@ -2575,7 +2678,6 @@ let authMode = "login";
 let authReady = false;
 let authProcessing = false;
 
-
 /* =========================================
    CRYPTOCURRENCY CONFIGURATION
 ========================================= */
@@ -2699,6 +2801,21 @@ let marketLoading = false;
 let newsLoaded = false;
 let lastMarketUpdate = null;
 
+/* =========================================
+   NEWS IMAGE FALLBACKS
+========================================= */
+
+const NEWS_FALLBACK_IMAGES = [
+
+ "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=900&q=80",
+
+ "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=900&q=80",
+
+ "https://images.unsplash.com/photo-1640340434855-6084b1f4901d?auto=format&fit=crop&w=900&q=80",
+
+ "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80"
+
+];
 
 /* =========================================
    GENERAL HELPERS
@@ -2723,7 +2840,6 @@ function money(value,maximum=2) {
 
 }
 
-
 function compactMoney(value) {
 
  if(
@@ -2744,13 +2860,11 @@ function compactMoney(value) {
 
 }
 
-
 function numberFormat(value) {
 
  return Number(value||0).toLocaleString("en-US");
 
 }
-
 
 function escapeHTML(value) {
 
@@ -2766,7 +2880,6 @@ function escapeHTML(value) {
  );
 
 }
-
 
 function toast(message) {
 
@@ -2784,7 +2897,6 @@ function toast(message) {
  },3500);
 
 }
-
 
 async function api(url,options={}) {
 
@@ -2804,7 +2916,6 @@ async function api(url,options={}) {
 
 }
 
-
 function coinById(id) {
 
  return coins.find(c=>c.id===id)||{
@@ -2815,7 +2926,6 @@ function coinById(id) {
  };
 
 }
-
 
 function safeImage(url,name) {
 
@@ -2834,7 +2944,6 @@ function safeImage(url,name) {
 
 }
 
-
 function setText(id,value) {
 
  const element=document.getElementById(id);
@@ -2843,7 +2952,6 @@ function setText(id,value) {
 
 }
 
-
 function setHTML(id,value) {
 
  const element=document.getElementById(id);
@@ -2851,7 +2959,6 @@ function setHTML(id,value) {
  if(element)element.innerHTML=value;
 
 }
-
 
 function loadingMessage(message) {
 
@@ -2864,6 +2971,271 @@ function loadingMessage(message) {
 
 }
 
+/* =========================================
+   NEWS IMAGE EXTRACTION
+========================================= */
+
+function extractNewsImage(item) {
+
+ const candidates=[];
+
+ function addCandidate(value) {
+
+  if(!value)return;
+
+  if(typeof value==="string") {
+
+   candidates.push(value);
+
+   return;
+
+  }
+
+  if(Array.isArray(value)) {
+
+   value.forEach(addCandidate);
+
+   return;
+
+  }
+
+  if(typeof value==="object") {
+
+   [
+    "url",
+    "link",
+    "href",
+    "src",
+    "$",
+    "$t",
+    "@url"
+   ].forEach(key=>{
+
+    if(value[key]) {
+     addCandidate(value[key]);
+    }
+
+   });
+
+  }
+
+ }
+
+ /*
+  RSS2JSON commonly provides a thumbnail
+  property or an enclosure object.
+ */
+
+ addCandidate(item.thumbnail);
+ addCandidate(item.enclosure);
+
+ /*
+  Some RSS feeds provide media thumbnail
+  and media content fields.
+ */
+
+ addCandidate(item["media:thumbnail"]);
+ addCandidate(item["media:content"]);
+
+ addCandidate(item.mediaThumbnail);
+ addCandidate(item.mediaContent);
+
+ /*
+  Some publishers place the article image
+  directly inside their description or content.
+ */
+
+ const htmlContent=[
+  item.content,
+  item.description,
+  item.content_encoded,
+  item["content:encoded"]
+ ].filter(Boolean).join(" ");
+
+ if(htmlContent) {
+
+  const imageMatches=[
+   ...htmlContent.matchAll(
+    /<img\b[^>]*\b(?:src|data-src)=["']([^"']+)["']/gi
+   )
+  ];
+
+  imageMatches.forEach(match=>{
+   candidates.unshift(match[1]);
+  });
+
+ }
+
+ /*
+  Return the first valid HTTP/HTTPS image URL.
+ */
+
+ for(const candidate of candidates) {
+
+  try {
+
+   const imageURL=new URL(
+    String(candidate).trim(),
+    window.location.href
+   );
+
+   if(imageURL.protocol==="http:") {
+    imageURL.protocol="https:";
+   }
+
+   if(imageURL.protocol==="https:") {
+    return imageURL.href;
+   }
+
+  } catch(error) {
+
+   continue;
+
+  }
+
+ }
+
+ return "";
+
+}
+
+/* =========================================
+   CLEAN NEWS DESCRIPTION
+========================================= */
+
+function cleanNewsDescription(value) {
+
+ if(!value)return "";
+
+ try {
+
+  const parser=new DOMParser();
+
+  const documentContent=parser.parseFromString(
+   String(value),
+   "text/html"
+  );
+
+  documentContent
+   .querySelectorAll("script,style,iframe,object")
+   .forEach(element=>element.remove());
+
+  const description=(
+   documentContent.body.textContent||""
+  ).replace(/\s+/g," ").trim();
+
+  if(description.length>260) {
+   return description.slice(0,257)+"...";
+  }
+
+  return description;
+
+ } catch(error) {
+
+  return String(value)
+   .replace(/<[^>]*>/g,"")
+   .replace(/\s+/g," ")
+   .trim()
+   .slice(0,260);
+
+ }
+
+}
+
+/* =========================================
+   SAFE NEWS LINKS
+========================================= */
+
+function safeNewsLink(value) {
+
+ try {
+
+  const parsed=new URL(
+   String(value||""),
+   window.location.href
+  );
+
+  if(
+   parsed.protocol==="https:"||
+   parsed.protocol==="http:"
+  ) {
+   return parsed.href;
+  }
+
+ } catch(error) {
+
+  console.warn("Invalid news article URL:",error);
+
+ }
+
+ return "#";
+
+}
+
+/* =========================================
+   NEWS IMAGE ERROR HANDLING
+========================================= */
+
+function handleNewsImageError(image) {
+
+ if(!image)return;
+
+ const currentStep=Number(
+  image.dataset.fallbackStep||0
+ );
+
+ const newsIndex=Number(
+  image.dataset.newsIndex||0
+ );
+
+ const nextStep=currentStep+1;
+
+ /*
+  If the RSS image fails, try the next
+  available fallback image.
+ */
+
+ if(nextStep<NEWS_FALLBACK_IMAGES.length) {
+
+  image.dataset.fallbackStep=String(nextStep);
+
+  image.src=NEWS_FALLBACK_IMAGES[
+   (newsIndex+nextStep)%NEWS_FALLBACK_IMAGES.length
+  ];
+
+  return;
+
+ }
+
+ /*
+  If all remote images fail, display a
+  local CSS-based placeholder instead.
+ */
+
+ image.onerror=null;
+ image.style.display="none";
+
+ const wrapper=image.parentElement;
+
+ if(wrapper) {
+
+  wrapper.innerHTML=`
+
+   <div class="news-image-placeholder">
+
+    <span>◆</span>
+
+    <div>TradingHub HQ</div>
+
+    <small>Cryptocurrency Market News</small>
+
+   </div>
+
+  `;
+
+ }
+
+}
 
 /* =========================================
    AUTHENTICATION INITIALIZATION
@@ -2924,7 +3296,6 @@ async function init() {
 
 }
 
-
 /* =========================================
    LOGIN AND REGISTRATION
 ========================================= */
@@ -2972,7 +3343,6 @@ function setAuthMode(mode) {
   .style.display=mode==="login"?"block":"none";
 
 }
-
 
 /* =========================================
    LOGIN / SIGNUP SUBMISSION
@@ -3082,7 +3452,6 @@ async function handleAuth(event) {
 
 }
 
-
 /* =========================================
    PASSWORD RECOVERY
 ========================================= */
@@ -3138,7 +3507,6 @@ async function sendPasswordReset(event) {
  }
 
 }
-
 
 /* =========================================
    PASSWORD UPDATE AFTER RESET
@@ -3196,7 +3564,6 @@ async function checkPasswordRecovery() {
 
 }
 
-
 /* =========================================
    AUTHENTICATION STATE LISTENER
 ========================================= */
@@ -3236,7 +3603,6 @@ db.auth.onAuthStateChange(
 
  }
 );
-
 
 /* =========================================
    PROFILE MANAGEMENT
@@ -3361,7 +3727,6 @@ async function loadProfile() {
 
 }
 
-
 /* =========================================
    SAVE PROFILE
 ========================================= */
@@ -3409,7 +3774,6 @@ async function saveProfile() {
  }
 
 }
-
 
 /* =========================================
    UPLOAD PROFILE PICTURE
@@ -3503,7 +3867,6 @@ async function uploadPhoto() {
 
 }
 
-
 /* =========================================
    LOG OUT
 ========================================= */
@@ -3537,7 +3900,6 @@ async function logout() {
 
 }
 
-
 /* =========================================
    NAVIGATION
 ========================================= */
@@ -3554,7 +3916,6 @@ function openMenu() {
 
 }
 
-
 function closeMenu() {
 
  document
@@ -3567,7 +3928,6 @@ function closeMenu() {
 
 }
 
-
 function navigate(page) {
 
  showPage(page);
@@ -3576,7 +3936,6 @@ function navigate(page) {
  return false;
 
 }
-
 
 function showPage(page,button) {
 
@@ -3657,7 +4016,6 @@ function showPage(page,button) {
  });
 
 }
-
 
 /* =========================================
    LIVE CRYPTOCURRENCY MARKETS
@@ -3749,7 +4107,6 @@ async function loadMarkets() {
 
 }
 
-
 /* =========================================
    RENDER MARKET TABLE
 ========================================= */
@@ -3839,7 +4196,6 @@ function renderMarkets() {
 
 }
 
-
 /* =========================================
    GLOBAL CRYPTO MARKET STATISTICS
 ========================================= */
@@ -3911,7 +4267,6 @@ async function loadGlobalStats() {
 
 }
 
-
 /* =========================================
    TRENDING CRYPTOCURRENCIES
 ========================================= */
@@ -3949,7 +4304,6 @@ async function loadTrending() {
  }
 
 }
-
 
 function renderTrending() {
 
@@ -4019,7 +4373,6 @@ function renderTrending() {
 
 }
 
-
 function addTrendingToWatch(id,name) {
 
  if(!id)return;
@@ -4036,7 +4389,6 @@ function addTrendingToWatch(id,name) {
  toast(name+" added to watchlist.");
 
 }
-
 
 /* =========================================
    FEAR AND GREED INDEX
@@ -4111,7 +4463,6 @@ async function loadFearGreed() {
  }
 
 }
-
 
 /* =========================================
    INTERACTIVE PRICE CHARTS
@@ -4275,7 +4626,6 @@ async function loadChart() {
 
 }
 
-
 function setChartDays(days,button) {
 
  chartDays=days;
@@ -4292,7 +4642,6 @@ function setChartDays(days,button) {
 
 }
 
-
 /* =========================================
    WATCHLIST STORAGE
 ========================================= */
@@ -4303,7 +4652,6 @@ function storageKey(type) {
   (currentUser?.id||"guest");
 
 }
-
 
 function getWatchlist() {
 
@@ -4322,7 +4670,6 @@ function getWatchlist() {
 
 }
 
-
 function saveWatchlist(list) {
 
  try {
@@ -4339,7 +4686,6 @@ function saveWatchlist(list) {
  }
 
 }
-
 
 /* =========================================
    WATCHLIST ACTIONS
@@ -4368,7 +4714,6 @@ function toggleWatch(id) {
  renderWatchlist();
 
 }
-
 
 function renderWatchlist() {
 
@@ -4462,7 +4807,6 @@ function renderWatchlist() {
 
 }
 
-
 /* =========================================
    PRICE ALERT STORAGE
 ========================================= */
@@ -4483,7 +4827,6 @@ function getAlerts() {
 
 }
 
-
 function saveAlerts(alerts) {
 
  try {
@@ -4500,7 +4843,6 @@ function saveAlerts(alerts) {
  }
 
 }
-
 
 /* =========================================
    CREATE PRICE ALERT
@@ -4544,7 +4886,6 @@ function createAlert() {
  toast("Price alert created.");
 
 }
-
 
 /* =========================================
    RENDER PRICE ALERTS
@@ -4600,7 +4941,6 @@ function renderAlerts() {
 
 }
 
-
 /* =========================================
    DELETE ALERT
 ========================================= */
@@ -4616,7 +4956,6 @@ function deleteAlert(id) {
  toast("Alert deleted.");
 
 }
-
 
 /* =========================================
    CHECK PRICE ALERTS
@@ -4675,7 +5014,6 @@ function checkPriceAlerts() {
 
 }
 
-
 /* =========================================
    BROWSER NOTIFICATIONS
 ========================================= */
@@ -4704,9 +5042,9 @@ async function requestAlertNotifications() {
 
 }
 
-
 /* =========================================
    CRYPTOCURRENCY NEWS
+   RSS IMAGE EXTRACTION AND FALLBACKS
 ========================================= */
 
 async function loadNews() {
@@ -4732,61 +5070,131 @@ async function loadNews() {
    throw new Error("No news items available.");
   }
 
-  container.innerHTML=data.items
-   .slice(0,15)
-   .map(item=>{
+  const articles=data.items.slice(0,15);
 
-    const description=String(
-     item.description||""
-    )
-    .replace(/<[^>]*>/g,"")
-    .slice(0,230);
+  container.innerHTML=articles
+   .map((item,index)=>{
 
-    const link=String(item.link||"");
+    /*
+     Extract an image from the RSS item.
+     If no image is provided, select a fallback.
+    */
 
-    let safeLink="#";
+    const rssImage=extractNewsImage(item);
 
-    try {
+    const fallbackImage=
+     NEWS_FALLBACK_IMAGES[
+      index%NEWS_FALLBACK_IMAGES.length
+     ];
 
-     const parsed=new URL(link);
+    const imageURL=rssImage||fallbackImage;
 
-     if(
-      parsed.protocol==="https:"||
-      parsed.protocol==="http:"
-     ) {
-      safeLink=parsed.href;
-     }
+    /*
+     Clean the article description.
+    */
 
-    } catch(error) {
-     safeLink="#";
+    const description=cleanNewsDescription(
+     item.description||
+     item.content||
+     ""
+    );
+
+    /*
+     Validate the article link.
+    */
+
+    const safeLink=safeNewsLink(item.link);
+
+    /*
+     Read publisher information.
+    */
+
+    let publisher=
+     item.author||
+     item.creator||
+     item.source||
+     item.feedTitle||
+     "CoinDesk";
+
+    if(typeof publisher==="object") {
+
+     publisher=
+      publisher.name||
+      publisher.title||
+      publisher.value||
+      "CoinDesk";
+
     }
 
-    const published=new Date(item.pubDate);
+    /*
+     Read publication date.
+    */
+
+    const published=new Date(
+     item.pubDate||
+     item.isoDate||
+     item.date||
+     ""
+    );
+
+    const publishedText=
+     Number.isNaN(published.getTime())
+      ?"Date unavailable"
+      :published.toLocaleString();
+
+    /*
+     Build the article card.
+    */
 
     return `
 
      <article class="news-item">
 
-      <a
-       href="${escapeHTML(safeLink)}"
-       target="_blank"
-       rel="noopener noreferrer">
-       ${escapeHTML(item.title)}
-      </a>
+      <div class="news-image-wrap">
 
-      <p>${escapeHTML(description)}</p>
+       <img
+        class="news-image"
+        src="${escapeHTML(imageURL)}"
+        alt="Cryptocurrency news: ${escapeHTML(item.title||"Market news")}"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+        data-news-index="${index}"
+        data-fallback-step="0"
+        onerror="handleNewsImageError(this)"
+       >
 
-      <div class="news-meta">
+      </div>
 
-       ${escapeHTML(item.author||"CoinDesk")}
+      <div class="news-content">
 
-       ·
+       <a
+        href="${escapeHTML(safeLink)}"
+        target="_blank"
+        rel="noopener noreferrer">
 
-       ${
-        Number.isNaN(published.getTime())
-         ?"Date unavailable"
-         :published.toLocaleString()
-       }
+        ${escapeHTML(item.title||"Cryptocurrency market update")}
+
+       </a>
+
+       <p>
+        ${escapeHTML(description)}
+       </p>
+
+       <div class="news-meta">
+
+        <span class="news-publisher">
+         ${escapeHTML(publisher)}
+        </span>
+
+        ·
+
+        ${escapeHTML(publishedText)}
+
+       </div>
+
+       <span class="news-source-label">
+        Cryptocurrency News
+       </span>
 
       </div>
 
@@ -4802,11 +5210,17 @@ async function loadNews() {
 
   console.error("News error:",error);
 
+  newsLoaded=false;
+
   container.innerHTML=`
 
    <div class="notice">
 
     Cryptocurrency news could not be loaded right now.
+
+    <p>
+     Please try refreshing the news section.
+    </p>
 
     <p>
      <a
@@ -4834,7 +5248,6 @@ async function loadNews() {
 
 }
 
-
 /* =========================================
    REFRESH DASHBOARD
 ========================================= */
@@ -4860,7 +5273,6 @@ async function refreshAll(showNotification=true) {
  }
 
 }
-
 
 /* =========================================
    THEME SWITCHING
@@ -4931,7 +5343,6 @@ function toggleTheme() {
 
 }
 
-
 function loadSavedTheme() {
 
  try {
@@ -4972,7 +5383,6 @@ function loadSavedTheme() {
 
 }
 
-
 /* =========================================
    TAWK.TO LIVE CHAT
 ========================================= */
@@ -5000,7 +5410,6 @@ function openChat() {
 
 }
 
-
 /* =========================================
    KEYBOARD NAVIGATION
 ========================================= */
@@ -5026,7 +5435,6 @@ document.addEventListener(
  }
 );
 
-
 /* =========================================
    APPLICATION INITIALIZATION
 ========================================= */
@@ -5036,7 +5444,6 @@ loadSavedTheme();
 init();
 
 checkPasswordRecovery();
-
 
 /* =========================================
    AUTOMATIC MARKET REFRESH
@@ -5052,7 +5459,6 @@ setInterval(()=>{
  }
 
 },60000);
-
 
 /* =========================================
    AUTOMATIC GLOBAL DATA REFRESH
@@ -5073,7 +5479,6 @@ setInterval(()=>{
 
 },300000);
 
-
 /* =========================================
    PAGE VISIBILITY REFRESH
 ========================================= */
@@ -5091,7 +5496,6 @@ document.addEventListener(
 
  }
 );
-
 
 /* =========================================
    TAWK.TO WIDGET INITIALIZATION
@@ -5128,7 +5532,6 @@ Tawk_API.onLoad=function(){
 
 };
 
-
 (function(){
 
  var s1=document.createElement("script");
@@ -5147,7 +5550,6 @@ Tawk_API.onLoad=function(){
  s0.parentNode.insertBefore(s1,s0);
 
 })();
-
 
 /* =========================================
    END OF TRADINGHUB HQ DASHBOARD
